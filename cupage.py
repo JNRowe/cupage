@@ -62,18 +62,28 @@ check.
 
 import ConfigParser
 import cPickle
+import cStringIO
+import gzip
 import logging
 import optparse
 import os
 import re
 import sys
 import time
+import urllib2
+import zlib
+
+from email.utils import formatdate
+from urlparse import urlparse
+
+from lxml import html
 
 # Pull the first paragraph from the docstring
 USAGE = __doc__[:__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
+TIMEOUT = 30
 
 class Site(object):
     package = lambda ext: re.compile(r"[a-z0-9]+-([0-9\.]+)%s" % ext)
@@ -108,6 +118,55 @@ class Site(object):
         else:
             s += "\n    No matches"
         return s
+
+    def check(self):
+        page = self.fetch_page()
+        if not page.url == self.url:
+            print "%s moved to %s" % (self.name, page.url)
+
+        data = page.read()
+        if page.headers.get('content-encoding', '') == 'deflate':
+            data = zlib.decompress(data, -zlib.MAX_WBITS)
+        elif page.headers.get('content-encoding', '') == 'gzip':
+            data = gzip.GzipFile(fileobj=cStringIO.StringIO(data)).read()
+
+        if "etag" in page.headers.dict:
+            self.etag = page.headers["etag"]
+        if "last-modified" in page.headers.dict:
+            self.modified = page.headers["last-modified"]
+
+        if len(data) == 0:
+            print "%s unchanged" % self.name
+
+        doc = html.fromstring(data)
+        if self.selector == "css":
+            selected = doc.cssselect(self.select)
+        elif self.selector == "xpath":
+            selected = doc.xpath(self.select)
+        matches = []
+        for sel in selected:
+            match = re.search(self.match, sel.attrib['href'])
+            if match:
+                matches.append(match.group())
+        matches = sorted(matches)
+        if not matches == self.matches:
+            print "%s has new matches:" % self.name
+            for match in filter(lambda s: not s in self.matches, matches):
+                print "   ", match
+            self.matches = matches
+
+    def fetch_page(self):
+        if not urlparse(self.url)[0] in ('file', 'ftp', 'http', 'https'):
+            return ValueError("Invalid url %s" % self.url)
+        request = urllib2.Request(self.url)
+        request.add_header("User-Agent",
+                           "cupage/%s +http://github.com/jnrowe/cupage/")
+        if self.etag:
+            request.add_header("If-None-Match", self.etag)
+        if self.modified:
+            request.add_header("If-Modified-Since", formatdate(self.modified))
+        request.add_header("Accept-encoding", "deflate, gzip")
+        return urllib2.urlopen(request, timeout=TIMEOUT)
 
     @staticmethod
     def parse(name, options, data):
