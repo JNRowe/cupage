@@ -35,6 +35,7 @@ import inspect
 import logging
 import os
 import re
+import socket
 import sys
 import time
 import urllib2
@@ -115,7 +116,11 @@ class Site(object):
         if not page.url == self.url:
             print "%s moved to %s" % (self.name, page.url)
 
-        data = page.read()
+        try:
+            data = page.read()
+        except socket.timeout, e:
+            print "%s timed out" % (self.name)
+            return False
         if page.headers.get('content-encoding', '') == 'deflate':
             data = zlib.decompress(data, -zlib.MAX_WBITS)
         elif page.headers.get('content-encoding', '') == 'gzip':
