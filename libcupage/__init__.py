@@ -199,8 +199,13 @@ class Site(object):
         if "site" in options:
             site = options["site"]
             selector = "css"
-            match = None
-            if site == "google code":
+            match = options.get("match")
+            if site == "debian":
+                url = "http://ftp.debian.org/debian/pool/main/%s/%s/" \
+                    % (name[0], name)
+                select = "td a"
+                match_type = "re"
+            elif site == "google code":
                 url = "http://code.google.com/p/%s/downloads/list" % name
                 select = "td.id a"
                 match_type = options.get("match_type", "tar")
