@@ -23,6 +23,7 @@ import sys
 import libcupage
 MODULE = libcupage
 
+import cupage
 SCRIPTS = [cupage, ]
 
 DESCRIPTION = MODULE.__doc__.splitlines()[0][:-1]
