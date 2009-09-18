@@ -112,6 +112,9 @@ class Site(object):
         except urllib2.HTTPError, e:
             if e.code == 304:
                 return
+            elif e.code == 404:
+                print "%s returned a 404" % self.name
+                return False
             raise
         if not page.url == self.url:
             print "%s moved to %s" % (self.name, page.url)
