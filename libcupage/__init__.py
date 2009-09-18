@@ -144,7 +144,7 @@ class Site(object):
             selected = doc.xpath(self.select)
         matches = []
         for sel in selected:
-            match = re.search(self.match, sel.attrib['href'])
+            match = re.search(self.match, sel.get('href', ""))
             if match:
                 matches.append(match.group())
         matches = sorted(matches)
