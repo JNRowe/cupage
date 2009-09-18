@@ -31,9 +31,11 @@ __history__ = "See Git repository"
 
 import ConfigParser
 import gzip
+import inspect
 import logging
 import os
 import re
+import sys
 import time
 import urllib2
 import zlib
@@ -48,12 +50,21 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-from email.utils import formatdate
+try:
+    from email.utils import formatdate
+except ImportError: # Python 2.4
+    from email.Utils import formatdate
+
 from urlparse import urlparse
 
 from lxml import html
 
-TIMEOUT = 30
+if "timeout" in inspect.getargspec(urllib2.urlopen)[0]:
+    _urlopen = lambda req, timeout: urllib2.urlopen(req, timeout=timeout)
+else:
+    logging.debug("Network timeout is not supported with python v%s"
+                  % sys.version.split()[0])
+    _urlopen = lambda req, timeout: urllib2.urlopen(req)
 
 class Site(object):
     """Simple object for representing a web site"""
@@ -65,7 +76,10 @@ class Site(object):
         self.url = url
         self.selector = selector
         self.select = select
-        self.match_type = match_type if match_type else "re"
+        if match_type:
+            self.match_type = match_type
+        else:
+            self.match_type = "re"
         if self.match_type == "re":
             self.match = re.compile(match)
         elif match_type in ("gem", "tar", "zip"):
@@ -142,7 +156,7 @@ class Site(object):
         if self.modified:
             request.add_header("If-Modified-Since", formatdate(self.modified))
         request.add_header("Accept-encoding", "deflate, gzip")
-        return urllib2.urlopen(request, timeout=timeout)
+        return _urlopen(request, timeout=timeout)
 
     @staticmethod
     def package_re(name, ext):
