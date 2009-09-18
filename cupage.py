@@ -36,6 +36,7 @@ import optparse
 import os
 import sys
 
+from operator import attrgetter
 
 # Pull the first paragraph from the docstring
 USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
@@ -83,7 +84,7 @@ def main():
         sites.load(options.config, options.database)
     except IOError:
         return 1
-    for site in sites:
+    for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
                 print "Checking %s..." % site.name
