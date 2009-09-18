@@ -215,7 +215,7 @@ class Site(object):
                 "matches": self.matches}
 
 
-class Sites(dict):
+class Sites(list):
     def load(self, config_file, database):
         """Read sites from a user's config file"""
         conf = ConfigParser.ConfigParser()
@@ -234,12 +234,12 @@ class Sites(dict):
             options = {}
             for opt in conf.options(name):
                 options[opt] = conf.get(name, opt)
-            self[name] = Site.parse(name, options, data.get(name))
+            self.append(Site.parse(name, options, data.get(name)))
 
     def save(self, database):
         data = {}
-        for k, v in self.iteritems():
-            data[k] =  v.state()
+        for site in self:
+            data[site.name] =  site.state()
         cPickle.dump(data, open(database, "w"), -1)
 
 
@@ -279,7 +279,7 @@ def main():
 
     sites = Sites()
     sites.load(options.config, options.database)
-    for site in sites.values():
+    for site in sites:
         if not args or site.name in args:
             if options.verbose:
                 print "Checking %s..." % site.name
