@@ -61,8 +61,6 @@ check.
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import ConfigParser
-import cPickle
-import cStringIO
 import gzip
 import logging
 import optparse
@@ -72,6 +70,16 @@ import sys
 import time
 import urllib2
 import zlib
+
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
+
+try:
+    from cStringIO import as StringIO
+except ImportError:
+    from StringIO import StringIO
 
 from email.utils import formatdate
 from urlparse import urlparse
@@ -128,7 +136,7 @@ class Site(object):
         if page.headers.get('content-encoding', '') == 'deflate':
             data = zlib.decompress(data, -zlib.MAX_WBITS)
         elif page.headers.get('content-encoding', '') == 'gzip':
-            data = gzip.GzipFile(fileobj=cStringIO.StringIO(data)).read()
+            data = gzip.GzipFile(fileobj=StringIO(data)).read()
 
         if "etag" in page.headers.dict:
             self.etag = page.headers["etag"]
@@ -239,7 +247,7 @@ class Sites(list):
             raise IOError("Error reading config file")
 
         if os.path.exists(database):
-            data = cPickle.load(open(database))
+            data = pickle.load(open(database))
         else:
             logging.debug("Database file `%s' doesn't exist" % database)
             data = {}
@@ -255,7 +263,7 @@ class Sites(list):
         data = {}
         for site in self:
             data[site.name] =  site.state()
-        cPickle.dump(data, open(database, "w"), -1)
+        pickle.dump(data, open(database, "w"), -1)
 
 
 def process_command_line():
