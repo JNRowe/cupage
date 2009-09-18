@@ -65,12 +65,95 @@ import cPickle
 import logging
 import optparse
 import os
+import re
 import sys
+import time
 
 # Pull the first paragraph from the docstring
 USAGE = __doc__[:__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
+
+
+class Site(object):
+    package = lambda ext: re.compile(r"[a-z0-9]+-([0-9\.]+)%s" % ext)
+    gem = package("gem")
+    tar = package("tar.(bz2|gz)")
+    zip = package("zip")
+
+    def __init__(self, name, url, selector, select, match_type="re",
+                 match=None):
+        self.name = name
+        self.url = url
+        self.selector = selector
+        self.select = select
+        self.match_type = match_type if match_type else "re"
+        if self.match_type == "re":
+            self.match = re.compile(match)
+        elif match_type in ("gem", "tar", "zip"):
+            self.match = getattr(self, match_type)
+        self.etag = None
+        self.modified = None
+        self.matches = []
+
+    def __str__(self):
+        s = "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__
+        if self.modified:
+            s += time.strftime(" on %Y-%m-%dT%H:%M",
+                               time.localtime(self.modified))
+        if self.matches:
+            s += "\n"
+            for match in self.matches:
+                s += "    %s" % match
+        else:
+            s += "\n    No matches"
+        return s
+
+    @staticmethod
+    def parse(name, options, data):
+        if "site" in options:
+            site = options["site"]
+            selector = "css"
+            match = None
+            if site == "google code":
+                url = "http://code.google.com/p/%s/downloads/list" % name
+                select = "td.id a"
+                match_type = options.get("match_type", "tar")
+            elif site == "hackage":
+                url = "http://hackage.haskell.org/packages/archive/%s/" % name
+                select = "pre a"
+                match_type = "tar"
+            elif site == "pypi":
+                url = "http://pypi.python.org/packages/source/%s/%s/" \
+                    % (name[0], name)
+                select = "td a"
+                match_type = options.get("match_type", "tar")
+            else:
+                raise ValueError("Invalid site option for %s" % site)
+        elif "url" in options:
+            url = options["url"]
+            selector = options.get("selector", "css")
+            select = options.get("select")
+            if not select:
+                raise ValueError("missing select option for %s" % name)
+            match_type = options.get("match_type")
+            if not match_type:
+                raise ValueError("missing match_type option for %s" % name)
+            match = options.get("match")
+            if match_type == "re" and not match:
+                raise ValueError("missing match option for %s" % name)
+        else:
+            raise ValueError("site or url not specified for %s" % name)
+        site = Site(name, url, selector, select, match_type, match)
+        if data:
+            site.etag = data.get("etag")
+            site.modified = data.get("modified")
+            site.matches = data.get("matches")
+        return site
+
+    def state(self):
+        return {"etag": self.etag, "modified": self.modified,
+                "matches": self.matches}
 
 
 class Sites(dict):
