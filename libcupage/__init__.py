@@ -98,9 +98,8 @@ class Site(object):
             ret.append(time.strftime(" on %Y-%m-%dT%H:%M",
                                      time.localtime(self.modified)))
         if self.matches:
-            ret.append("\n")
-            for match in self.matches:
-                ret.append("    %s" % match)
+            ret.append("\n    ")
+            ret.append(", ".join(self.matches))
         else:
             ret.append("\n    No matches")
         return "".join(ret)
