@@ -21,20 +21,21 @@
 
 from __future__ import division
 
-__version__ = "0.1.0"
-__date__ = "2009-09-18"
-__author__ = "James Rowe <jnrowe@gmail.com>"
-__copyright__ = "Copyright (C) 2009 James Rowe"
-__license__ = "GNU General Public License Version 3"
-__credits__ = ""
-__history__ = "See Git repository"
+import libcupage
+
+__version__ = libcupage.__version__
+__date__ = libcupage.__date__
+__author__ = libcupage.__author__
+__copyright__ = libcupage.__copyright__
+__license__ = libcupage.__license__
+__credits__ = libcupage.__credits__
+__history__ = libcupage.__history__
 
 import logging
 import optparse
 import os
 import sys
 
-import libcupage
 
 # Pull the first paragraph from the docstring
 USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
