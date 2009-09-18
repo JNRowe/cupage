@@ -76,7 +76,10 @@ class Site(object):
         self.url = url
         self.selector = selector
         self.select = select
-        self.match_type = match_type if match_type else "re"
+        if match_type:
+            self.match_type = match_type
+        else:
+            self.match_type = "re"
         if self.match_type == "re":
             self.match = re.compile(match)
         elif match_type in ("gem", "tar", "zip"):
