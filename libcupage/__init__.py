@@ -50,7 +50,11 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-from email.utils import formatdate
+try:
+    from email.utils import formatdate
+except ImportError: # Python 2.4
+    from email.Utils import formatdate
+
 from urlparse import urlparse
 
 from lxml import html
