@@ -83,8 +83,6 @@ USAGE = __doc__[:__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
-TIMEOUT = 30
-
 class Site(object):
     """Simple object for representing a web site"""
 
@@ -120,9 +118,9 @@ class Site(object):
             ret.append("\n    No matches")
         return "".join(ret)
 
-    def check(self):
+    def check(self, timeout=None):
         """Check site for updates"""
-        page = self.fetch_page()
+        page = self.fetch_page(timeout)
         if not page.url == self.url:
             print "%s moved to %s" % (self.name, page.url)
 
@@ -158,8 +156,10 @@ class Site(object):
                     print "   ", match
             self.matches = matches
 
-    def fetch_page(self):
+    def fetch_page(self, timeout=None):
         """Generate a web page file handle"""
+        if not timeout:
+            timeout = 30
         if not urlparse(self.url)[0] in ('file', 'ftp', 'http', 'https'):
             return ValueError("Invalid url %s" % self.url)
         request = urllib2.Request(self.url)
@@ -170,7 +170,7 @@ class Site(object):
         if self.modified:
             request.add_header("If-Modified-Since", formatdate(self.modified))
         request.add_header("Accept-encoding", "deflate, gzip")
-        return urllib2.urlopen(request, timeout=TIMEOUT)
+        return urllib2.urlopen(request, timeout=timeout)
 
     @staticmethod
     def package_re(name, ext):
@@ -275,7 +275,8 @@ def process_command_line():
                       help="Database to store page data to")
     parser.add_option("--no-write", action="store_true",
                       help="Don't update database")
-
+    parser.add_option("-t", "--timeout", type="int", metavar="30",
+                         help="Timeout for network operations")
     parser.add_option("-v", "--verbose", action="store_true",
                       dest="verbose", help="produce verbose output")
     parser.add_option("-q", "--quiet", action="store_false",
@@ -302,7 +303,7 @@ def main():
         if not args or site.name in args:
             if options.verbose:
                 print "Checking %s..." % site.name
-            site.check()
+            site.check(options.timeout)
     if not options.no_write:
         sites.save(options.database)
 
