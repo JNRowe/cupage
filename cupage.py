@@ -277,10 +277,10 @@ def process_command_line():
                       help="Don't update database")
 
     parser.add_option("-v", "--verbose", action="store_true",
-                      dest="verbose", help="produce verbose output")
+                      dest="verbose", help="Produce verbose output")
     parser.add_option("-q", "--quiet", action="store_false",
                       dest="verbose",
-                      help="output only matches and errors")
+                      help="Output only matches and errors")
 
     options, args = parser.parse_args()
 
