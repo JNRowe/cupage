@@ -87,10 +87,6 @@ TIMEOUT = 30
 
 class Site(object):
     """Simple object for representing a web site"""
-    package = lambda ext: re.compile(r"[a-z0-9]+-([0-9\.]+)%s" % ext)
-    gem = package("gem")
-    tar = package("tar.(bz2|gz)")
-    zip = package("zip")
 
     def __init__(self, name, url, selector, select, match_type="re",
                  match=None):
@@ -103,7 +99,7 @@ class Site(object):
         if self.match_type == "re":
             self.match = re.compile(match)
         elif match_type in ("gem", "tar", "zip"):
-            self.match = getattr(self, match_type)
+            self.match = self.package_re(self.name, match_type)
         self.etag = None
         self.modified = None
         self.matches = []
@@ -175,6 +171,13 @@ class Site(object):
             request.add_header("If-Modified-Since", formatdate(self.modified))
         request.add_header("Accept-encoding", "deflate, gzip")
         return urllib2.urlopen(request, timeout=TIMEOUT)
+
+    @staticmethod
+    def package_re(name, ext):
+        """Generate a compiled ``re`` for the package"""
+        if ext == "tar":
+            ext = "tar.(bz2|gz)"
+        return re.compile(r"%s-([0-9\.]+)%s" % (name, ext))
 
     @staticmethod
     def parse(name, options, data):
