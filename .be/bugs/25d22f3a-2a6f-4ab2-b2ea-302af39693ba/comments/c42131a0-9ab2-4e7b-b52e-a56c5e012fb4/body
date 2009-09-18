@@ -1,0 +1,7 @@
+Some upstreams make awkwardly named downloads, and there should be an
+option to check them too.  An example to hand would be pydelicious_,
+that makes releases such as:
+
+    * pydelicious+tools-0.5.3.zip 
+
+.. _pydelicious: http://code.google.com/p/pydelicious/
