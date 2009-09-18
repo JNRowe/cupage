@@ -21,7 +21,7 @@
 
 from __future__ import division
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __date__ = "2009-09-18"
 __author__ = "James Rowe <jnrowe@gmail.com>"
 __copyright__ = "Copyright (C) 2009 James Rowe"
