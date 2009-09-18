@@ -135,6 +135,15 @@ def main():
 
     options, args = process_command_line()
 
+    sites = Sites()
+    sites.load(options.config, options.database)
+    for site in sites.values():
+        if options.verbose:
+            print "Checking %s..." % site.name
+        site.check()
+    if not options.no_write:
+        sites.save(options.database)
+
 if __name__ == '__main__':
     sys.exit(main())
 
