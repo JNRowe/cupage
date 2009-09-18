@@ -52,9 +52,9 @@ except ImportError:
     from StringIO import StringIO
 
 try:
-    from email.utils import formatdate
+    from email.utils import (formatdate, parsedate)
 except ImportError: # Python 2.4
-    from email.Utils import formatdate
+    from email.Utils import (formatdate, parsedate)
 
 from urlparse import urlparse
 
@@ -132,7 +132,7 @@ class Site(object):
         if "etag" in page.headers.dict:
             self.etag = page.headers["etag"]
         if "last-modified" in page.headers.dict:
-            self.modified = page.headers["last-modified"]
+            self.modified = time.mktime(parsedate(page.headers["last-modified"]))
 
         if len(data) == 0:
             print "%s unchanged" % self.name
