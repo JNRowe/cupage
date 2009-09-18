@@ -107,17 +107,19 @@ class Site(object):
         self.matches = []
 
     def __str__(self):
-        s = "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__
+        ret = [
+            "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__,
+        ]
         if self.modified:
-            s += time.strftime(" on %Y-%m-%dT%H:%M",
-                               time.localtime(self.modified))
+            ret.append(time.strftime(" on %Y-%m-%dT%H:%M",
+                                     time.localtime(self.modified)))
         if self.matches:
-            s += "\n"
+            ret.append("\n")
             for match in self.matches:
-                s += "    %s" % match
+                ret.append("    %s" % match)
         else:
-            s += "\n    No matches"
-        return s
+            ret.append("\n    No matches")
+        return "".join(ret)
 
     def check(self):
         page = self.fetch_page()
