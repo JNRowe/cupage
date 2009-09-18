@@ -1,3 +1,2 @@
-pydelicious also includes packages with -rc$n suffixes, which aren't
-currently supported either.  These are much more common, so perhaps they
-should be included in the default tar/zip matcher?
+See bug 203.
+
