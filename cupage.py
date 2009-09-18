@@ -157,8 +157,9 @@ class Site(object):
         matches = sorted(matches)
         if not matches == self.matches:
             print "%s has new matches:" % self.name
-            for match in filter(lambda s: not s in self.matches, matches):
-                print "   ", match
+            for match in matches:
+                if match not in self.matches:
+                    print "   ", match
             self.matches = matches
 
     def fetch_page(self):
