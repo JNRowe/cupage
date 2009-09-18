@@ -207,7 +207,8 @@ class Site(object):
             elif site == "hackage":
                 url = "http://hackage.haskell.org/packages/archive/%s/" % name
                 select = "pre a"
-                match_type = "tar"
+                match_type = "re"
+                match = "^[0-9\.]+"
             elif site == "pypi":
                 url = "http://pypi.python.org/packages/source/%s/%s/" \
                     % (name[0], name)
