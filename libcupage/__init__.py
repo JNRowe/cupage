@@ -70,17 +70,14 @@ else:
 class Site(object):
     """Simple object for representing a web site"""
 
-    def __init__(self, name, url, selector, select, match_type="re",
+    def __init__(self, name, url, selector, select, match_type="tar",
                  match=None):
         """Initialise a new ``Site`` object"""
         self.name = name
         self.url = url
         self.selector = selector
         self.select = select
-        if match_type:
-            self.match_type = match_type
-        else:
-            self.match_type = "re"
+        self.match_type = match_type
         if self.match_type == "re":
             self.match = re.compile(match)
         elif match_type in ("gem", "tar", "zip"):
@@ -226,9 +223,7 @@ class Site(object):
             select = options.get("select")
             if not select:
                 raise ValueError("missing select option for %s" % name)
-            match_type = options.get("match_type")
-            if not match_type:
-                raise ValueError("missing match_type option for %s" % name)
+            match_type = options.get("match_type", "tar")
             match = options.get("match")
             if match_type == "re" and not match:
                 raise ValueError("missing match option for %s" % name)
