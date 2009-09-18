@@ -222,7 +222,7 @@ class Sites(list):
         conf.read(config_file)
         if not conf.sections():
             logging.debug("Config file `%s' is empty" % config_file)
-            return {}
+            raise IOError("Error reading config file")
 
         if os.path.exists(database):
             data = cPickle.load(open(database))
@@ -278,7 +278,10 @@ def main():
     options, args = process_command_line()
 
     sites = Sites()
-    sites.load(options.config, options.database)
+    try:
+        sites.load(options.config, options.database)
+    except IOError:
+        return 1
     for site in sites:
         if not args or site.name in args:
             if options.verbose:
