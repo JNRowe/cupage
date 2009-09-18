@@ -280,9 +280,10 @@ def main():
     sites = Sites()
     sites.load(options.config, options.database)
     for site in sites.values():
-        if options.verbose:
-            print "Checking %s..." % site.name
-        site.check()
+        if not args or site.name in args:
+            if options.verbose:
+                print "Checking %s..." % site.name
+            site.check()
     if not options.no_write:
         sites.save(options.database)
 
