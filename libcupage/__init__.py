@@ -31,9 +31,11 @@ __history__ = "See Git repository"
 
 import ConfigParser
 import gzip
+import inspect
 import logging
 import os
 import re
+import sys
 import time
 import urllib2
 import zlib
@@ -53,7 +55,12 @@ from urlparse import urlparse
 
 from lxml import html
 
-TIMEOUT = 30
+if "timeout" in inspect.getargspec(urllib2.urlopen)[0]:
+    _urlopen = lambda req, timeout: urllib2.urlopen(req, timeout=timeout)
+else:
+    logging.debug("Network timeout is not supported with python v%s"
+                  % sys.version.split()[0])
+    _urlopen = lambda req, timeout: urllib2.urlopen(req)
 
 class Site(object):
     """Simple object for representing a web site"""
@@ -142,7 +149,7 @@ class Site(object):
         if self.modified:
             request.add_header("If-Modified-Since", formatdate(self.modified))
         request.add_header("Accept-encoding", "deflate, gzip")
-        return urllib2.urlopen(request, timeout=timeout)
+        return _urlopen(request, timeout=timeout)
 
     @staticmethod
     def package_re(name, ext):
