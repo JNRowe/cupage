@@ -60,6 +60,8 @@ check.
 @license: %s
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
+import ConfigParser
+import cPickle
 import logging
 import optparse
 import os
@@ -69,6 +71,35 @@ import sys
 USAGE = __doc__[:__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
+
+
+class Sites(dict):
+    def load(self, config_file, database):
+        """Read sites from a user's config file"""
+        conf = ConfigParser.ConfigParser()
+        conf.read(config_file)
+        if not conf.sections():
+            logging.debug("Config file `%s' is empty" % config_file)
+            return {}
+
+        if os.path.exists(database):
+            data = cPickle.load(open(database))
+        else:
+            logging.debug("Database file `%s' doesn't exist" % database)
+            data = {}
+
+        for name in conf.sections():
+            options = {}
+            for opt in conf.options(name):
+                options[opt] = conf.get(name, opt)
+            self[name] = Site.parse(name, options, data.get(name))
+
+    def save(self, database):
+        data = {}
+        for k, v in self.iteritems():
+            data[k] =  v.state()
+        cPickle.dump(data, open(database, "w"), -1)
+
 
 def process_command_line():
     """Main command line interface"""
