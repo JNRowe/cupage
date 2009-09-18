@@ -1,0 +1,14 @@
+Currently the tar and zip matchers will match on any string for the package
+prefix, this needs to be tightened so that pages that list more than one
+project can easily be checked.  An example would be my UKFSN downloads list
+output::
+
+    upoints has new matches:
+        bfm-0.6.0.tar.bz2
+        bfm-0.6.1.tar.bz2
+        bfm-0.6.2.tar.bz2
+        bfm-0.6.3.tar.bz2
+        bfm-0.6.4.tar.bz2
+        distance-0.10.0.tar.bz2
+        distance-0.2.1.tar.bz2
+
