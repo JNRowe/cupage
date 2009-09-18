@@ -29,21 +29,14 @@ status=open
 
 
 
-summary=Make a verbose matcher for awkward downloads.
+summary=Merge the tests in from the design branch.
 
 
 
 
 
 
-target=1.0.0
-
-
-
-
-
-
-time=Fri, 18 Sep 2009 05:53:19 +0000
+time=Fri, 18 Sep 2009 06:24:00 +0000
 
 
 
