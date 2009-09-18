@@ -201,6 +201,7 @@ class Site(object):
                     % (name[0], name)
                 select = "td a"
                 match_type = "re"
+                match = r"%s_[\d\.]+(\.orig\.tar|-\d+\.diff)\.gz" % name
             elif site == "google code":
                 url = "http://code.google.com/p/%s/downloads/list" % name
                 select = "td.id a"
