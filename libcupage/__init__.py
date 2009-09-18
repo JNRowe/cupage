@@ -106,7 +106,12 @@ class Site(object):
 
     def check(self, timeout=None):
         """Check site for updates"""
-        page = self.fetch_page(timeout)
+        try:
+            page = self.fetch_page(timeout)
+        except urllib2.HTTPError, e:
+            if e.code == 304:
+                return
+            raise
         if not page.url == self.url:
             print "%s moved to %s" % (self.name, page.url)
 
