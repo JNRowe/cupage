@@ -187,7 +187,7 @@ class Site(object):
         """
         if ext == "tar":
             ext = "tar.(bz2|gz)"
-        return re.compile(r"%s-([\d\.]+([_-](pre|rc)[\d]+)?)\.%s" % (name, ext))
+        return re.compile(r"%s-[\d\.]+([_-](pre|rc)[\d]+)?\.%s" % (name, ext))
 
     @staticmethod
     def parse(name, options, data):
