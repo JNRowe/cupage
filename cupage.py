@@ -87,7 +87,9 @@ def main():
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
+                print site
                 print "Checking %s..." % site.name
+
             site.check(options.timeout)
     if not options.no_write:
         sites.save(options.database)
