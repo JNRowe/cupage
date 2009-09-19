@@ -112,6 +112,9 @@ class Site(object):
                 print "%s returned a 404" % self.name
                 return False
             raise
+        except (urllib2.URLError, socket.timeout), e:
+            print "%s timed out" % (self.name)
+            return False
         if not page.url == self.url:
             print "%s moved to %s" % (self.name, page.url)
 
