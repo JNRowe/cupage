@@ -42,11 +42,6 @@ import urllib2
 import zlib
 
 try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
-
-try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
@@ -55,6 +50,11 @@ try:
     from email.utils import (formatdate, parsedate)
 except ImportError: # Python 2.4
     from email.Utils import (formatdate, parsedate)
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 from urlparse import urlparse
 
@@ -257,7 +257,7 @@ class Sites(list):
             raise IOError("Error reading config file")
 
         if os.path.exists(database):
-            data = pickle.load(open(database))
+            data = json.load(open(database))
         else:
             logging.debug("Database file `%s' doesn't exist" % database)
             data = {}
@@ -273,5 +273,5 @@ class Sites(list):
         data = {}
         for site in self:
             data[site.name] =  site.state()
-        pickle.dump(data, open(database, "w"), -1)
+        json.dump(data, open(database, "w"))
 
