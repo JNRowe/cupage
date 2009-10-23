@@ -108,8 +108,8 @@ class Site(object):
         except urllib2.HTTPError, e:
             if e.code == 304:
                 return
-            elif e.code == 404:
-                print "%s returned a 404" % self.name
+            elif e.code in (403, 404):
+                print "%s returned a %s" % (self.name, e.code)
                 return False
             raise
         except (urllib2.URLError, socket.timeout), e:
