@@ -99,8 +99,8 @@ Bugs
 
 If you find any problems, bugs or just have a question about this
 package either drop me an email_ or file an issue_.  Locally bugs are
-managed with `Bugs Everywhere`_, so if you're working with a clone of
-the repository you can report, list and fix bugs using ``be``.
+managed with ditz_, so if you're working with a clone of the repository
+you can report, list and fix bugs using ``ditz``.
 
 If you've found please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
@@ -110,7 +110,7 @@ reproduce the problem, or even better a patch!
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _mail: jnrowe@gmail.com
 .. _issue: http://github.com/JNRowe/``module``/issues
-.. _Bugs Everywhere: http://bugseverywhere.org/be/show/HomePage
+.. _ditz: http://ditz.rubyforge.org/
 
 ..
     :vim: set ft=rst ts=4 sw=4 et:
