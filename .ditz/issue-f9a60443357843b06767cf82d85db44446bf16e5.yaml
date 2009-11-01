@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Merge the tests in from the design branch.
+desc: |-
+  They need to be scrubbed for content as many of them show non-public
+  data.
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-09-18 07:24:00.000000 Z
+references: []
+
+id: f9a60443357843b06767cf82d85db44446bf16e5
+log_events: 
+- - 2009-09-18 07:24:00.000000 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2009-09-18 07:24:00.000000 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
