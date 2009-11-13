@@ -109,7 +109,7 @@ reproduce the problem, or even better a patch!
 .. _PEP 8: http://www.python.org/dev/peps/pep-0008/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _mail: jnrowe@gmail.com
-.. _issue: http://github.com/JNRowe/``module``/issues
+.. _issue: http://github.com/JNRowe/cupage/issues
 .. _ditz: http://ditz.rubyforge.org/
 
 ..
