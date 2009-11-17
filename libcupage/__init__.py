@@ -92,7 +92,7 @@ class Site(object):
             "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__,
         ]
         if self.modified:
-            ret.append(time.strftime(" on %Y-%m-%dT%H:%M",
+            ret.append(time.strftime(" last checked %Y-%m-%dT%H:%M",
                                      time.localtime(self.modified)))
         if self.matches:
             ret.append("\n    ")
