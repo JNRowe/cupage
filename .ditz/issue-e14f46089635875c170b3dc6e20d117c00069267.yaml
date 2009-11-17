@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Add a vim.org matcher for scripts.
+desc: ""
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-11-17 09:34:11.179916 Z
+references: []
+
+id: e14f46089635875c170b3dc6e20d117c00069267
+log_events: 
+- - 2009-11-17 09:34:11.911796 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2009-11-17 09:34:15.571910 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
