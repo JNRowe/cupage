@@ -48,6 +48,9 @@ following is an example configuration file.
     url = http://www.jnrowe.ukfsn.org/_downloads/
     select = pre > a
     match_type = tar
+    [fruity]
+    site = vim-script
+    script = 1871
 
 libcupage
 '''''''''

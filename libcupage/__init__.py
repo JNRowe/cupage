@@ -201,6 +201,7 @@ class Site(object):
             site = options["site"]
             selector = "css"
             match = options.get("match")
+            script = options.get("script")
             if site == "debian":
                 url = "http://ftp.debian.org/debian/pool/main/%s/%s/" \
                     % (name[0], name)
@@ -221,6 +222,12 @@ class Site(object):
                     % (name[0], name)
                 select = "td a"
                 match_type = options.get("match_type", "tar")
+            elif site == "vim-script":
+                url = "http://www.vim.org/scripts/script.php?script_id=%s" \
+                        % script
+                select = "td a"
+                match_type = "re"
+                match = "download_script.php\?src_id=[\d]+"
             else:
                 raise ValueError("Invalid site option for %s" % site)
         elif "url" in options:
