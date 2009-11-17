@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Use termstyle for colouring output.
+desc: ""
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-11-17 09:35:11.551908 Z
+references: []
+
+id: 66ac5822a9278ad3cf9e7c9c7b2b4f5f556f6738
+log_events: 
+- - 2009-11-17 09:35:12.195800 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2009-11-17 09:35:17.495906 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
