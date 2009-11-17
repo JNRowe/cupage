@@ -31,9 +31,7 @@ Example
 -------
 
 The simplest way to show how ``cupage`` works is by example.  The
-following is an example configuration file.
-
-.. code-block:: ini
+following is an example configuration file::
 
     # dev-python
     [pep8]
@@ -102,10 +100,10 @@ changes.
 Bugs
 ----
 
-If you find any problems, bugs or just have a question about this
-package either drop me an email_ or file an issue_.  Locally bugs are
-managed with ditz_, so if you're working with a clone of the repository
-you can report, list and fix bugs using ``ditz``.
+If you find any problems, bugs or just have a question about this package either
+drop me a mail_ or file an issue_.  Locally bugs are managed with ditz_, so if
+you're working with a clone of the repository you can report, list and fix bugs
+using ``ditz``.
 
 If you've found please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
@@ -117,6 +115,7 @@ reproduce the problem, or even better a patch!
 .. _issue: http://github.com/JNRowe/cupage/issues
 .. _ditz: http://ditz.rubyforge.org/
 .. _termstyle: http://github.com/gfxmonk/termstyle
+.. _epydoc: http://epydoc.sourceforge.net/
 
 ..
     :vim: set ft=rst ts=4 sw=4 et:
