@@ -131,7 +131,9 @@ class Site(object):
         if "etag" in page.headers.dict:
             self.etag = page.headers["etag"]
         if "last-modified" in page.headers.dict:
-            self.modified = time.mktime(parsedate(page.headers["last-modified"]))
+            parsed = parsedate(page.headers["last-modified"])
+            if parsed:
+                self.modified = time.mktime(parsed)
 
         if len(data) == 0:
             print "%s unchanged" % self.name
