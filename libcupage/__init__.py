@@ -60,6 +60,20 @@ from urlparse import urlparse
 
 from lxml import html
 
+try:
+    import termstyle as ts
+except ImportError:
+    ts = None # pylint: disable-msg=C0103
+
+# Select colours if terminal is a tty.
+if ts:
+    ts.auto()
+    success = ts.green
+    fail = ts.red
+    warn = ts.yellow
+else:
+    success = fail = warn = str
+
 if "timeout" in inspect.getargspec(urllib2.urlopen)[0]:
     _urlopen = lambda req, timeout: urllib2.urlopen(req, timeout=timeout)
 else:
@@ -109,19 +123,19 @@ class Site(object):
             if e.code == 304:
                 return
             elif e.code in (403, 404):
-                print "%s returned a %s" % (self.name, e.code)
+                print fail("%s returned a %s" % (self.name, e.code))
                 return False
             raise
         except (urllib2.URLError, socket.timeout), e:
-            print "%s timed out" % (self.name)
+            print fail("%s timed out" % (self.name))
             return False
         if not page.url == self.url:
-            print "%s moved to %s" % (self.name, page.url)
+            print warn("%s moved to %s" % (self.name, page.url))
 
         try:
             data = page.read()
         except socket.timeout, e:
-            print "%s timed out" % (self.name)
+            print fail("%s timed out" % (self.name))
             return False
         if page.headers.get('content-encoding', '') == 'deflate':
             data = zlib.decompress(data, -zlib.MAX_WBITS)
@@ -153,7 +167,7 @@ class Site(object):
             print "%s has new matches:" % self.name
             for match in matches:
                 if match not in self.matches:
-                    print "   ", match
+                    print success("   " + match)
             self.matches = matches
 
     def fetch_page(self, timeout=None):

@@ -9,10 +9,13 @@ Introduction
 Requirements
 ------------
 
-``cupage``'s only dependency outside of the standard library is the
-fantastic lxml_.  It should run with Python 2.5 or newer [#]_.  If
-``cupage`` doesn't work with the version of Python you have installed,
-drop me a mail_ and I'll endeavour to fix it.
+``cupage``'s only mandatory dependency outside of the standard library is the
+fantastic lxml_.  ``cupage`` can optionally use termstyle_ to display coloured
+output.
+
+It should run with Python 2.5 or newer [#]_.  If ``cupage`` doesn't work with
+the version of Python you have installed, drop me a mail_ and I'll endeavour to
+fix it.
 
 The modules have been tested on many UNIX-like systems, including Linux,
 Solaris and OS X, but it should work fine on other systems too.  The
@@ -23,7 +26,6 @@ documentation can be tested with ``./setup test_doc``.
 .. [#] If you still use Python v2.4 only small changes are required, for
        example to the base class definitions and the unrolling of
        conditional expressions.
-
 
 Example
 -------
@@ -114,6 +116,7 @@ reproduce the problem, or even better a patch!
 .. _mail: jnrowe@gmail.com
 .. _issue: http://github.com/JNRowe/cupage/issues
 .. _ditz: http://ditz.rubyforge.org/
+.. _termstyle: http://github.com/gfxmonk/termstyle
 
 ..
     :vim: set ft=rst ts=4 sw=4 et:
