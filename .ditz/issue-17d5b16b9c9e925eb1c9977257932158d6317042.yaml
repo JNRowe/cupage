@@ -5,20 +5,28 @@ type: :feature
 component: cupage
 release: 
 reporter: James Rowe <jnrowe@gmail.com>
-status: :unstarted
-disposition: 
-creation_time: 2009-09-19 09:07:18.000000 Z
+status: :closed
+disposition: :reorg
+creation_time: 2009-09-19 09:07:18 Z
 references: []
 
 id: 17d5b16b9c9e925eb1c9977257932158d6317042
 log_events: 
-- - 2009-09-19 09:07:18.000000 Z
+- - 2009-09-19 09:07:18 Z
   - James Rowe <jnrowe@gmail.com>
   - created
   - ""
-- - 2009-09-19 09:07:18.000000 Z
+- - 2009-09-19 09:07:18 Z
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
+  - ""
+- - 2009-11-17 10:55:45.104599 Z
+  - James Rowe <jnrowe@gmail.com>
+  - commented
+  - This is not a problem for databases created with recent cupage versions.
+- - 2009-11-17 10:55:58.531841 Z
+  - James Rowe <jnrowe@gmail.com>
+  - closed with disposition reorg
   - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
