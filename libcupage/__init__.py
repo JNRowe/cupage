@@ -222,6 +222,12 @@ class Site(object):
                 select = "td a"
                 match_type = "re"
                 match = r"%s_[\d\.]+(\.orig\.tar|-\d+\.diff)\.gz" % name
+            elif site == "github":
+                user = options.get("user")
+                url = "http://github.com/%s/%s/downloads" % (user, name)
+                select = "td a"
+                match_type = "re"
+                match = "/%s/%s/tarball/.*" % (user, name)
             elif site == "google code":
                 url = "http://code.google.com/p/%s/downloads/list" % name
                 select = "td.id a"

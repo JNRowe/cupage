@@ -51,6 +51,9 @@ following is an example configuration file::
     [fruity]
     site = vim-script
     script = 1871
+    [cupage]
+    site = github
+    user = JNRowe
 
 libcupage
 '''''''''
