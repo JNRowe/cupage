@@ -21,8 +21,8 @@
 
 from __future__ import division
 
-__version__ = "0.3.0"
-__date__ = "2009-11-17"
+__version__ = "0.3.1"
+__date__ = "2010-01-11"
 __author__ = "James Rowe <jnrowe@gmail.com>"
 __copyright__ = "Copyright (C) 2009 James Rowe"
 __license__ = "GNU General Public License Version 3"

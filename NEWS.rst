@@ -6,6 +6,11 @@ User-visible changes
 
 .. contents::
 
+0.3.1 - 2010-01-11
+------------------
+
+    * Added ``github`` site matcher
+
 0.3.0 - 2009-11-17
 ------------------
 
