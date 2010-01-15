@@ -215,7 +215,12 @@ class Site(object):
             site = options["site"]
             selector = "css"
             match = options.get("match")
-            if site == "debian":
+            if site == "cpan":
+                url = "http://search.cpan.org/dist/%s/" % name
+                select = "td small a"
+                match_type = "re"
+                match = "%s-[\d\.]+.tar.gz" % name
+            elif site == "debian":
                 url = "http://ftp.debian.org/debian/pool/main/%s/%s/" \
                     % (name[0], name)
                 select = "td a"
