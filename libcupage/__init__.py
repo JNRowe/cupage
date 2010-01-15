@@ -302,5 +302,5 @@ class Sites(list):
         data = {}
         for site in self:
             data[site.name] =  site.state()
-        json.dump(data, open(database, "w"))
+        json.dump(data, open(database, "w"), indent=4)
 
