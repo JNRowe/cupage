@@ -1,0 +1,42 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Added a option to limit the frequency of checks.
+desc: |-
+  It would be nice if one could change the frequency sites are checked, for
+  example if a site is known to only cut releases once a month there is no point
+  checking daily.
+  
+  Something like:
+  
+      [entry1]
+      url = example.com/url1
+      frequency = 1m
+      [entry2]
+      url = example.com/url2
+      frequency = 3w
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-01-15 18:44:15.107988 Z
+references: []
+
+id: 2d7ab778725e83641b96affd8b5a35ce6d190b51
+log_events: 
+- - 2010-01-15 18:44:17.399856 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2010-01-15 18:44:20.863941 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+- - 2010-01-15 18:44:59.928665 Z
+  - James Rowe <jnrowe@gmail.com>
+  - commented
+  - |-
+    Along with a new --force option to ignore frequency checks, which will be useful
+    when testing site responses.
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
