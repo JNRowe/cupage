@@ -237,10 +237,10 @@ class Site(object):
                 select = "td.id a"
                 match_type = options.get("match_type", "tar")
             elif site == "hackage":
-                url = "http://hackage.haskell.org/packages/archive/%s/" % name
-                select = "pre a"
+                url = "http://hackage.haskell.org/package/%s" % name
+                select = "li a"
                 match_type = "re"
-                match = "^[0-9\.]+"
+                match = "%s-[0-9\.]+\.tar\.gz" % name
             elif site == "pypi":
                 url = "http://pypi.python.org/packages/source/%s/%s/" \
                     % (name[0], name)
