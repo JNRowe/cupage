@@ -43,6 +43,7 @@ USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
+
 def process_command_line():
     """Main command line interface"""
     parser = optparse.OptionParser(usage="%prog [options...] <site>...",
@@ -74,6 +75,7 @@ def process_command_line():
 
     return options, args
 
+
 def main():
     """Main script handler"""
     logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',
@@ -98,4 +100,3 @@ def main():
 
 if __name__ == '__main__':
     sys.exit(main())
-

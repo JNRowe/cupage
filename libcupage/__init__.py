@@ -77,8 +77,8 @@ else:
 if "timeout" in inspect.getargspec(urllib2.urlopen)[0]:
     _urlopen = lambda req, timeout: urllib2.urlopen(req, timeout=timeout)
 else:
-    logging.debug("Network timeout is not supported with python v%s"
-                  % sys.version.split()[0])
+    logging.debug("Network timeout is not supported with python v%s",
+                  sys.version.split()[0])
     _urlopen = lambda req, timeout: urllib2.urlopen(req)
 
 
@@ -96,9 +96,11 @@ def parse_timedelta(delta):
     multiplier = (1, 24, 168, 4704, 61320)
     return float(value) * multiplier[units]
 
+
 def isoformat(secs):
     """Format a epoch offset in an ISO-8601 compliant way"""
     return time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(secs))
+
 
 class Site(object):
     """Simple object for representing a web site"""
@@ -141,21 +143,21 @@ class Site(object):
     def check(self, timeout=None, force=False):
         """Check site for updates"""
         if self.frequency and self.checked:
-            next_check = self.checked + (self.frequency*3600)
+            next_check = self.checked + (self.frequency * 3600)
             if time.time() < next_check and not force:
                 print warn("%s is not due for check until %s"
                            % (self.name, isoformat(next_check)))
                 return
         try:
             page = self.fetch_page(timeout)
-        except urllib2.HTTPError, e:
-            if e.code == 304:
+        except urllib2.HTTPError, error:
+            if error.code == 304:
                 return
-            elif e.code in (403, 404):
-                print fail("%s returned a %s" % (self.name, e.code))
+            elif error.code in (403, 404):
+                print fail("%s returned a %s" % (self.name, error.code))
                 return False
             raise
-        except (urllib2.URLError, socket.timeout), e:
+        except (urllib2.URLError, socket.timeout), error:
             print fail("%s timed out" % (self.name))
             return False
         if not page.url == self.url:
@@ -163,7 +165,7 @@ class Site(object):
 
         try:
             data = page.read()
-        except socket.timeout, e:
+        except socket.timeout, error:
             print fail("%s timed out" % (self.name))
             return False
         if page.headers.get('content-encoding', '') == 'deflate':
@@ -316,18 +318,19 @@ class Site(object):
 
 class Sites(list):
     """``Site`` bundle wrapper"""
+
     def load(self, config_file, database):
         """Read sites from a user's config file and database"""
         conf = ConfigParser.ConfigParser()
         conf.read(config_file)
         if not conf.sections():
-            logging.debug("Config file `%s' is empty" % config_file)
+            logging.debug("Config file `%s' is empty", config_file)
             raise IOError("Error reading config file")
 
         if os.path.exists(database):
             data = json.load(open(database))
         else:
-            logging.debug("Database file `%s' doesn't exist" % database)
+            logging.debug("Database file `%s' doesn't exist", database)
             data = {}
 
         for name in conf.sections():
@@ -340,6 +343,5 @@ class Sites(list):
         """Save ``Sites`` to the user's database"""
         data = {}
         for site in self:
-            data[site.name] =  site.state()
+            data[site.name] = site.state()
         json.dump(data, open(database, "w"), indent=4)
-
