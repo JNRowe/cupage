@@ -60,6 +60,8 @@ def process_command_line():
                       help="Database to store page data to")
     parser.add_option("--no-write", action="store_true",
                       help="Don't update database")
+    parser.add_option("--force", action="store_true",
+                      help="Ignore frequency checks")
     parser.add_option("-t", "--timeout", type="int", metavar="30",
                          help="Timeout for network operations")
     parser.add_option("-v", "--verbose", action="store_true",
@@ -90,7 +92,7 @@ def main():
                 print site
                 print "Checking %s..." % site.name
 
-            site.check(options.timeout)
+            site.check(options.timeout, options.force)
     if not options.no_write:
         sites.save(options.database)
 

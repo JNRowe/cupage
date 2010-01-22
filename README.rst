@@ -44,6 +44,7 @@ following is an example configuration file::
     url = http://www.jnrowe.ukfsn.org/_downloads/
     select = pre > a
     match_type = tar
+    frequency = 6m
     [upoints]
     url = http://www.jnrowe.ukfsn.org/_downloads/
     select = pre > a
@@ -54,6 +55,7 @@ following is an example configuration file::
     [cupage]
     site = github
     user = JNRowe
+    frequency = 1m
 
 libcupage
 '''''''''

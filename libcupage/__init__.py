@@ -81,11 +81,30 @@ else:
                   % sys.version.split()[0])
     _urlopen = lambda req, timeout: urllib2.urlopen(req)
 
+
+def parse_timedelta(delta):
+    """Parse human readable frequency"""
+    match = re.match("^(\d) *([hdwmy])$", delta)
+    if not match:
+        raise ValueError("Invalid 'frequency' value")
+    value, units = match.groups()
+    try:
+        units = "hdwmy".index(units)
+    except ValueError:
+        raise ValueError("Invalid units for 'frequency' value")
+    # hours per hour/day/week/month/year
+    multiplier = (1, 24, 168, 4704, 61320)
+    return float(value) * multiplier[units]
+
+def isoformat(secs):
+    """Format a epoch offset in an ISO-8601 compliant way"""
+    return time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(secs))
+
 class Site(object):
     """Simple object for representing a web site"""
 
     def __init__(self, name, url, selector, select, match_type="tar",
-                 match=None):
+                 match=None, frequency=None):
         """Initialise a new ``Site`` object"""
         self.name = name
         self.url = url
@@ -98,6 +117,8 @@ class Site(object):
             self.match = self.package_re(self.name, match_type)
         self.etag = None
         self.modified = None
+        self.checked = None
+        self.frequency = frequency
         self.matches = []
 
     def __str__(self):
@@ -105,9 +126,11 @@ class Site(object):
         ret = [
             "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__,
         ]
-        if self.modified:
-            ret.append(time.strftime(" last checked %Y-%m-%dT%H:%M",
-                                     time.localtime(self.modified)))
+        if self.checked:
+            ret.append(" last checked %s" % isoformat(self.checked))
+        if self.frequency:
+            ret.append(time.strftime(" with a check frequency of %s hours",
+                                     time.localtime(self.frequency)))
         if self.matches:
             ret.append("\n    ")
             ret.append(", ".join(self.matches))
@@ -115,8 +138,14 @@ class Site(object):
             ret.append("\n    No matches")
         return "".join(ret)
 
-    def check(self, timeout=None):
+    def check(self, timeout=None, force=False):
         """Check site for updates"""
+        if self.frequency and self.checked:
+            next_check = self.checked + (self.frequency*3600)
+            if time.time() < next_check and not force:
+                print warn("%s is not due for check until %s"
+                           % (self.name, isoformat(next_check)))
+                return
         try:
             page = self.fetch_page(timeout)
         except urllib2.HTTPError, e:
@@ -169,6 +198,7 @@ class Site(object):
                 if match not in self.matches:
                     print success("   " + match)
             self.matches = matches
+        self.checked = time.time()
 
     def fetch_page(self, timeout=None):
         """Generate a web page file handle"""
@@ -267,8 +297,12 @@ class Site(object):
                 raise ValueError("missing match option for %s" % name)
         else:
             raise ValueError("site or url not specified for %s" % name)
-        site = Site(name, url, selector, select, match_type, match)
+        frequency = options.get("frequency")
+        if frequency:
+            frequency = parse_timedelta(frequency)
+        site = Site(name, url, selector, select, match_type, match, frequency)
         if data:
+            site.checked = data.get("checked")
             site.etag = data.get("etag")
             site.modified = data.get("modified")
             site.matches = data.get("matches")
@@ -277,7 +311,7 @@ class Site(object):
     def state(self):
         """Return ``Site`` state for database storage"""
         return {"etag": self.etag, "modified": self.modified,
-                "matches": self.matches}
+                "matches": self.matches, "checked": self.checked}
 
 
 class Sites(list):
