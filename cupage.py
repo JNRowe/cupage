@@ -2,7 +2,7 @@
 # vim: set sw=4 sts=4 et tw=80 fileencoding=utf-8:
 #
 """cupage - a tool to check for updates on web pages"""
-# Copyright (C) 2009 James Rowe;
+# Copyright (C) 2009-2010 James Rowe;
 # All rights reserved.
 #
 # This program is free software: you can redistribute it and/or modify

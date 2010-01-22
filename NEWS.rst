@@ -6,6 +6,13 @@ User-visible changes
 
 .. contents::
 
+0.4.0 - 2010-01-22
+------------------
+
+    * Added configurable per-site check frequency
+    * Added ``cpan`` site matcher
+    * ``hackage`` site matcher fix for recent upstream changes
+
 0.3.1 - 2010-01-11
 ------------------
 
