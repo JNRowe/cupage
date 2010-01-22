@@ -231,7 +231,7 @@ class Site(object):
             return ValueError("Invalid url %s" % self.url)
         request = urllib2.Request(self.url)
         request.add_header("User-Agent",
-                           "cupage/%s +http://github.com/jnrowe/cupage/")
+                           "cupage/%s +http://github.com/jnrowe/cupage/" % __version__)
         if self.etag:
             request.add_header("If-None-Match", self.etag)
         if self.modified:
