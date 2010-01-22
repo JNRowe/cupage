@@ -29,6 +29,27 @@ __license__ = "GNU General Public License Version 3"
 __credits__ = ""
 __history__ = "See Git repository"
 
+try:
+    from email.utils import parseaddr
+except ImportError: # Python 2.4
+    from email.Utils import parseaddr
+
+__doc__ += """.
+
+%%prog checks web pages and displays changes from the last run that match
+a given criteria.  Its original purpose was to check web pages for new software
+releases, but it is easily configurable and can be used for other purposes.
+
+Thanks to the excellent lxml package you can use complex XPath and CSS selectors
+to match elements within a page.
+
+:version: %s
+:author: `%s <mailto:%s>`__
+:copyright: %s
+:status: WIP
+:license: %s
+""" % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
+
 import ConfigParser
 import gzip
 import inspect
