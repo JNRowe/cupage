@@ -69,6 +69,8 @@ def process_command_line():
                       help="Don't update database")
     parser.add_option("--force", action="store_true",
                       help="Ignore frequency checks")
+    parser.add_option("--list-sites", action="store_true",
+                      help="List site matchers and required values")
     parser.add_option("-v", "--verbose", action="store_true",
                       dest="verbose", help="Produce verbose output")
     parser.add_option("-q", "--quiet", action="store_false",
@@ -86,6 +88,13 @@ def main():
                         datefmt="%Y-%m-%dT%H:%M:%S%z")
 
     options, args = process_command_line()
+
+    if options.list_sites:
+        for site, values in sorted(libcupage.SITES.items()):
+            print site
+            if "keys" in values:
+                print "  * %s" % ", ".join(values["keys"])
+        return 0
 
     sites = libcupage.Sites()
     try:
