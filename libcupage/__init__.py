@@ -173,8 +173,9 @@ class Site(object):
         self.match_type = match_type
         if self.match_type == "re":
             self.match = re.compile(match)
+            self._match = match
         elif match_type in ("gem", "tar", "zip"):
-            self.match = self.package_re(self.name, match_type)
+            self.match, self._match = self.package_re(self.name, match_type)
         self.etag = None
         self.modified = None
         self.checked = None
@@ -186,6 +187,8 @@ class Site(object):
         ret = [
             "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__,
         ]
+        if self.match_type == "re":
+            ret.append("(%r)" % self._match)
         if self.checked:
             ret.append(" last checked %s" % isoformat(self.checked))
         if self.frequency:
@@ -258,25 +261,32 @@ class Site(object):
 
     @staticmethod
     def package_re(name, ext):
-        """Generate a compiled ``re`` for the package
+        r"""Generate a compiled ``re`` for the package
 
-        >>> c = Site.package_re("test", "tar")
+        >>> c, m = Site.package_re("test", "tar")
         >>> re.match(c, "test-0.1.2.tar.bz2").group()
         'test-0.1.2.tar.bz2'
         >>> re.match(c, "test-0.1.2_rc2.tar.gz").group()
         'test-0.1.2_rc2.tar.gz'
-        >>> c = Site.package_re("test", "zip")
+        >>> m
+        'test-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.tar.(bz2|gz)'
+        >>> c, m = Site.package_re("test", "zip")
         >>> re.match(c, "test-0.1.2-rc2.zip").group()
         'test-0.1.2-rc2.zip'
         >>> re.match(c, "test-0.1.2-pre2.zip").group()
         'test-0.1.2-pre2.zip'
-        >>> c = Site.package_re("test_long", "gem")
+        >>> m
+        'test-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.zip'
+        >>> c, m = Site.package_re("test_long", "gem")
         >>> re.match(c, "test_long-0.1.2.gem").group()
         'test_long-0.1.2.gem'
+        >>> m
+        'test_long-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.gem'
         """
         if ext == "tar":
             ext = "tar.(bz2|gz)"
-        return re.compile(r"%s-[\d\.]+([_-](pre|rc)[\d]+)?\.%s" % (name, ext))
+        match = r"%s-[\d\.]+([_-](pre|rc)[\d]+)?\.%s" % (name, ext)
+        return re.compile(match), match
 
     @staticmethod
     def parse(name, options, data):
