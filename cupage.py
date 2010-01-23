@@ -91,7 +91,7 @@ def main():
 
     if options.list_sites:
         for site, values in sorted(libcupage.SITES.items()):
-            print site
+            print "%s (v%s)" % (site, values["added"])
             if "keys" in values:
                 print "  * %s" % ", ".join(values["keys"])
         return 0

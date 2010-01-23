@@ -96,12 +96,14 @@ SITES = {
         "select": "td small a",
         "match_type": "re",
         "match": "{name}-[\d\.]+.tar.gz",
+        "added": "0.4.0",
     },
     "debian": {
         "url": "http://ftp.debian.org/debian/pool/main/{name[0]}/{name}/",
         "select": "td a",
         "match_type": "re",
         "match": r"{name}_[\d\.]+(\.orig\.tar|-\d+\.diff)\.gz",
+        "added": "0.3.0",
     },
     "github": {
         "url": "http://github.com/{user}/{name}/downloads",
@@ -109,20 +111,24 @@ SITES = {
         "match_type": "re",
         "match": "/{user}/{name}/tarball/.*",
         "keys": ["user", ],
+        "added": "0.3.1",
     },
     "google code": {
         "url": "http://code.google.com/p/{name}/downloads/list",
         "select": "td.id a",
+        "added": "0.1.0",
     },
     "hackage": {
         "url": "http://hackage.haskell.org/package/{name}",
         "select": "li a",
         "match_type": "re",
         "match": "{name}-[0-9\.]+\.tar\.gz",
+        "added": "0.1.0",
     },
     "pypi": {
         "url": "http://pypi.python.org/packages/source/{name[0]}/{name}/",
         "select": "td a",
+        "added": "0.1.0",
     },
     "vim-script": {
         "url": "http://www.vim.org/scripts/script.php?script_id={script}",
@@ -130,6 +136,7 @@ SITES = {
         "match_type": "re",
         "match": "download_script.php\?src_id=[\d]+",
         "keys": ["script", ],
+        "added": "0.3.0",
     },
 }
 
