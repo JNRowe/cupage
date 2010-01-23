@@ -1,7 +1,7 @@
 build/
 dist/
+doc/.build
 doc/*.1
-html/
 test/data
 
 .coverage
