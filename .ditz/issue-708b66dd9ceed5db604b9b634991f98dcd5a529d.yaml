@@ -1,0 +1,28 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Provide a way to override updates text.
+desc: |-
+  Some output is quite difficult to read and check, for example vim-script matches
+  will display "download_script.php?src_id=11920" which is a direct link to the
+  rail plugin v4.1.  It would be nice to be able to change the output for some
+  sites instead of just displaying the textual match.
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-01-23 04:19:15.727688 Z
+references: []
+
+id: 708b66dd9ceed5db604b9b634991f98dcd5a529d
+log_events: 
+- - 2010-01-23 04:19:16.279535 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2010-01-23 04:19:22.767633 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
