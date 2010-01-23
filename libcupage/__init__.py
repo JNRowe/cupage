@@ -134,22 +134,39 @@ SITES = {
 }
 
 def parse_timedelta(delta):
-    """Parse human readable frequency"""
-    match = re.match("^(\d) *([hdwmy])$", delta)
+    """Parse human readable frequency
+
+    >>> parse_timedelta("1d")
+    24.0
+    >>> parse_timedelta("1 d")
+    24.0
+    >>> parse_timedelta("0.5 y")
+    30660.0
+    >>> parse_timedelta("0.5 Y")
+    30660.0
+    >>> parse_timedelta("1 k")
+    Traceback (most recent call last):
+        ...
+    ValueError: Invalid 'frequency' value
+    """
+    match = re.match("^(\d+(?:|\.\d+)) *([hdwmy])$", delta, re.IGNORECASE)
     if not match:
         raise ValueError("Invalid 'frequency' value")
     value, units = match.groups()
-    try:
-        units = "hdwmy".index(units)
-    except ValueError:
-        raise ValueError("Invalid units for 'frequency' value")
+    units = "hdwmy".index(units.lower())
     # hours per hour/day/week/month/year
     multiplier = (1, 24, 168, 4704, 61320)
     return float(value) * multiplier[units]
 
 
 def isoformat(secs):
-    """Format a epoch offset in an ISO-8601 compliant way"""
+    """Format a epoch offset in an ISO-8601 compliant way
+
+    >>> isoformat(0)
+    '1970-01-01T01:00:00'
+    >>> isoformat(987654321)
+    '2001-04-19T05:25:21'
+    """
     return time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(secs))
 
 
