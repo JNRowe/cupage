@@ -29,10 +29,7 @@ __license__ = "GNU General Public License Version 3"
 __credits__ = ""
 __history__ = "See Git repository"
 
-try:
-    from email.utils import parseaddr
-except ImportError: # Python 2.4
-    from email.Utils import parseaddr
+from email.utils import parseaddr
 
 __doc__ += """.
 
@@ -52,6 +49,7 @@ to match elements within a page.
 
 import ConfigParser
 import inspect
+import json
 import logging
 import os
 import re
@@ -65,15 +63,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-try:
-    from email.utils import (formatdate, parsedate)
-except ImportError: # Python 2.4
-    from email.Utils import (formatdate, parsedate)
-
-try:
-    import json
-except ImportError:
-    import simplejson as json
+from email.utils import (formatdate, parsedate)
 
 from urlparse import urlparse
 

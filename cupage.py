@@ -21,6 +21,12 @@
 
 from __future__ import division
 
+# This has to be here, as libcupage uses 2.6 features.
+import sys
+if sys.version_info[:2] < (2, 6):
+    print "Python v2.6, or later, is *required* for cupage!"
+    sys.exit(1)
+
 import libcupage
 
 __version__ = libcupage.__version__
