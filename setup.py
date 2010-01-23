@@ -246,7 +246,7 @@ class BuildDoc(NoOptsCommand):
         pygments_directive.content = 1
         directives.register_directive('code-block', pygments_directive)
 
-        for source in sorted(["NEWS.rst", "README.rst"] + glob('doc/*.txt')):
+        for source in sorted(["NEWS.rst", "README.rst"] + glob('doc/*.1.rst')):
             dest = os.path.splitext(source)[0] + '.html'
             if self.force or newer(source, dest):
                 print('Building file %s' % dest)
@@ -493,7 +493,7 @@ class MyTest(NoOptsCommand):
             test_func = doctest.testmod
             hook = "TestCode_run"
         else:
-            files = ['README.rst'] + glob("doc/*.txt")
+            files = ['README.rst'] + glob("doc/*.1.rst")
             test_func = doctest.testfile
             hook = "TestDoc_run"
         tot_fails = 0
