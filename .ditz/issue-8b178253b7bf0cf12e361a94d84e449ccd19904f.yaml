@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Configurable timeout support should be re-added.
+desc: The configurable timeout support has been removed for the switch to httplib2.
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-01-23 05:32:34.219666 Z
+references: []
+
+id: 8b178253b7bf0cf12e361a94d84e449ccd19904f
+log_events: 
+- - 2010-01-23 05:32:34.743541 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2010-01-23 05:32:38.039633 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
