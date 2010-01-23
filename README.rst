@@ -88,8 +88,7 @@ just want to convince me that your style is better.
     future if such a need were to arise, you are encouraged to use v2.5
     features now.
   * All new classes and methods should be accompanied by new
-    ``doctest`` examples, and epydoc_'s epytext formatted descriptions if
-    at all possible.
+    ``doctest`` examples and reStructuredText_ formatted descriptions.
   * Tests *must not* span network boundaries, see ``test.mock`` for
     workarounds.
   * ``doctest`` tests in modules are only for unit testing in general,
@@ -122,7 +121,6 @@ reproduce the problem, or even better a patch!
 .. _issue: http://github.com/JNRowe/cupage/issues
 .. _ditz: http://ditz.rubyforge.org/
 .. _termstyle: http://github.com/gfxmonk/termstyle
-.. _epydoc: http://epydoc.sourceforge.net/
 
 ..
     :vim: set ft=rst ts=4 sw=4 et:

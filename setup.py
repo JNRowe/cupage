@@ -75,11 +75,6 @@ try:
     PYGMENTS = True #: True if ``pygments`` module is available
 except ImportError:
     PYGMENTS = False
-try:
-    from epydoc import cli
-    EPYDOC = True #: True if ``epydoc`` module is available
-except ImportError:
-    EPYDOC = False
 
 import __pkg_data__
 import test
@@ -263,9 +258,6 @@ class BuildDoc(NoOptsCommand):
                                       '--stylesheet-path=doc/docutils.css',
                                       '--link-stylesheet', source, dest])
 
-        if not EPYDOC:
-            raise DistutilsModuleError("epydoc import failed, "
-                                       "skipping API documentation generation")
         files = glob("%s/*.py" % __pkg_data__.MODULE.__name__)
         files.extend(["%s.py" % i.__name__ for i in __pkg_data__.SCRIPTS])
         if self.force \
