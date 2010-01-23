@@ -1,7 +1,8 @@
 #! /usr/bin/python -tt
 # vim: set sw=4 sts=4 et tw=80 fileencoding=utf-8:
 #
-"""cupage - a tool to check for updates on web pages"""
+"""cupage - a tool to check for updates on web pages""" \
+    # pylint: disable-msg=W0622
 # Copyright (C) 2009-2010 James Rowe;
 # All rights reserved.
 #
@@ -72,17 +73,19 @@ import httplib2
 from lxml import html
 
 try:
-    import termstyle as ts
+    import termstyle
 except ImportError:
-    ts = None # pylint: disable-msg=C0103
+    termstyle = None # pylint: disable-msg=C0103
 
 # Select colours if terminal is a tty.
-if ts:
-    ts.auto()
-    success = ts.green
-    fail = ts.red
-    warn = ts.yellow
+if termstyle:
+    # pylint: disable-msg=E1101,C0103
+    termstyle.auto()
+    success = termstyle.green
+    fail = termstyle.red
+    warn = termstyle.yellow
 else:
+    # pylint: disable-msg=C0103
     success = fail = warn = str
 
 USER_AGENT = "cupage/%s +http://github.com/JNRowe/cupage/" % __version__
@@ -296,7 +299,8 @@ class Site(object):
             url = site_opts["url"].format(**options) # pylint: disable-msg=W0142
             select = site_opts["select"]
             match_type = site_opts.get("match_type", "tar")
-            match = site_opts.get("match", "").format(**options) # pylint: disable-msg=W0142
+            match = site_opts.get("match", "").format(**options) \
+                # pylint: disable-msg=W0142
         elif "url" in options:
             url = options["url"]
             selector = options.get("selector", "css")
