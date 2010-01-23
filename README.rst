@@ -9,9 +9,9 @@ Introduction
 Requirements
 ------------
 
-``cupage``'s only mandatory dependency outside of the standard library is the
-fantastic lxml_.  ``cupage`` can optionally use termstyle_ to display coloured
-output.
+``cupage``'s only mandatory dependencies outside of the standard library are the
+fantastic lxml_ and httplib2_ packages.  ``cupage`` can optionally use
+termstyle_ to display coloured output.
 
 It should run with Python 2.5 or newer [#]_.  If ``cupage`` doesn't work with
 the version of Python you have installed, drop me a mail_ and I'll endeavour to
@@ -114,6 +114,7 @@ If you've found please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
 .. _lxml: http://codespeak.net/lxml/
+.. _httplib2: http://code.google.com/p/httplib2/
 .. _PEP 8: http://www.python.org/dev/peps/pep-0008/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _mail: jnrowe@gmail.com

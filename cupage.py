@@ -63,8 +63,6 @@ def process_command_line():
                       help="Don't update database")
     parser.add_option("--force", action="store_true",
                       help="Ignore frequency checks")
-    parser.add_option("-t", "--timeout", type="int", metavar="30",
-                         help="Timeout for network operations")
     parser.add_option("-v", "--verbose", action="store_true",
                       dest="verbose", help="Produce verbose output")
     parser.add_option("-q", "--quiet", action="store_false",
@@ -94,7 +92,7 @@ def main():
                 print site
                 print "Checking %s..." % site.name
 
-            site.check(options.timeout, options.force)
+            site.check(options.force)
     if not options.no_write:
         sites.save(options.database)
 

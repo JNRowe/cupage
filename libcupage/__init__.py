@@ -51,7 +51,6 @@ to match elements within a page.
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import ConfigParser
-import gzip
 import inspect
 import logging
 import os
@@ -60,7 +59,6 @@ import socket
 import sys
 import time
 import urllib2
-import zlib
 
 try:
     from cStringIO import StringIO
@@ -79,6 +77,8 @@ except ImportError:
 
 from urlparse import urlparse
 
+import httplib2
+
 from lxml import html
 
 try:
@@ -95,13 +95,7 @@ if ts:
 else:
     success = fail = warn = str
 
-if "timeout" in inspect.getargspec(urllib2.urlopen)[0]:
-    _urlopen = lambda req, timeout: urllib2.urlopen(req, timeout=timeout)
-else:
-    logging.debug("Network timeout is not supported with python v%s",
-                  sys.version.split()[0])
-    _urlopen = lambda req, timeout: urllib2.urlopen(req)
-
+USER_AGENT = "cupage/%s +http://github.com/JNRowe/cupage/" % __version__
 
 def parse_timedelta(delta):
     """Parse human readable frequency"""
@@ -161,7 +155,7 @@ class Site(object):
             ret.append("\n    No matches")
         return "".join(ret)
 
-    def check(self, timeout=None, force=False):
+    def check(self, force=False):
         """Check site for updates"""
         if self.frequency and self.checked:
             next_check = self.checked + (self.frequency * 3600)
@@ -170,41 +164,17 @@ class Site(object):
                            % (self.name, isoformat(next_check)))
                 return
         try:
-            page = self.fetch_page(timeout)
-        except urllib2.HTTPError, error:
-            if error.code == 304:
-                return
-            elif error.code in (403, 404):
-                print fail("%s returned a %s" % (self.name, error.code))
-                return False
-            raise
-        except (urllib2.URLError, socket.timeout), error:
-            print fail("%s timed out" % (self.name))
+            headers, content = self.fetch_page()
+        except socket.gaierror:
+            print fail("Domain name lookup failed for %s" % (self.name))
             return False
-        if not page.url == self.url:
-            print warn("%s moved to %s" % (self.name, page.url))
-
-        try:
-            data = page.read()
-        except socket.timeout, error:
-            print fail("%s timed out" % (self.name))
+        if headers.status == 304:
+            return
+        elif headers.status in (403, 404):
+            print fail("%s returned a %s" % (self.name, headers.status))
             return False
-        if page.headers.get('content-encoding', '') == 'deflate':
-            data = zlib.decompress(data, -zlib.MAX_WBITS)
-        elif page.headers.get('content-encoding', '') == 'gzip':
-            data = gzip.GzipFile(fileobj=StringIO(data)).read()
 
-        if "etag" in page.headers.dict:
-            self.etag = page.headers["etag"]
-        if "last-modified" in page.headers.dict:
-            parsed = parsedate(page.headers["last-modified"])
-            if parsed:
-                self.modified = time.mktime(parsed)
-
-        if len(data) == 0:
-            print "%s unchanged" % self.name
-
-        doc = html.fromstring(data)
+        doc = html.fromstring(content)
         if self.selector == "css":
             selected = doc.cssselect(self.select)
         elif self.selector == "xpath":
@@ -223,21 +193,25 @@ class Site(object):
             self.matches = matches
         self.checked = time.time()
 
-    def fetch_page(self, timeout=None):
+    def fetch_page(self):
         """Generate a web page file handle"""
-        if not timeout:
-            timeout = 30
-        if not urlparse(self.url)[0] in ('file', 'ftp', 'http', 'https'):
-            return ValueError("Invalid url %s" % self.url)
-        request = urllib2.Request(self.url)
-        request.add_header("User-Agent",
-                           "cupage/%s +http://github.com/jnrowe/cupage/" % __version__)
+        http = httplib2.Http()
+        request_headers = {
+            "User-Agent": USER_AGENT,
+        }
         if self.etag:
-            request.add_header("If-None-Match", self.etag)
+            request_headers["If-None-Match"] = self.etag
         if self.modified:
-            request.add_header("If-Modified-Since", formatdate(self.modified))
-        request.add_header("Accept-encoding", "deflate, gzip")
-        return _urlopen(request, timeout=timeout)
+            request_headers["If-Modified-Since"] = formatdate(self.modified)
+        headers, content = http.request(self.url, headers=request_headers)
+
+        if "etag" in headers:
+            self.etag = headers["etag"]
+        if "last-modified" in headers:
+            parsed = parsedate(headers["last-modified"])
+            if parsed:
+                self.modified = time.mktime(parsed)
+        return headers, content
 
     @staticmethod
     def package_re(name, ext):
