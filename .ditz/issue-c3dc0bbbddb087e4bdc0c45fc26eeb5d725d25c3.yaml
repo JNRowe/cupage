@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Consider using the "Versions" link for hackage.
+desc: |-
+  This would then report *all* available versions instead of the just most
+  current.  The change would make the hackage matcher work the same as most of the
+  other site matchers(the exception being pypi).
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-01-26 08:01:34.843978 Z
+references: []
+
+id: c3dc0bbbddb087e4bdc0c45fc26eeb5d725d25c3
+log_events: 
+- - 2010-01-26 08:01:35.327853 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2010-01-26 08:01:39.239959 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
