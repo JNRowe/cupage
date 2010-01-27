@@ -37,6 +37,7 @@ __license__ = libcupage.__license__
 __credits__ = libcupage.__credits__
 __history__ = libcupage.__history__
 
+import ConfigParser
 import logging
 import optparse
 import os
@@ -102,6 +103,9 @@ def main():
     try:
         sites.load(options.config, options.database)
     except IOError:
+        return 1
+    except ConfigParser.MissingSectionHeaderError:
+        print "Error reading config file"
         return 1
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
