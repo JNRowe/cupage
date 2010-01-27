@@ -20,5 +20,9 @@ log_events:
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
   - ""
+- - 2010-01-27 06:58:56.661130 Z
+  - James Rowe <jnrowe@gmail.com>
+  - commented
+  - This is supported by httplib2 v3+ by the timeout arg to Http().
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
