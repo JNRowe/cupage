@@ -15,10 +15,10 @@ Options
 .. cmdoption:: -h, --help
    show this help message and exit
 
-.. cmdoption:: -f, --config <file>
+.. cmdoption:: -f <file>, --config <file>
    configuration file to read
 
-.. cmdoption:: -d, --database <file>
+.. cmdoption:: -d <file>, --database <file>
    database to store page in
 
    See :ref:`database-label` for details of the database format.
