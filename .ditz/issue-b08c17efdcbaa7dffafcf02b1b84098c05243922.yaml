@@ -20,5 +20,11 @@ log_events:
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
   - ""
+- - 2010-01-27 07:08:29.012857 Z
+  - James Rowe <jnrowe@gmail.com>
+  - commented
+  - |-
+    httplib2 adds a Content-Location header with the original URL to the result
+    since v3, making this check easy.
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
