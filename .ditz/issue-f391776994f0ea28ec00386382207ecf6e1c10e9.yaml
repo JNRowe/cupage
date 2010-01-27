@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Should support and respect robots.txt.
+desc: ""
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-01-27 06:42:37.579899 Z
+references: []
+
+id: f391776994f0ea28ec00386382207ecf6e1c10e9
+log_events: 
+- - 2010-01-27 06:42:37.999788 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+- - 2010-01-27 06:42:42.359869 Z
+  - James Rowe <jnrowe@gmail.com>
+  - issue claimed
+  - ""
+claimer: James Rowe <jnrowe@gmail.com>
+git_branch: 
