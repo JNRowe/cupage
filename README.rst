@@ -10,7 +10,7 @@ Requirements
 ------------
 
 ``cupage``'s only mandatory dependencies outside of the standard library are the
-fantastic lxml_ and httplib2_ packages.  ``cupage`` can optionally use
+fantastic lxml_ and httplib2_(v0.5.0+) packages. ``cupage`` can optionally use
 termstyle_ to display coloured output.
 
 It should run with Python 2.6 or newer [#]_.  If ``cupage`` doesn't work with

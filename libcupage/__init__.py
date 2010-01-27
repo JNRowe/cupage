@@ -228,7 +228,7 @@ class Site(object):
                 return
         try:
             headers, content = self.fetch_page(timeout)
-        except socket.gaierror:
+        except httplib2.ServerNotFoundError:
             print fail("Domain name lookup failed for %s" % self.name)
             return False
         except socket.timeout:
