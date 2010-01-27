@@ -108,6 +108,12 @@ def main():
     except ConfigParser.MissingSectionHeaderError:
         print "Error reading config file"
         return 65
+
+    if args:
+        site_names = map(attrgetter("name"), sites)
+        for arg in args:
+            if arg not in site_names:
+                print "Invalid site argument `%s'" % arg
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
