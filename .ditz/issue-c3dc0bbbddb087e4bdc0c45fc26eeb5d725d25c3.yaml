@@ -23,5 +23,14 @@ log_events:
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
   - ""
+- - 2010-01-27 12:12:16.888099 Z
+  - James Rowe <jnrowe@gmail.com>
+  - commented
+  - |-
+    Unfortunately, this isn't as simple as it looks.  The current version isn't
+    wrapped in a link which means it wouldn't get displayed.
+    
+    Either this stays as it is, or support for defining the "getter" needs to be
+    added, this may actually be useful for other purposes too.
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
