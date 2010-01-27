@@ -103,10 +103,11 @@ def main():
     try:
         sites.load(options.config, options.database)
     except IOError:
-        return 1
+        print "Missing config file"
+        return 66
     except ConfigParser.MissingSectionHeaderError:
         print "Error reading config file"
-        return 1
+        return 65
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
