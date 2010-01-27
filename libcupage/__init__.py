@@ -218,7 +218,7 @@ class Site(object):
             ret.append("\n    No matches")
         return "".join(ret)
 
-    def check(self, force=False):
+    def check(self, timeout=None, force=False):
         """Check site for updates"""
         if self.frequency and self.checked:
             next_check = self.checked + (self.frequency * 3600)
@@ -227,10 +227,14 @@ class Site(object):
                            % (self.name, isoformat(next_check)))
                 return
         try:
-            headers, content = self.fetch_page()
+            headers, content = self.fetch_page(timeout)
         except socket.gaierror:
-            print fail("Domain name lookup failed for %s" % (self.name))
+            print fail("Domain name lookup failed for %s" % self.name)
             return False
+        except socket.timeout:
+            print fail("Socket timed out on %s" % self.name)
+            return False
+
         if headers.status == 304:
             return
         elif headers.status in (403, 404):
@@ -256,9 +260,9 @@ class Site(object):
             self.matches = matches
         self.checked = time.time()
 
-    def fetch_page(self):
+    def fetch_page(self, timeout=30):
         """Generate a web page file handle"""
-        http = httplib2.Http()
+        http = httplib2.Http(timeout=timeout)
         request_headers = {
             "User-Agent": USER_AGENT,
         }

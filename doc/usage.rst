@@ -29,6 +29,9 @@ Options
 .. cmdoption:: --force
    ignore frequency checks
 
+.. cmdoption:: -t <n>, --timeout=<n>
+   timeout for network operations
+
 .. cmdoption:: --list-sites
    display site matchers and their required values
 
