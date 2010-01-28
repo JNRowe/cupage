@@ -49,24 +49,17 @@ to match elements within a page.
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import ConfigParser
-import inspect
 import json
 import logging
 import os
 import re
 import socket
-import sys
 import time
-import urllib2
 
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
-
-from email.utils import (formatdate, parsedate)
-
-from urlparse import urlparse
 
 import httplib2
 
@@ -193,8 +186,6 @@ class Site(object):
             self._match = match
         elif match_type in ("gem", "tar", "zip"):
             self.match, self._match = self.package_re(self.name, match_type)
-        self.etag = None
-        self.modified = None
         self.checked = None
         self.frequency = frequency
         self.matches = []
@@ -218,7 +209,7 @@ class Site(object):
             ret.append("\n    No matches")
         return "".join(ret)
 
-    def check(self, timeout=None, force=False):
+    def check(self, cache=None, timeout=None, force=False, no_write=False):
         """Check site for updates"""
         if self.frequency and self.checked:
             next_check = self.checked + (self.frequency * 3600)
@@ -226,8 +217,14 @@ class Site(object):
                 print warn("%s is not due for check until %s"
                            % (self.name, isoformat(next_check)))
                 return
+        http = httplib2.Http(cache=cache, timeout=timeout)
+        # hillbilly monkeypatch to allow us to still read the cache, but make
+        # writing a NOP.
+        if no_write:
+            http.cache.set = lambda x, y: True
         try:
-            headers, content = self.fetch_page(timeout)
+            headers, content = http.request(self.url,
+                                            headers={"User-Agent": USER_AGENT})
         except httplib2.ServerNotFoundError:
             print fail("Domain name lookup failed for %s" % self.name)
             return False
@@ -241,44 +238,29 @@ class Site(object):
             print fail("%s returned a %s" % (self.name, headers.status))
             return False
 
-        doc = html.fromstring(content)
-        if self.selector == "css":
-            selected = doc.cssselect(self.select)
-        elif self.selector == "xpath":
-            selected = doc.xpath(self.select)
-        matches = []
-        for sel in selected:
-            match = re.search(self.match, sel.get('href', ""))
-            if match:
-                matches.append(match.group())
-        matches = sorted(matches)
+        matches = self.find_matches(content)
         if not matches == self.matches:
-            print "%s has new matches:" % self.name
+            print "%s has new matches" % self.name
             for match in matches:
                 if match not in self.matches:
                     print success("   " + match)
             self.matches = matches
         self.checked = time.time()
 
-    def fetch_page(self, timeout=30):
-        """Generate a web page file handle"""
-        http = httplib2.Http(timeout=timeout)
-        request_headers = {
-            "User-Agent": USER_AGENT,
-        }
-        if self.etag:
-            request_headers["If-None-Match"] = self.etag
-        if self.modified:
-            request_headers["If-Modified-Since"] = formatdate(self.modified)
-        headers, content = http.request(self.url, headers=request_headers)
-
-        if "etag" in headers:
-            self.etag = headers["etag"]
-        if "last-modified" in headers:
-            parsed = parsedate(headers["last-modified"])
-            if parsed:
-                self.modified = time.mktime(parsed)
-        return headers, content
+    def find_matches(self, content):
+        """Extract matches from content"""
+        doc = html.fromstring(content)
+        if self.selector == "css":
+            selected = doc.cssselect(self.select)
+        elif self.selector == "xpath":
+            selected = doc.xpath(self.select)
+        # We use a set to remove duplicates
+        matches = set()
+        for sel in selected:
+            match = re.search(self.match, sel.get('href', ""))
+            if match:
+                matches.add(match.group())
+        return sorted(list(matches))
 
     @staticmethod
     def package_re(name, ext):
@@ -347,15 +329,13 @@ class Site(object):
         site = Site(name, url, selector, select, match_type, match, frequency)
         if data:
             site.checked = data.get("checked")
-            site.etag = data.get("etag")
-            site.modified = data.get("modified")
             site.matches = data.get("matches")
+
         return site
 
     def state(self):
         """Return ``Site`` state for database storage"""
-        return {"etag": self.etag, "modified": self.modified,
-                "matches": self.matches, "checked": self.checked}
+        return {"matches": self.matches, "checked": self.checked}
 
 
 class Sites(list):

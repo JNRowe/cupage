@@ -32,34 +32,22 @@ header data and current matches.
 .. aafig::
    :textual:
 
-   +=======+    +==========+       +--------+
-   | Sites +<---+   Site   |     --| string |
-   +=======+    +==========+    /  +--------+
-                | etag     |<---
-                |          |        +--------+
-                | checked  |<-------| number |
-                |          |        +--------+
+   +=======+    +==========+
+   | Sites +<---+   Site   |       +--------+
+   +=======+    +==========+      -| number |
+                |          |     / +--------+
+                | checked  |<----
+                |          |
                 | matches  |<----
                 |          |     \ +-------+   +--------+
-                | modified |<-    -| array |<--| string |
-                +----------+  \    +-------+   +--------+
-                               \
-                                +--------+
-                                | number |
-                                +--------+
-
-``etag`` is the server provided :abbr:`HTTP (HyperText Transfer Protocol)`
-:abbr:`ETag (Entity Tag)` header, it can be any arbitrary string.
+                +----------+      -| array |<--| string |
+                                   +-------+   +--------+
 
 ``matches`` is an array, and contains the string matches of previous
 :program:`cupage` runs.
 
-``checked`` and ``modified`` are offsets in seconds from the Unix epoch and are
-normally floats.  ``checked`` is the time of the last run.  ``modified`` is the
-time of the server provided ``Last-Modified`` header.
-
-.. note::
-   ``etag``, ``checked`` and ``modified`` may be ``null``.
+``checked`` is the offset in seconds from the Unix epoch since the site was last
+checked.  It is normally a float, but may be ``null``.
 
 An example database file could be:
 
@@ -75,29 +63,14 @@ An example database file could be:
                 "geany-plugins-0.18.tar.bz2",
                 "geany-plugins-0.18.tar.gz"
             ],
-            "etag": "\"18e8-476f10d77e604\"",
-            "modified": 1256677592.0
+            "checked": 1256677592.0
         },
         "interlude": {
             "matches": [
                 "interlude-1.0.tar.gz"
             ],
-            "etag": null,
-            "modified": null
-        },
-        "subtle": {
-            "matches": [
-                "subtle-0.8.1041-beta.tbz2",
-                "subtle-0.8.1056-beta.tbz2",
-                "subtle-0.8.1112-gamma.tbz2",
-                "subtle-0.8.1192-delta.tbz2",
-                "subtle-0.8.1383-epsilon.tbz2",
-                "subtle-0.8.1602-zeta.tbz2",
-                "subtle-0.8.997-alpha.tbz2"
-            ],
-            "etag": "\"acc120cb3a4363bc9f9942d7615d9da7\"",
-            "modified": null
-        },
+            "checked": null
+        }
     }
 
 .. [#] Initially Pickle_ was used in versions prior to 0.3.0.  The switch was
@@ -110,5 +83,3 @@ An example database file could be:
 .. _Pickle: http://docs.python.org/library/pickle.html
 .. _Python: http://www.python.org/
 .. _json: http://docs.python.org/library/json.html
-
-

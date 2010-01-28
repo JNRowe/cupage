@@ -23,8 +23,13 @@ Options
 
    See :ref:`database-label` for details of the database format.
 
+.. cmdoption:: -c <dir>, --cache <dir>
+   Directory to store page cache
+
+   This can, and in fact *should* be, shared between all cupage uses.
+
 .. cmdoption:: --no-write
-   don't update database on exit
+   don't update cache or database
 
 .. cmdoption:: --force
    ignore frequency checks

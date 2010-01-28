@@ -41,7 +41,6 @@ import ConfigParser
 import logging
 import optparse
 import os
-import sys
 
 from operator import attrgetter
 
@@ -58,7 +57,8 @@ def process_command_line():
                                    description=USAGE)
 
     parser.set_defaults(config=os.path.expanduser("~/.cupage.conf"),
-                        database=os.path.expanduser("~/.cupage.db"))
+                        database=os.path.expanduser("~/.cupage.db"),
+                        cache=os.path.expanduser("~/.cupage/"))
 
     parser.add_option("-f", "--config", action="store",
                       metavar=os.path.expanduser("~/.cupage.conf"),
@@ -66,8 +66,11 @@ def process_command_line():
     parser.add_option("-d", "--database", action="store",
                       metavar=os.path.expanduser("~/.cupage.db"),
                       help="Database to store page data to")
+    parser.add_option("-c", "--cache", action="store",
+                      metavar=os.path.expanduser("~/.cupage/"),
+                      help="Directory to store page cache")
     parser.add_option("--no-write", action="store_true",
-                      help="Don't update database")
+                      help="Don't update cache or database")
     parser.add_option("--force", action="store_true",
                       help="Ignore frequency checks")
     parser.add_option("-t", "--timeout", type="int", metavar="30", default=30,
@@ -119,8 +122,8 @@ def main():
             if options.verbose:
                 print site
                 print "Checking %s..." % site.name
-
-            site.check(options.timeout, options.force)
+            site.check(options.cache, options.timeout, options.force,
+                       options.no_write)
     if not options.no_write:
         sites.save(options.database)
 
