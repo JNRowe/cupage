@@ -58,22 +58,22 @@ def process_command_line():
 
     parser.set_defaults(config=os.path.expanduser("~/.cupage.conf"),
                         database=os.path.expanduser("~/.cupage.db"),
-                        cache=os.path.expanduser("~/.cupage/"))
+                        cache=os.path.expanduser("~/.cupage/"),
+                        timeout=30)
 
     parser.add_option("-f", "--config", action="store",
-                      metavar=os.path.expanduser("~/.cupage.conf"),
+                      metavar="~/.cupage.conf",
                       help="Config file to read page definitions from")
     parser.add_option("-d", "--database", action="store",
-                      metavar=os.path.expanduser("~/.cupage.db"),
+                      metavar="~/.cupage.db",
                       help="Database to store page data to")
-    parser.add_option("-c", "--cache", action="store",
-                      metavar=os.path.expanduser("~/.cupage/"),
+    parser.add_option("-c", "--cache", action="store", metavar="~/.cupage/",
                       help="Directory to store page cache")
     parser.add_option("--no-write", action="store_true",
                       help="Don't update cache or database")
     parser.add_option("--force", action="store_true",
                       help="Ignore frequency checks")
-    parser.add_option("-t", "--timeout", type="int", metavar="30", default=30,
+    parser.add_option("-t", "--timeout", type="int", metavar="30",
                       help="Timeout for network operations")
     parser.add_option("--list-sites", action="store_true",
                       help="List site matchers and required values")
