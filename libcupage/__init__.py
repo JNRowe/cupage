@@ -300,11 +300,16 @@ class Site(object):
                         raise ValueError("'%s' is required for site=%s from %s"
                                          % (key, options["site"], name))
             options["name"] = name # For .format usage
-            selector = site_opts.get("selector", "css")
-            url = site_opts["url"].format(**options) # pylint: disable-msg=W0142
-            select = site_opts["select"]
-            match_type = site_opts.get("match_type", "tar")
-            match = site_opts.get("match", "").format(**options) # pylint: disable-msg=W0142,C0301
+
+            def get_val(name, default=None):
+                """Get option from site defaults with local override"""
+                return options.get(name, site_opts.get(name, default))
+
+            selector = get_val("selector", "css")
+            url = get_val("url").format(**options) # pylint: disable-msg=W0142
+            select = get_val("select")
+            match_type = get_val("match_type", "tar")
+            match = get_val("match", "").format(**options) # pylint: disable-msg=W0142,C0301
         elif "url" in options:
             url = options["url"]
             selector = options.get("selector", "css")
