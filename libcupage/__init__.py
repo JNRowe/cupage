@@ -169,7 +169,7 @@ class Site(object):
     """Simple object for representing a web site"""
 
     def __init__(self, name, url, selector, select, match_type="tar",
-                 match=None, frequency=None):
+                 match=None, frequency=None, checked=None, matches=None):
         """Initialise a new ``Site`` object"""
         self.name = name
         self.url = url
@@ -181,9 +181,9 @@ class Site(object):
             self._match = match
         elif match_type in ("gem", "tar", "zip"):
             self.match, self._match = self.package_re(self.name, match_type)
-        self.checked = None
+        self.checked = checked
         self.frequency = frequency
-        self.matches = []
+        self.matches = matches if matches else []
 
     def __str__(self):
         """Pretty printed ``Site`` string"""
@@ -325,11 +325,8 @@ class Site(object):
         frequency = options.get("frequency")
         if frequency:
             frequency = parse_timedelta(frequency)
-        site = Site(name, url, selector, select, match_type, match, frequency)
-        if data:
-            site.checked = data.get("checked")
-            site.matches = data.get("matches")
-
+        site = Site(name, url, selector, select, match_type, match, frequency,
+                    data.get("checked"), data.get("matches"))
         return site
 
     def state(self):
