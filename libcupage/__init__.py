@@ -56,11 +56,6 @@ import re
 import socket
 import time
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
 import httplib2
 
 from lxml import html
@@ -70,9 +65,9 @@ try:
 except ImportError:
     termstyle = None # pylint: disable-msg=C0103
 
-# Select colours if terminal is a tty.
+# Select colours if terminal is a tty
 if termstyle:
-    # pylint: disable-msg=E1101,C0103
+    # pylint: disable-msg=C0103
     termstyle.auto()
     success = termstyle.green
     fail = termstyle.red
@@ -219,7 +214,7 @@ class Site(object):
                 return
         http = httplib2.Http(cache=cache, timeout=timeout)
         # hillbilly monkeypatch to allow us to still read the cache, but make
-        # writing a NOP.
+        # writing a NOP
         if no_write:
             http.cache.set = lambda x, y: True
         try:
@@ -309,8 +304,7 @@ class Site(object):
             url = site_opts["url"].format(**options) # pylint: disable-msg=W0142
             select = site_opts["select"]
             match_type = site_opts.get("match_type", "tar")
-            match = site_opts.get("match", "").format(**options) \
-                # pylint: disable-msg=W0142
+            match = site_opts.get("match", "").format(**options) # pylint: disable-msg=W0142,C0301
         elif "url" in options:
             url = options["url"]
             selector = options.get("selector", "css")
