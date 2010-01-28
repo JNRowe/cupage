@@ -3,7 +3,7 @@ title: Should support and respect robots.txt.
 desc: ""
 type: :feature
 component: cupage
-release: 
+release: 0.5.0
 reporter: James Rowe <jnrowe@gmail.com>
 status: :unstarted
 disposition: 
@@ -19,6 +19,10 @@ log_events:
 - - 2010-01-27 06:42:42.359869 Z
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
+  - ""
+- - 2010-01-28 10:11:21.695870 Z
+  - James Rowe <jnrowe@gmail.com>
+  - assigned to release 0.5.0 from unassigned
   - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 

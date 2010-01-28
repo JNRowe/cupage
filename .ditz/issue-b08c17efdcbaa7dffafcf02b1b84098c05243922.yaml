@@ -3,7 +3,7 @@ title: 30x reporting has been temporarily removed.
 desc: This has been removed for the move to httplib2, but must must be re-added.
 type: :bugfix
 component: cupage
-release: 
+release: 0.5.0
 reporter: James Rowe <jnrowe@gmail.com>
 status: :unstarted
 disposition: 
@@ -26,5 +26,9 @@ log_events:
   - |-
     httplib2 adds a Content-Location header with the original URL to the result
     since v3, making this check easy.
+- - 2010-01-28 10:11:29.243875 Z
+  - James Rowe <jnrowe@gmail.com>
+  - assigned to release 0.5.0 from unassigned
+  - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
