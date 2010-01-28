@@ -227,6 +227,9 @@ class Site(object):
             print fail("Socket timed out on %s" % self.name)
             return False
 
+        if not headers.get("content-location", self.url) == self.url:
+            print warn("%s moved to %s"
+                       % (self.name, headers["content-location"]))
         if headers.status == 304:
             return
         elif headers.status in (403, 404):

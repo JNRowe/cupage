@@ -5,8 +5,8 @@ type: :bugfix
 component: cupage
 release: 0.5.0
 reporter: James Rowe <jnrowe@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-01-23 05:36:30.047666 Z
 references: []
 
@@ -29,6 +29,10 @@ log_events:
 - - 2010-01-28 10:11:29.243875 Z
   - James Rowe <jnrowe@gmail.com>
   - assigned to release 0.5.0 from unassigned
+  - ""
+- - 2010-01-28 13:09:46.791847 Z
+  - James Rowe <jnrowe@gmail.com>
+  - closed with disposition fixed
   - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
