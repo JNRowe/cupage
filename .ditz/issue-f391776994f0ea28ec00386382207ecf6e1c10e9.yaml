@@ -5,8 +5,8 @@ type: :feature
 component: cupage
 release: 0.5.0
 reporter: James Rowe <jnrowe@gmail.com>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-01-27 06:42:37.579899 Z
 references: []
 
@@ -23,6 +23,21 @@ log_events:
 - - 2010-01-28 10:11:21.695870 Z
   - James Rowe <jnrowe@gmail.com>
   - assigned to release 0.5.0 from unassigned
+  - ""
+- - 2010-01-29 22:17:09.291939 Z
+  - James Rowe <jnrowe@gmail.com>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2010-01-29 22:18:43.363209 Z
+  - James Rowe <jnrowe@gmail.com>
+  - commented
+  - |-
+    It is not entirely clear cupage should support robots.txt, it doesn't follow any
+    links and it is run by the user   It is basically just a browser with a set of
+    bookmarks.
+- - 2010-01-29 22:24:32.222354 Z
+  - James Rowe <jnrowe@gmail.com>
+  - closed with disposition fixed
   - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 

@@ -53,8 +53,10 @@ import json
 import logging
 import os
 import re
+import robotparser
 import socket
 import time
+import urlparse
 
 import httplib2
 
@@ -127,6 +129,7 @@ SITES = {
         "added": "0.3.0",
     },
 }
+
 
 def parse_timedelta(delta):
     """Parse human readable frequency
@@ -217,6 +220,29 @@ class Site(object):
         # writing a NOP
         if no_write:
             http.cache.set = lambda x, y: True
+
+        if not os.getenv("CUPAGE_IGNORE_ROBOTS_TXT"):
+            parsed = urlparse.urlparse(self.url, "http")
+            if parsed.scheme.startswith("http"):
+                robots_url = "%(scheme)s://%(netloc)s/robots.txt" \
+                    % parsed._asdict()
+                robots = robotparser.RobotFileParser(robots_url)
+                try:
+                    headers, content = http.request(robots_url)
+                except httplib2.ServerNotFoundError:
+                    print fail("Domain name lookup failed for %s" % self.name)
+                    return False
+                except socket.timeout:
+                    print fail("Socket timed out on %s" % self.name)
+                    return False
+                # Ignore errors 4xx errors for robots.txt
+                if not str(headers.status).startswith("4"):
+                    robots.parse(content.splitlines())
+                    if not robots.can_fetch(USER_AGENT, self.url):
+                        print fail("Can't check %s blocked by robots.txt"
+                                   % self.name)
+                        return False
+
         try:
             headers, content = http.request(self.url,
                                             headers={"User-Agent": USER_AGENT})
@@ -358,7 +384,7 @@ class Sites(list):
             options = {}
             for opt in conf.options(name):
                 options[opt] = conf.get(name, opt)
-            self.append(Site.parse(name, options, data.get(name)))
+            self.append(Site.parse(name, options, data.get(name, {})))
 
     def save(self, database):
         """Save ``Sites`` to the user's database"""
