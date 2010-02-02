@@ -57,8 +57,7 @@ def process_command_line():
                                    description=USAGE)
 
     parser.set_defaults(config=os.path.expanduser("~/.cupage.conf"),
-                        database=os.path.expanduser("~/.cupage.db"),
-                        cache=os.path.expanduser("~/.cupage/"),
+                        database=None, cache=os.path.expanduser("~/.cupage/"),
                         timeout=30)
 
     parser.add_option("-f", "--config", action="store",
@@ -66,7 +65,8 @@ def process_command_line():
                       help="Config file to read page definitions from")
     parser.add_option("-d", "--database", action="store",
                       metavar="~/.cupage.db",
-                      help="Database to store page data to")
+                      help="Database to store page data to(default based on "
+                           "--config value)")
     parser.add_option("-c", "--cache", action="store", metavar="~/.cupage/",
                       help="Directory to store page cache")
     parser.add_option("--no-write", action="store_true",
@@ -84,6 +84,10 @@ def process_command_line():
                       help="Output only matches and errors")
 
     options, args = parser.parse_args()
+
+    if options.database is None:
+        options.database = "%s%sdb" % (os.path.splitext(options.config)[0],
+                                       os.path.extsep)
 
     return options, args
 
