@@ -194,7 +194,7 @@ class Site(object):
             "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__,
         ]
         if self.match_type == "re":
-            ret.append("(%r)" % self._match)
+            ret.append("(%s)" % self._match)
         if self.checked:
             ret.append(" last checked %s" % isoformat(self.checked))
         if self.frequency:
