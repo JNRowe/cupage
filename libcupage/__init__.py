@@ -92,14 +92,14 @@ SITES = {
         "url": "http://ftp.debian.org/debian/pool/main/{name[0]}/{name}/",
         "select": "td a",
         "match_type": "re",
-        "match": r"{name}_[\d\.]+(\.orig\.tar|-\d+\.diff)\.gz",
+        "match": r"{name}_[\d\.]+(?:\.orig\.tar|-\d+\.diff)\.gz",
         "added": "0.3.0",
     },
     "github": {
         "url": "http://github.com/{user}/{name}/downloads",
         "select": "td a",
         "match_type": "re",
-        "match": "/{user}/{name}/tarball/.*",
+        "match": "/{user}/{name}/tarball/(.*)",
         "keys": {"user": "GitHub user name", },
         "added": "0.3.1",
     },
@@ -124,7 +124,7 @@ SITES = {
         "url": "http://www.vim.org/scripts/script.php?script_id={script}",
         "select": "td a",
         "match_type": "re",
-        "match": "download_script.php\?src_id=[\d]+",
+        "match": "download_script.php\?src_id=([\d]+)",
         "keys": {"script": "script id on the vim website", },
         "added": "0.3.0",
     },
@@ -283,7 +283,8 @@ class Site(object):
         for sel in selected:
             match = re.search(self.match, sel.get('href', ""))
             if match:
-                matches.add(match.group())
+                groups = match.groups()
+                matches.add(groups[0] if groups else match.group())
         return sorted(list(matches))
 
     @staticmethod
@@ -296,23 +297,23 @@ class Site(object):
         >>> re.match(c, "test-0.1.2_rc2.tar.gz").group()
         'test-0.1.2_rc2.tar.gz'
         >>> m
-        'test-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.tar.(bz2|gz)'
+        'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.tar.(?:bz2|gz)'
         >>> c, m = Site.package_re("test", "zip")
         >>> re.match(c, "test-0.1.2-rc2.zip").group()
         'test-0.1.2-rc2.zip'
         >>> re.match(c, "test-0.1.2-pre2.zip").group()
         'test-0.1.2-pre2.zip'
         >>> m
-        'test-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.zip'
+        'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.zip'
         >>> c, m = Site.package_re("test_long", "gem")
         >>> re.match(c, "test_long-0.1.2.gem").group()
         'test_long-0.1.2.gem'
         >>> m
-        'test_long-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.gem'
+        'test_long-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.gem'
         """
         if ext == "tar":
-            ext = "tar.(bz2|gz)"
-        match = r"%s-[\d\.]+([_-](pre|rc)[\d]+)?\.%s" % (name, ext)
+            ext = "tar.(?:bz2|gz)"
+        match = r"%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s" % (name, ext)
         return re.compile(match), match
 
     @staticmethod
