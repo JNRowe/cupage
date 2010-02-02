@@ -37,6 +37,7 @@ __license__ = libcupage.__license__
 __credits__ = libcupage.__credits__
 __history__ = libcupage.__history__
 
+import atexit
 import ConfigParser
 import logging
 import optparse
@@ -116,6 +117,9 @@ def main():
         print "Error reading config file"
         return 65
 
+    if not options.no_write:
+        atexit.register(sites.save, options.database)
+
     if args:
         site_names = map(attrgetter("name"), sites)
         for arg in args:
@@ -128,8 +132,6 @@ def main():
                 print "Checking %s..." % site.name
             site.check(options.cache, options.timeout, options.force,
                        options.no_write)
-    if not options.no_write:
-        sites.save(options.database)
 
 if __name__ == '__main__':
     sys.exit(main())
