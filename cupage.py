@@ -111,18 +111,18 @@ def main():
         for site, values in sorted(libcupage.SITES.items()):
             print "- %s (v%s)" % (site, values["added"])
             if "keys" in values:
-                for k, v in values["keys"].items():
-                    print "  * %s - %s" % (k, v)
+                for item in values["keys"].items():
+                    print "  * %s - %s" % item
         return 0
 
     sites = libcupage.Sites()
     try:
         sites.load(options.config, options.database)
     except IOError:
-        print "Missing config file"
+        print fail("Missing config file")
         return 66
     except ConfigParser.MissingSectionHeaderError:
-        print "Error reading config file"
+        print fail("Error reading config file")
         return 65
 
     if not options.no_write:
@@ -132,7 +132,7 @@ def main():
         site_names = map(attrgetter("name"), sites)
         for arg in args:
             if arg not in site_names:
-                print "Invalid site argument `%s'" % arg
+                print fail("Invalid site argument `%s'" % arg)
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
