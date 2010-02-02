@@ -101,10 +101,14 @@ def main():
     options, args = process_command_line()
 
     if options.list_sites:
+        if options.verbose:
+            print "Supported site values and their non-standard values:"
+            print
         for site, values in sorted(libcupage.SITES.items()):
-            print "%s (v%s)" % (site, values["added"])
+            print "- %s (v%s)" % (site, values["added"])
             if "keys" in values:
-                print "  * %s" % ", ".join(values["keys"])
+                for k, v in values["keys"].items():
+                    print "  * %s - %s" % (k, v)
         return 0
 
     sites = libcupage.Sites()

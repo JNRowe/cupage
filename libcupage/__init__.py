@@ -100,7 +100,7 @@ SITES = {
         "select": "td a",
         "match_type": "re",
         "match": "/{user}/{name}/tarball/.*",
-        "keys": ["user", ],
+        "keys": {"user": "GitHub user name", },
         "added": "0.3.1",
     },
     "google code": {
@@ -125,7 +125,7 @@ SITES = {
         "select": "td a",
         "match_type": "re",
         "match": "download_script.php\?src_id=[\d]+",
-        "keys": ["script", ],
+        "keys": {"script": "script id on the vim website", },
         "added": "0.3.0",
     },
 }
