@@ -7,7 +7,7 @@ desc: |-
   sites instead of just displaying the textual match.
 type: :feature
 component: cupage
-release: 
+release: 0.5.0
 reporter: James Rowe <jnrowe@gmail.com>
 status: :unstarted
 disposition: 
@@ -23,6 +23,10 @@ log_events:
 - - 2010-01-23 04:19:22.767633 Z
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
+  - ""
+- - 2010-02-02 23:57:08.462117 Z
+  - James Rowe <jnrowe@gmail.com>
+  - assigned to release 0.5.0 from unassigned
   - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
