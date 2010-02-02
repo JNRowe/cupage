@@ -50,6 +50,10 @@ USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
+# pylint: disable-msg=C0103
+success = libcupage.termstyle.green
+fail = libcupage.termstyle.red
+warn = libcupage.termstyle.yellow
 
 def process_command_line():
     """Main command line interface"""
@@ -134,8 +138,16 @@ def main():
             if options.verbose:
                 print site
                 print "Checking %s..." % site.name
-            site.check(options.cache, options.timeout, options.force,
-                       options.no_write)
+            matches = site.check(options.cache, options.timeout, options.force,
+                                 options.no_write)
+            if matches:
+                if options.verbose:
+                    print "%s has new matches" % site.name
+                for match in matches:
+                    print success("   " + match)
+            else:
+                if options.verbose:
+                    print "%s has no new matches" % site.name
 
 if __name__ == '__main__':
     sys.exit(main())

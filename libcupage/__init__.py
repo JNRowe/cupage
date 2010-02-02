@@ -263,13 +263,10 @@ class Site(object):
             return False
 
         matches = self.find_matches(content)
-        if not matches == self.matches:
-            print "%s has new matches" % self.name
-            for match in matches:
-                if match not in self.matches:
-                    print success("   " + match)
-            self.matches = matches
+        new_matches = filter(lambda s: s not in self.matches, matches)
+        self.matches = matches
         self.checked = time.time()
+        return new_matches
 
     def find_matches(self, content):
         """Extract matches from content"""
