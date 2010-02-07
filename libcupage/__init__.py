@@ -166,11 +166,11 @@ def isoformat(secs):
     """Format a epoch offset in an ISO-8601 compliant way
 
     >>> isoformat(0)
-    '1970-01-01T01:00:00'
+    '1970-01-01T00:00:00'
     >>> isoformat(987654321)
-    '2001-04-19T05:25:21'
+    '2001-04-19T04:25:21'
     """
-    return time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(secs))
+    return time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(secs))
 
 
 class Site(object):
@@ -204,7 +204,7 @@ class Site(object):
             ret.append(" last checked %s" % isoformat(self.checked))
         if self.frequency:
             ret.append(time.strftime(" with a check frequency of %s hours",
-                                     time.localtime(self.frequency)))
+                                     time.gmtime(self.frequency)))
         if self.matches:
             ret.append("\n    ")
             ret.append(", ".join(self.matches))
