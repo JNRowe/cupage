@@ -131,6 +131,7 @@ Site             Added   Required options
 ===============  ======  ============================================
 ``cpan``         v0.4.0
 ``debian``       v0.3.0
+``failpad``      v0.5.0
 ``github``       v0.3.1  ``user`` (GitHub_ user name)
 ``google code``  v0.1.0
 ``hackage``      v0.1.0

@@ -95,6 +95,11 @@ SITES = {
         "match": r"{name}_[\d\.]+(?:\.orig\.tar|-\d+\.diff)\.gz",
         "added": "0.3.0",
     },
+    "failpad": {
+        "url": "https://launchpad.net/{name}/+download",
+        "select": "table.listing td a",
+        "added": "0.5.0",
+    },
     "github": {
         "url": "http://github.com/{user}/{name}/downloads",
         "select": "td a",
