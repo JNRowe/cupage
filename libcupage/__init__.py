@@ -203,8 +203,8 @@ class Site(object):
         if self.checked:
             ret.append(" last checked %s" % isoformat(self.checked))
         if self.frequency:
-            ret.append(time.strftime(" with a check frequency of %s hours",
-                                     time.gmtime(self.frequency)))
+            ret.append(" with a check frequency of %i hour%s"
+                       % (self.frequency, "" if self.frequency == 1 else "s"))
         if self.matches:
             ret.append("\n    ")
             ret.append(", ".join(self.matches))
