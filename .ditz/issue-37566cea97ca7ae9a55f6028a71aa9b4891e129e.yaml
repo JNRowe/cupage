@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Add an option to update the config for 30x.
+desc: ""
+type: :feature
+component: cupage
+release: 
+reporter: James Rowe <jnrowe@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2010-02-10 00:01:58.019840 Z
+references: []
+
+id: 37566cea97ca7ae9a55f6028a71aa9b4891e129e
+log_events: 
+- - 2010-02-10 00:01:58.883724 Z
+  - James Rowe <jnrowe@gmail.com>
+  - created
+  - ""
+claimer: 
+git_branch: 
