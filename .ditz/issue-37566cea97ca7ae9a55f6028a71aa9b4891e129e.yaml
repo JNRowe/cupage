@@ -3,7 +3,7 @@ title: Add an option to update the config for 30x.
 desc: ""
 type: :feature
 component: cupage
-release: 
+release: bluesky
 reporter: James Rowe <jnrowe@gmail.com>
 status: :unstarted
 disposition: 
@@ -15,6 +15,10 @@ log_events:
 - - 2010-02-10 00:01:58.883724 Z
   - James Rowe <jnrowe@gmail.com>
   - created
+  - ""
+- - 2010-06-08 18:45:14.387773 Z
+  - James Rowe <jnrowe@gmail.com>
+  - assigned to release bluesky from unassigned
   - ""
 claimer: 
 git_branch: 

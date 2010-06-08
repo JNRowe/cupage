@@ -10,7 +10,7 @@ desc: |-
   .. _pydelicious: http://code.google.com/p/pydelicious/
 type: :feature
 component: cupage
-release: 
+release: bluesky
 reporter: James Rowe <jnrowe@gmail.com>
 status: :unstarted
 disposition: 
@@ -23,9 +23,13 @@ log_events:
   - James Rowe <jnrowe@gmail.com>
   - created
   - ""
-- - 2009-09-18 06:53:19.000000 Z
+- - 2009-09-18 06:53:19 Z
   - James Rowe <jnrowe@gmail.com>
   - issue claimed
+  - ""
+- - 2010-06-08 18:45:04.051776 Z
+  - James Rowe <jnrowe@gmail.com>
+  - assigned to release bluesky from unassigned
   - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 

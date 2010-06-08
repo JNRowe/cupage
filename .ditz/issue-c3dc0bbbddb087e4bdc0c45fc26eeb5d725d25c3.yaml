@@ -6,7 +6,7 @@ desc: |-
   other site matchers(the exception being pypi).
 type: :feature
 component: cupage
-release: 
+release: bluesky
 reporter: James Rowe <jnrowe@gmail.com>
 status: :unstarted
 disposition: 
@@ -32,5 +32,9 @@ log_events:
     
     Either this stays as it is, or support for defining the "getter" needs to be
     added, this may actually be useful for other purposes too.
+- - 2010-06-08 18:45:11.587779 Z
+  - James Rowe <jnrowe@gmail.com>
+  - assigned to release bluesky from unassigned
+  - ""
 claimer: James Rowe <jnrowe@gmail.com>
 git_branch: 
