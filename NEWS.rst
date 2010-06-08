@@ -6,6 +6,21 @@ User-visible changes
 
 .. contents::
 
+0.5.0 - 2010-06-08
+------------------
+
+    * Added ``--list-sites`` option to display built-in supported sites
+    * More complete documentation using the wonderful Sphinx_
+    * Support for robots.txt_
+    * Python v2.6 or a later release from the v2 branch is required,
+      unfortunately Python v3 isn't supported yet
+    * httplib2_ and ConfigObj_ are now required
+
+.. _Sphinx: http://sphinx.pocoo.org/
+.. _robots.txt: http://www.robotstxt.org/
+.. _httplib2: http://code.google.com/p/httplib2/
+.. _ConfigObj: http://code.google.com/p/configobj/
+
 0.4.0 - 2010-01-22
 ------------------
 
