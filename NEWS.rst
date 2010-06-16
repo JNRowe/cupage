@@ -6,6 +6,11 @@ User-visible changes
 
 .. contents::
 
+0.5.1 - 2010-06-16
+------------------
+
+    * Fixed ``pypi`` site matcher to work with robots.txt_ support
+
 0.5.0 - 2010-06-08
 ------------------
 
