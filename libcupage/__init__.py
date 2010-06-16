@@ -121,9 +121,10 @@ SITES = {
         "added": "0.1.0",
     },
     "pypi": {
-        "url": "http://pypi.python.org/packages/source/{name[0]}/{name}/",
-        "select": "td a",
+        "url": "http://pypi.python.org/simple/{name}/",
+        "select": "a",
         "added": "0.1.0",
+        "match": "({name}-[0-9\.]+\.tar\.gz)(?:#.*)",
     },
     "vim-script": {
         "url": "http://www.vim.org/scripts/script.php?script_id={script}",
