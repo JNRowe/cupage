@@ -5,6 +5,7 @@ doc/*.1
 test/data
 
 .coverage
+.noseids
 .git_version
 .hg_version
 *.py[co]
