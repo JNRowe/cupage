@@ -178,7 +178,8 @@ class Site(object):
     """Simple object for representing a web site"""
 
     def __init__(self, name, url, selector, select, match_type="tar",
-                 match=None, frequency=None, checked=None, matches=None):
+                 match=None, frequency=None, robots=True, checked=None,
+                 matches=None):
         """Initialise a new ``Site`` object"""
         self.name = name
         self.url = url
@@ -192,6 +193,7 @@ class Site(object):
             self.match, self._match = self.package_re(self.name, match_type)
         self.checked = checked
         self.frequency = frequency
+        self.robots = robots
         self.matches = matches if matches else []
 
     def __str__(self):
@@ -227,7 +229,7 @@ class Site(object):
         if no_write:
             http.cache.set = lambda x, y: True
 
-        if not os.getenv("CUPAGE_IGNORE_ROBOTS_TXT"):
+        if self.robots and not os.getenv("CUPAGE_IGNORE_ROBOTS_TXT"):
             parsed = urlparse.urlparse(self.url, "http")
             if parsed.scheme.startswith("http"):
                 robots_url = "%(scheme)s://%(netloc)s/robots.txt" \
@@ -356,10 +358,11 @@ class Site(object):
         else:
             raise ValueError("site or url not specified for %s" % name)
         frequency = options.get("frequency")
+        robots = options.get("robots", "").lower() not in ("off", "false", "no")
         if frequency:
             frequency = parse_timedelta(frequency)
         site = Site(name, url, selector, select, match_type, match, frequency,
-                    data.get("checked"), data.get("matches"))
+                    robots, data.get("checked"), data.get("matches"))
         return site
 
     def state(self):
