@@ -51,9 +51,9 @@ USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
 # pylint: disable-msg=C0103
-success = libcupage.termstyle.green
-fail = libcupage.termstyle.red
-warn = libcupage.termstyle.yellow
+success = libcupage.success
+fail = libcupage.fail
+warn = libcupage.warn
 
 def process_command_line():
     """Main command line interface"""
