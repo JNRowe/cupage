@@ -11,7 +11,7 @@ Requirements
 
 ``cupage``'s only mandatory dependencies outside of the standard library are the
 fantastic lxml_ and httplib2_ (v0.5.0+) packages. ``cupage`` can optionally use
-termstyle_ to display coloured output.
+fabulous_ to display coloured output.
 
 It should run with Python 2.6 or newer [#]_.  If ``cupage`` doesn't work with
 the version of Python you have installed, drop me a mail_ and I'll endeavour to
@@ -117,7 +117,7 @@ reproduce the problem, or even better a patch!
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _mail: jnrowe@gmail.com
 .. _issue: http://github.com/JNRowe/cupage/issues
-.. _termstyle: http://github.com/gfxmonk/termstyle
+.. _fabulous: http://pypi.python.org/pypi/fabulous/
 
 ..
     :vim: set ft=rst ts=4 sw=4 et:

@@ -55,6 +55,7 @@ import os
 import re
 import robotparser
 import socket
+import sys
 import time
 import urlparse
 
@@ -63,18 +64,16 @@ import httplib2
 from lxml import html
 
 try:
-    import termstyle
-except ImportError:
-    termstyle = None # pylint: disable-msg=C0103
+    from fabulous import color as fab_color
+except ImportError:  # pragma: no cover
+    fab_color = None  # pylint: disable-msg=C0103
 
 # Select colours if terminal is a tty
-if termstyle:
-    # pylint: disable-msg=C0103
-    termstyle.auto()
-    success = termstyle.green
-    fail = termstyle.red
-    warn = termstyle.yellow
-else:
+if fab_color and sys.stdout.isatty():
+    success = fab_color.green
+    fail = fab_color.red
+    warn = fab_color.yellow
+else:  # pragma: no cover
     # pylint: disable-msg=C0103
     success = fail = warn = str
 
