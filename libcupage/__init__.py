@@ -77,7 +77,7 @@ else:  # pragma: no cover
     # pylint: disable-msg=C0103
     success = fail = warn = str
 
-USER_AGENT = "cupage/%s +http://github.com/JNRowe/cupage/" % __version__
+USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
 
 SITES = {
     "cpan": {
@@ -100,7 +100,7 @@ SITES = {
         "added": "0.5.0",
     },
     "github": {
-        "url": "http://github.com/{user}/{name}/downloads",
+        "url": "https://github.com/{user}/{name}/downloads",
         "select": "td a",
         "match_type": "re",
         "match": "/{user}/{name}/tarball/(.*)",
