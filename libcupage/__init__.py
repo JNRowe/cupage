@@ -64,15 +64,15 @@ import httplib2
 from lxml import html
 
 try:
-    from fabulous import color as fab_color
+    from termcolor import colored
 except ImportError:  # pragma: no cover
-    fab_color = None  # pylint: disable-msg=C0103
+    colored = None  # pylint: disable-msg=C0103
 
 # Select colours if terminal is a tty
-if fab_color and sys.stdout.isatty():
-    success = fab_color.green
-    fail = fab_color.red
-    warn = fab_color.yellow
+if colored and sys.stdout.isatty():
+    success = lambda s: colored(s, "green")
+    fail = lambda s: colored(s, "red")
+    warn = lambda s: colored(s, "yellow")
 else:  # pragma: no cover
     # pylint: disable-msg=C0103
     success = fail = warn = str
