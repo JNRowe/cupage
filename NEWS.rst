@@ -6,6 +6,15 @@ User-visible changes
 
 .. contents::
 
+0.5.2 - 2010-12-20
+------------------
+
+    * Now uses termcolor_ for coloured output
+    * Updated GitHub_ URLs, to remove spurious warnings
+
+.. _termcolor: http://pypi.python.org/pypi/termcolor/
+.. _GitHub: https://github.com/
+
 0.5.1 - 2010-06-16
 ------------------
 
