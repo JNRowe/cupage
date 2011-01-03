@@ -6,6 +6,11 @@ User-visible changes
 
 .. contents::
 
+0.5.3 - 2011-01-03
+------------------
+
+    * Updated GitHub_ matcher, for recent site changes
+
 0.5.2 - 2010-12-20
 ------------------
 
