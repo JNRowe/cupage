@@ -3,7 +3,7 @@
 #
 """cupage - a tool to check for updates on web pages""" \
     # pylint: disable-msg=W0622
-# Copyright (C) 2009-2010 James Rowe;
+# Copyright (C) 2009-2011 James Rowe;
 # All rights reserved.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ from __future__ import division
 __version__ = "0.5.2"
 __date__ = "2010-12-20"
 __author__ = "James Rowe <jnrowe@gmail.com>"
-__copyright__ = "Copyright (C) 2009-2010 James Rowe"
+__copyright__ = "Copyright (C) 2009-2011 James Rowe"
 __license__ = "GNU General Public License Version 3"
 __credits__ = ""
 __history__ = "See Git repository"
