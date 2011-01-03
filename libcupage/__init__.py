@@ -101,7 +101,7 @@ SITES = {
     },
     "github": {
         "url": "https://github.com/{user}/{name}/downloads",
-        "select": "td a",
+        "select": "h4 a",
         "match_type": "re",
         "match": "/{user}/{name}/tarball/(.*)",
         "keys": {"user": "GitHub user name", },
