@@ -17,27 +17,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__version__ = "0.1.0"
-__date__ = "2007-11-29"
-__author__ = "James Rowe <jnrowe@ukfsn.org>"
-__copyright__ = "Copyright (C) 2007-2008 James Rowe"
-__license__ = "GNU General Public License Version 3"
-__credits__ = ""
-__history__ = "See git repository"
-
-try:
-    from email.utils import parseaddr
-except ImportError: # Python 2.4
-    from email.Utils import parseaddr
-
-__doc__ += """
-
-:version: %s
-:author: `%s <mailto:%s>`__
-:copyright: %s
-:status: WIP
-:license: %s
-""" % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
-
 from test import mock
-
