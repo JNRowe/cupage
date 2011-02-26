@@ -176,20 +176,18 @@ def isoformat(secs):
 class Site(object):
     """Simple object for representing a web site"""
 
-    def __init__(self, name, url, selector, select, match_type="tar",
-                 match=None, frequency=None, robots=True, checked=None,
-                 matches=None):
+    def __init__(self, name, url, match_func="default", options=None, frequency=None,
+                 robots=True, checked=None, matches=None):
         """Initialise a new ``Site`` object"""
         self.name = name
         self.url = url
-        self.selector = selector
-        self.select = select
-        self.match_type = match_type
-        if self.match_type == "re":
-            self.match = re.compile(match)
-            self._match = match
-        elif match_type in ("gem", "tar", "zip"):
-            self.match, self._match = self.package_re(self.name, match_type)
+        self.match_func = match_func
+        self.options = options if options else {}
+        if self.options.get("match_type") == "re":
+            self.match = re.compile(self.options["match"])
+            self._match = self.options["match"]
+        elif self.options.get("match_type") in ("gem", "tar", "zip"):
+            self.match, self._match = self.package_re(self.name, self.options["match_type"])
         self.checked = checked
         self.frequency = frequency
         self.robots = robots
@@ -198,9 +196,9 @@ class Site(object):
     def __str__(self):
         """Pretty printed ``Site`` string"""
         ret = [
-            "%(name)s @ %(url)s using %(match_type)r matcher" % self.__dict__,
+            "%s @ %s using %s matcher" % (self.name, self.url, self.match_func),
         ]
-        if self.match_type == "re":
+        if self.options.get("match_type") == "re":
             ret.append("(%s)" % self._match)
         if self.checked:
             ret.append(" last checked %s" % isoformat(self.checked))
@@ -269,19 +267,19 @@ class Site(object):
             print fail("%s returned a %s" % (self.name, headers.status))
             return False
 
-        matches = self.find_matches(content)
+        matches = getattr(self, "find_%s_matches" % self.match_func)(content)
         new_matches = filter(lambda s: s not in self.matches, matches)
         self.matches = matches
         self.checked = time.time()
         return new_matches
 
-    def find_matches(self, content):
+    def find_default_matches(self, content):
         """Extract matches from content"""
         doc = html.fromstring(content)
-        if self.selector == "css":
-            selected = doc.cssselect(self.select)
-        elif self.selector == "xpath":
-            selected = doc.xpath(self.select)
+        if self.options["selector"] == "css":
+            selected = doc.cssselect(self.options["select"])
+        elif self.options["selector"] == "xpath":
+            selected = doc.xpath(self.options["select"])
         # We use a set to remove duplicates
         matches = set()
         for sel in selected:
@@ -339,20 +337,26 @@ class Site(object):
                 """Get option from site defaults with local override"""
                 return options.get(name, site_opts.get(name, default))
 
-            selector = get_val("selector", "css")
+            match_func = get_val("match_func", "default")
             url = get_val("url").format(**options) # pylint: disable-msg=W0142
-            select = get_val("select")
-            match_type = get_val("match_type", "tar")
-            match = get_val("match", "").format(**options) # pylint: disable-msg=W0142,C0301
+            match_options = {
+                "selector": get_val("selector", "css"),
+                "select": get_val("select"),
+                "match_type": get_val("match_type", "tar"),
+                "match": get_val("match", "").format(**options),
+            } # pylint: disable-msg=W0142,C0301
         elif "url" in options:
+            match_func = options.get("match_func", "default")
             url = options["url"]
-            selector = options.get("selector", "css")
-            select = options.get("select")
-            if not select:
+            match_options = {
+                "selector": options.get("selector", "css"),
+                "select": options.get("select"),
+                "match_type": options.get("match_type", "tar"),
+                "match": options.get("match"),
+            }
+            if not match_options["select"]:
                 raise ValueError("missing select option for %s" % name)
-            match_type = options.get("match_type", "tar")
-            match = options.get("match")
-            if match_type == "re" and not match:
+            if match_options["match_type"] == "re" and not match_options["match"]:
                 raise ValueError("missing match option for %s" % name)
         else:
             raise ValueError("site or url not specified for %s" % name)
@@ -360,8 +364,8 @@ class Site(object):
         robots = options.get("robots", "").lower() not in ("off", "false", "no")
         if frequency:
             frequency = parse_timedelta(frequency)
-        site = Site(name, url, selector, select, match_type, match, frequency,
-                    robots, data.get("checked"), data.get("matches"))
+        site = Site(name, url, match_func, match_options, frequency, robots,
+                    data.get("checked"), data.get("matches"))
         return site
 
     def state(self):
