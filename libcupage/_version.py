@@ -1,5 +1,5 @@
-# This is unknown version 0.5.3 (2011-01-03)
-dotted = "0.5.3"
-libtool = "5:23"
-hex = 0x000503
-date = "2011-01-03"
+# This is unknown version 0.5.4 (2011-02-26)
+dotted = "0.5.4"
+libtool = "5:24"
+hex = 0x000504
+date = "2011-02-26"

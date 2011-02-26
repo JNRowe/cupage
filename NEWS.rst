@@ -6,6 +6,11 @@ User-visible changes
 
 .. contents::
 
+0.5.4 - 2011-01-03
+------------------
+
+    * Switched to documented API for GitHub_ matcher, fixes 404s
+
 0.5.3 - 2011-01-03
 ------------------
 
