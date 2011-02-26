@@ -118,7 +118,3 @@ reproduce the problem, or even better a patch!
 .. _mail: jnrowe@gmail.com
 .. _issue: http://github.com/JNRowe/cupage/issues
 .. _termcolor: http://pypi.python.org/pypi/termcolor/
-
-..
-    :vim: set ft=rst ts=4 sw=4 et:
-

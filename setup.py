@@ -1,6 +1,5 @@
 #! /usr/bin/python -tt
-# vim: set sw=4 sts=4 et tw=80 fileencoding=utf-8:
-#
+# coding=utf-8
 """setup - Generic project setup.py"""
 # Copyright (C) 2009-2011  James Rowe <jnrowe@gmail.com>
 #

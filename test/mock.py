@@ -1,6 +1,5 @@
 #
-# vim: set sw=4 sts=4 et tw=80 fileencoding=utf-8:
-#
+# coding=utf-8
 """mock - Mock objects for doctest code snippets"""
 # Copyright (C) 2009-2011  James Rowe <jnrowe@gmail.com>
 #

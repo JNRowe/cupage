@@ -1,6 +1,5 @@
 #
-# vim: set sw=4 sts=4 et tw=80 fileencoding=utf-8:
-#
+# coding=utf-8
 """cupage - a tool to check for updates on web pages""" \
     # pylint: disable-msg=W0622
 # Copyright (C) 2009-2011 James Rowe <jnrowe@gmail.com>
