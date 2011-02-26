@@ -1,3 +1,4 @@
+.ropeproject/
 build/
 dist/
 doc/.build
