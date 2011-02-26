@@ -3,8 +3,7 @@
 #
 """cupage - a tool to check for updates on web pages""" \
     # pylint: disable-msg=W0622
-# Copyright (C) 2009-2011 James Rowe;
-# All rights reserved.
+# Copyright (C) 2009-2011 James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
