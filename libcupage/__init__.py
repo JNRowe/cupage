@@ -100,10 +100,8 @@ SITES = {
         "added": "0.5.0",
     },
     "github": {
-        "url": "https://github.com/{user}/{name}/downloads",
-        "select": "h4 a",
-        "match_type": "re",
-        "match": "/{user}/{name}/tarball/(.*)",
+        "url": "http://github.com/api/v2/json/repos/show/{user}/{name}/tags",
+        "match_func": "github",
         "keys": {"user": "GitHub user name", },
         "added": "0.3.1",
     },
@@ -288,6 +286,11 @@ class Site(object):
                 groups = match.groups()
                 matches.add(groups[0] if groups else match.group())
         return sorted(list(matches))
+
+    def find_github_matches(self, content):
+        """Extract matches from GitHub content"""
+        doc = json.loads(content)
+        return doc['tags'].keys()
 
     @staticmethod
     def package_re(name, ext):
