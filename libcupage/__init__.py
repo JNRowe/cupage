@@ -38,8 +38,8 @@ __doc__ += """.
 a given criteria.  Its original purpose was to check web pages for new software
 releases, but it is easily configurable and can be used for other purposes.
 
-Thanks to the excellent lxml package you can use complex XPath and CSS selectors
-to match elements within a page.
+Thanks to the excellent lxml package you can use complex XPath and CSS
+selectors to match elements within a page.
 
 :version: %s
 :author: `%s <mailto:%s>`__
@@ -174,8 +174,8 @@ def isoformat(secs):
 class Site(object):
     """Simple object for representing a web site"""
 
-    def __init__(self, name, url, match_func="default", options=None, frequency=None,
-                 robots=True, checked=None, matches=None):
+    def __init__(self, name, url, match_func="default", options=None,
+                 frequency=None, robots=True, checked=None, matches=None):
         """Initialise a new ``Site`` object"""
         self.name = name
         self.url = url
@@ -185,7 +185,8 @@ class Site(object):
             self.match = re.compile(self.options["match"])
             self._match = self.options["match"]
         elif self.options.get("match_type") in ("gem", "tar", "zip"):
-            self.match, self._match = self.package_re(self.name, self.options["match_type"])
+            self.match, self._match = self.package_re(self.name,
+                                                      self.options["match_type"])
         self.checked = checked
         self.frequency = frequency
         self.robots = robots
@@ -194,7 +195,8 @@ class Site(object):
     def __str__(self):
         """Pretty printed ``Site`` string"""
         ret = [
-            "%s @ %s using %s matcher" % (self.name, self.url, self.match_func),
+            "%s @ %s using %s matcher" % (self.name, self.url,
+                                          self.match_func),
         ]
         if self.options.get("match_type") == "re":
             ret.append("(%s)" % self._match)
@@ -332,22 +334,22 @@ class Site(object):
             if "keys" in site_opts:
                 for key in site_opts["keys"]:
                     if not key in options:
-                        raise ValueError("'%s' is required for site=%s from %s"
+                        raise ValueError("%r is required for site=%s from %s"
                                          % (key, options["site"], name))
-            options["name"] = name # For .format usage
+            options["name"] = name  # For .format usage
 
             def get_val(name, default=None):
                 """Get option from site defaults with local override"""
                 return options.get(name, site_opts.get(name, default))
 
             match_func = get_val("match_func", "default")
-            url = get_val("url").format(**options) # pylint: disable-msg=W0142
+            url = get_val("url").format(**options)  # pylint: disable-msg=W0142
             match_options = {
                 "selector": get_val("selector", "css"),
                 "select": get_val("select"),
                 "match_type": get_val("match_type", "tar"),
                 "match": get_val("match", "").format(**options),
-            } # pylint: disable-msg=W0142,C0301
+            }  # pylint: disable-msg=W0142,C0301
         elif "url" in options:
             match_func = options.get("match_func", "default")
             url = options["url"]
@@ -359,7 +361,8 @@ class Site(object):
             }
             if not match_options["select"]:
                 raise ValueError("missing select option for %s" % name)
-            if match_options["match_type"] == "re" and not match_options["match"]:
+            if match_options["match_type"] == "re" \
+                and not match_options["match"]:
                 raise ValueError("missing match option for %s" % name)
         else:
             raise ValueError("site or url not specified for %s" % name)
