@@ -1,3 +1,5 @@
+.. _cupage-label:
+
 :mod:`cupage`
 ==============
 
