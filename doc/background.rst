@@ -29,19 +29,19 @@ necessary persistent data from :class:`Site` objects that can not be
 regenerated from the configuration file are stored in the database, namely
 header data and current matches.
 
-.. aafig::
-   :textual:
+.. blockdiag::
 
-   +=======+    +==========+
-   | Sites +<---+   Site   |       +--------+
-   +=======+    +==========+      -| number |
-                |          |     / +--------+
-                | checked  |<----
-                |          |
-                | matches  |<----
-                |          |     \ +-------+   +--------+
-                +----------+      -| array |<--| string |
-                                   +-------+   +--------+
+
+   diagram {
+     "Site" -> "Sites";
+     group A {
+        "Site";
+        "matches" -> "Site";
+        "checked" -> "Site";
+     }
+     "number" -> "checked";
+     "string" -> "array" -> "matches";
+   }
 
 ``matches`` is an array, and contains the string matches of previous
 :program:`cupage` runs.
