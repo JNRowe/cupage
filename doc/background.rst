@@ -39,8 +39,8 @@ the current matches.
         "matches" -> "Site";
         "checked" -> "Site";
      }
-     "number" -> "checked";
      "string" -> "array" -> "matches";
+     "number" -> "checked";
    }
 
 ``matches`` is an array, and contains the string matches of previous
