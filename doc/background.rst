@@ -2,15 +2,16 @@ Background
 ----------
 
 I had been looking for a better way to help me keep on top of software releases
-for projects I'm interested in, be that either personally or for things we use
-at work.
+for the projects I'm interested in, be that either personally or for things we
+use at work.
 
-Many projects have Atom_ feeds, some have mailing lists just for release updates
-and some post updates on sites like freshmeat_. Tracking all these resources is
-annoying and a simple unified solution would be much more workable.
+Some projects have Atom_ feeds, some have mailing lists just for release
+updates, some post updates on sites like freshmeat_ and some have no useful
+update watching mechanism at all.  Tracking all these resources is annoying and
+a simple unified solution would be much more workable.
 
-:mod:`cupage` is that solution, at least for my purposes and maybe it could be
-for you.
+:mod:`cupage` is that solution, at least for my purposes.  Maybe it could be for
+you too!
 
 .. _database-label:
 
@@ -21,16 +22,15 @@ With a local, unified tool we would instantly gain easy access to the updates
 database for use from other tools and applications.
 
 :abbr:`JSON (JavaScript Object Notation)` was chosen as it is simple to read and
-write, especially so from Python_ using json_ [#]_.
+write, especially so from Python_ using the json_ module [#]_.
 
-The database is just a serialisation of the :class:`Sites` object.  The
-:class:`Sites` object is a simple container for :class:`Site` objects.  Only
-necessary persistent data from :class:`Site` objects that can not be
-regenerated from the configuration file are stored in the database, namely
-header data and current matches.
+The database is a simple serialisation of the :class:`Sites` object.  The
+:class:`Sites` object is a container for :class:`Site` objects.  Only persistent
+data from :class:`Site` objects that can not be regenerated from the
+configuration file is stored in the database, namely last check time stamp and
+the current matches.
 
 .. blockdiag::
-
 
    diagram {
      "Site" -> "Sites";
@@ -46,7 +46,7 @@ header data and current matches.
 ``matches`` is an array, and contains the string matches of previous
 :program:`cupage` runs.
 
-``checked`` is the offset in seconds from the Unix epoch since the site was last
+``checked`` is the offset in seconds from the Unix epoch that the site was last
 checked.  It is normally a float, but may be ``null``.
 
 An example database file could be:
@@ -75,8 +75,8 @@ An example database file could be:
 
 .. [#] Initially Pickle_ was used in versions prior to 0.3.0.  The switch was
    made as Pickle_ provided no benefits over :abbr:`JSON (JavaScript Object
-   Notation)`, and some significant drawbacks including the lack of support from
-   other languages.
+   Notation)`, and some significant drawbacks including the lack of support for
+   reading it from other languages.
 
 .. _atom: http://www.atomenabled.org/
 .. _freshmeat: http://freshmeat.net/
