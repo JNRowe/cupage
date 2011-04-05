@@ -6,6 +6,14 @@ User-visible changes
 
 .. contents::
 
+0.5.5 - 2011-04-05
+------------------
+
+    * Updated Debian_ matcher to search for bzip2_ compressed files
+
+.. _Debian: http://debian.org/
+.. _bzip2: http://www.bzip.org/
+
 0.5.4 - 2011-01-03
 ------------------
 
