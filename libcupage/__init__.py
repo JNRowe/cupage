@@ -91,7 +91,7 @@ SITES = {
         "url": "http://ftp.debian.org/debian/pool/main/{name[0]}/{name}/",
         "select": "td a",
         "match_type": "re",
-        "match": r"{name}_[\d\.]+(?:\.orig\.tar|-\d+\.diff)\.gz",
+        "match": r"{name}_[\d\.]+(?:\.orig\.tar|-\d+\.diff)\.(?:bz2|gz)",
         "added": "0.3.0",
     },
     "failpad": {
