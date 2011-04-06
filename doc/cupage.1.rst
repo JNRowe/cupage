@@ -56,7 +56,9 @@ CONFIGURATION FILE
 ------------------
 
 The configuration file, by default **~/.cupage.conf**, is a simple **INI**
-format file, with sections defining sites to check.  For example::
+format file, with sections defining sites to check.  For example:
+
+.. code-block:: ini
 
     [spill]
     url = http://www.rpcurnow.force9.co.uk/spill/index.html
