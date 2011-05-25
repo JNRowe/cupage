@@ -6,6 +6,11 @@ User-visible changes
 
 .. contents::
 
+0.5.6 - 2011-05-25
+------------------
+
+    * Updated Debian_ matcher to search for Debian_ specific tarballs
+
 0.5.5 - 2011-04-05
 ------------------
 
