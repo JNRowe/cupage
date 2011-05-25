@@ -217,8 +217,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'k', u'k Documentation',
-     [u'l'], 1)
+    ('cupage.1', 'cupage', u'cupage Documentation',
+     [u'James Rowe'], 1)
 ]
 
 
