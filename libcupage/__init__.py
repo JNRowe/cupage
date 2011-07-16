@@ -101,7 +101,7 @@ SITES = {
         "added": "0.5.0",
     },
     "github": {
-        "url": "https://github.com/api/v2/json/repos/show/{user}/{name}/tags",
+        "url": "https://api.github.com/repos/{user}/{name}/tags",
         "match_func": "github",
         "keys": {"user": "GitHub user name", },
         "added": "0.3.1",
@@ -299,7 +299,7 @@ class Site(object):
     def find_github_matches(self, content):
         """Extract matches from GitHub content"""
         doc = json.loads(content)
-        return doc['tags'].keys()
+        return [tag['name'] for tag in doc]
 
     @staticmethod
     def package_re(name, ext):
