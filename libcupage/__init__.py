@@ -49,6 +49,7 @@ selectors to match elements within a page.
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import ConfigParser
+import inspect
 import json
 import logging
 import os
@@ -220,7 +221,13 @@ class Site(object):
                 print warn("%s is not due for check until %s"
                            % (self.name, isoformat(next_check)))
                 return
-        http = httplib2.Http(cache=cache, timeout=timeout)
+        http_class_args = inspect.getargspec(httplib2.Http.__init__)[0]
+        if 'disable_ssl_certificate_validation' in http_class_args:
+            # Disable SSL validation as 0.7 forces it, but includes very few certs
+            http = httplib2.Http(cache=cache, timeout=timeout,
+                                 disable_ssl_certificate_validation=True)
+        else:
+            http = httplib2.Http(cache=cache, timeout=timeout)
         # hillbilly monkeypatch to allow us to still read the cache, but make
         # writing a NOP
         if no_write:
