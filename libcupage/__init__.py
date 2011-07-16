@@ -101,7 +101,7 @@ SITES = {
         "added": "0.5.0",
     },
     "github": {
-        "url": "http://github.com/api/v2/json/repos/show/{user}/{name}/tags",
+        "url": "https://github.com/api/v2/json/repos/show/{user}/{name}/tags",
         "match_func": "github",
         "keys": {"user": "GitHub user name", },
         "added": "0.3.1",
