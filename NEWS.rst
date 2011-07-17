@@ -6,6 +6,13 @@ User-visible changes
 
 .. contents::
 
+0.6.0 - 2011-07-17
+------------------
+
+* Compatible with httplib2 0.7
+* Various updates to GitHub matcher
+* All versions now reported in hackage checks
+
 0.5.6 - 2011-05-25
 ------------------
 
