@@ -250,7 +250,7 @@ class Site(object):
                 if not str(headers.status).startswith("4"):
                     robots.parse(content.splitlines())
                     if not robots.can_fetch(USER_AGENT, self.url):
-                        print fail("Can't check %s blocked by robots.txt"
+                        print fail("Can't check %s, blocked by robots.txt"
                                    % self.name)
                         return False
 
