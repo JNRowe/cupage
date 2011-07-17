@@ -114,9 +114,7 @@ SITES = {
     },
     "hackage": {
         "url": "http://hackage.haskell.org/package/{name}",
-        "select": "li a",
-        "match_type": "re",
-        "match": "{name}-[0-9\.]+\.tar\.gz",
+        "match_func": "hackage",
         "added": "0.1.0",
     },
     "pypi": {
@@ -301,6 +299,12 @@ class Site(object):
         """Extract matches from GitHub content"""
         doc = json.loads(content)
         return [tag['name'] for tag in doc]
+
+    def find_hackage_matches(self, content):
+        """Extract matches from hackage content"""
+        doc = html.fromstring(content)
+        data = doc.cssselect('table tr')[0][1]
+        return [x.text for x in data.getchildren()]
 
     @staticmethod
     def package_re(name, ext):
