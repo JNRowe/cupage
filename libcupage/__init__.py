@@ -105,6 +105,7 @@ SITES = {
         "match_func": "github",
         "keys": {"user": "GitHub user name", },
         "added": "0.3.1",
+        "robots": "false",
     },
     "google code": {
         "url": "http://code.google.com/p/{name}/downloads/list",
@@ -357,6 +358,7 @@ class Site(object):
                 "match_type": get_val("match_type", "tar"),
                 "match": get_val("match", "").format(**options),
             }  # pylint: disable-msg=W0142,C0301
+            robots = get_val("robots", "").lower() not in ("off", "false", "no")
         elif "url" in options:
             match_func = options.get("match_func", "default")
             url = options["url"]
@@ -371,10 +373,10 @@ class Site(object):
             if match_options["match_type"] == "re" \
                 and not match_options["match"]:
                 raise ValueError("missing match option for %s" % name)
+            robots = options.get("robots", "").lower() not in ("off", "false", "no")
         else:
             raise ValueError("site or url not specified for %s" % name)
         frequency = options.get("frequency")
-        robots = options.get("robots", "").lower() not in ("off", "false", "no")
         if frequency:
             frequency = parse_timedelta(frequency)
         site = Site(name, url, match_func, match_options, frequency, robots,
