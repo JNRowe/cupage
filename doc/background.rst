@@ -73,10 +73,10 @@ An example database file could be:
         }
     }
 
-.. [#] Initially Pickle_ was used in versions prior to 0.3.0.  The switch was
-   made as Pickle_ provided no benefits over :abbr:`JSON (JavaScript Object
-   Notation)`, and some significant drawbacks including the lack of support for
-   reading it from other languages.
+.. [#] Pickle_ was used in versions prior to 0.3.0.  The switch was made as
+   Pickle_ provided no benefits over :abbr:`JSON (JavaScript Object Notation)`,
+   and some significant drawbacks including the lack of support for reading it
+   from other languages.
 
 .. _atom: http://www.atomenabled.org/
 .. _freshmeat: http://freshmeat.net/
