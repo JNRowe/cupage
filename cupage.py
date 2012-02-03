@@ -53,6 +53,7 @@ success = libcupage.success
 fail = libcupage.fail
 warn = libcupage.warn
 
+
 def process_command_line():
     """Main command line interface"""
     parser = optparse.OptionParser(usage="%prog [options...] <site>...",

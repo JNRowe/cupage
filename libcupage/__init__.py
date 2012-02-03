@@ -78,6 +78,7 @@ else:  # pragma: no cover
     # pylint: disable-msg=C0103
     success = fail = warn = str
 
+
 USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
 
 SITES = {
@@ -222,7 +223,8 @@ class Site(object):
                 return
         http_class_args = inspect.getargspec(httplib2.Http.__init__)[0]
         if 'disable_ssl_certificate_validation' in http_class_args:
-            # Disable SSL validation as 0.7 forces it, but includes very few certs
+            # Disable SSL validation as 0.7 forces it, but includes very few
+            # certs
             http = httplib2.Http(cache=cache, timeout=timeout,
                                  disable_ssl_certificate_validation=True)
         else:
