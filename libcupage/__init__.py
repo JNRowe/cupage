@@ -55,29 +55,17 @@ import os
 import re
 import robotparser
 import socket
-import sys
 import time
 import urlparse
 
+import blessings
 import configobj
 import httplib2
 
 from lxml import html
 
-try:
-    from termcolor import colored
-except ImportError:  # pragma: no cover
-    colored = None  # pylint: disable-msg=C0103
 
-# Select colours if terminal is a tty
-if colored and sys.stdout.isatty():
-    success = lambda s: colored(s, "green")
-    fail = lambda s: colored(s, "red")
-    warn = lambda s: colored(s, "yellow")
-else:  # pragma: no cover
-    # pylint: disable-msg=C0103
-    success = fail = warn = str
-
+T = blessings.Terminal()
 
 USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
 
@@ -180,6 +168,18 @@ def sort_packages(packages):
     """
     key_func = lambda s: filter(str.isdigit, s.split('-')[-1].split('.'))
     return sorted(packages, key=key_func)
+
+
+def success(text):
+    return T.bright_green(text)
+
+
+def fail(text):
+    return T.bright_red(text)
+
+
+def warn(text):
+    return T.bright_yellow(text)
 
 
 class Site(object):
