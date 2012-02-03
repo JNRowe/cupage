@@ -172,6 +172,16 @@ def isoformat(secs):
     return time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(secs))
 
 
+def sort_packages(packages):
+    """Order package list according to version number
+
+    >>> sort_packages(['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz'])
+    ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']
+    """
+    key_func = lambda s: filter(str.isdigit, s.split('-')[-1].split('.'))
+    return sorted(packages, key=key_func)
+
+
 class Site(object):
     """Simple object for representing a web site"""
 
@@ -208,7 +218,7 @@ class Site(object):
                        % (self.frequency, "" if self.frequency == 1 else "s"))
         if self.matches:
             ret.append("\n    ")
-            ret.append(", ".join(self.matches))
+            ret.append(", ".join(sort_packages(self.matches)))
         else:
             ret.append("\n    No matches")
         return "".join(ret)

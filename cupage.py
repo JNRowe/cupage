@@ -144,7 +144,7 @@ def main():
             if matches:
                 if options.verbose:
                     print "%s has new matches" % site.name
-                for match in matches:
+                for match in libcupage.sort_packages(matches):
                     print success("   " + match)
             else:
                 if options.verbose:
