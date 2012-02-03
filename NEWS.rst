@@ -9,9 +9,11 @@ User-visible changes
 0.6.0 - 2011-07-17
 ------------------
 
-* Compatible with httplib2 0.7
+* Compatible with httplib2_ 0.7
 * Various updates to GitHub matcher
-* All versions now reported in hackage checks
+* All versions now reported in hackage_ checks
+
+.. _hackage: http://hackage.haskell.org/
 
 0.5.6 - 2011-05-25
 ------------------
