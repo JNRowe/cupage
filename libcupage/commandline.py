@@ -1,4 +1,4 @@
-#! /usr/bin/python -tt
+#
 # coding=utf-8
 """cupage - a tool to check for updates on web pages"""
 # Copyright (C) 2009-2012  James Rowe <jnrowe@gmail.com>
@@ -149,6 +149,3 @@ def main():
             else:
                 if options.verbose:
                     print "%s has no new matches" % site.name
-
-if __name__ == '__main__':
-    sys.exit(main())
