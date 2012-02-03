@@ -51,10 +51,8 @@ import json
 import logging
 import os
 import re
-import robotparser
 import socket
 import time
-import urlparse
 
 import configobj
 import httplib2
@@ -178,26 +176,8 @@ class Site(object):
             http.cache.set = lambda x, y: True
 
         if self.robots and not os.getenv("CUPAGE_IGNORE_ROBOTS_TXT"):
-            parsed = urlparse.urlparse(self.url, "http")
-            if parsed.scheme.startswith("http"):
-                robots_url = "%(scheme)s://%(netloc)s/robots.txt" \
-                    % parsed._asdict()
-                robots = robotparser.RobotFileParser(robots_url)
-                try:
-                    headers, content = http.request(robots_url)
-                except httplib2.ServerNotFoundError:
-                    print fail("Domain name lookup failed for %s" % self.name)
-                    return False
-                except socket.timeout:
-                    print fail("Socket timed out on %s" % self.name)
-                    return False
-                # Ignore errors 4xx errors for robots.txt
-                if not str(headers.status).startswith("4"):
-                    robots.parse(content.splitlines())
-                    if not robots.can_fetch(USER_AGENT, self.url):
-                        print fail("Can't check %s, blocked by robots.txt"
-                                   % self.name)
-                        return False
+            if not utils.robots_test(http, self.url, self.name, USER_AGENT):
+                return False
 
         try:
             headers, content = http.request(self.url,
