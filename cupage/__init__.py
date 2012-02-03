@@ -46,6 +46,7 @@ selectors to match elements within a page.
 :license: %s
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
+import httplib
 import json
 import logging
 import os
@@ -211,10 +212,11 @@ class Site(object):
         if not headers.get("content-location", self.url) == self.url:
             print utils.warn("%s moved to %s"
                        % (self.name, headers["content-location"]))
-        if headers.status == 304:
+        if headers.status == httplib.NOT_MODIFIED:
             return
-        elif headers.status in (403, 404):
-            print utils.fail("%s returned a %s" % (self.name, headers.status))
+        elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
+            print utils.fail("%s returned %r"
+                             % (self.name, httplib.responses[headers.status]))
             return False
 
         matches = getattr(self, "find_%s_matches" % self.match_func)(content)
