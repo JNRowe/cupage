@@ -141,10 +141,8 @@ class Site(object):
 
     def __str__(self):
         """Pretty printed ``Site`` string"""
-        ret = [
-            "%s @ %s using %s matcher" % (self.name, self.url,
-                                          self.match_func),
-        ]
+        ret = ["%s @ %s using %s matcher" % (self.name, self.url,
+                                             self.match_func), ]
         if self.options.get("match_type") == "re":
             ret.append("(%s)" % self._match)
         if self.checked:
