@@ -1,17 +1,11 @@
+*.html
+*.pyc
+
 .ropeproject/
 build/
+cupage.egg-info/
 dist/
 doc/.build
-doc/*.1
-test/data
 
 .coverage
 .noseids
-.git_version
-.hg_version
-*.py[co]
-*.html
-
-ChangeLog
-MANIFEST
-
