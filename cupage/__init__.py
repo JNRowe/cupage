@@ -51,6 +51,7 @@ import logging
 import os
 import re
 import socket
+import tempfile
 import time
 
 import configobj
@@ -341,4 +342,9 @@ class Sites(list):
         data = {}
         for site in self:
             data[site.name] = site.state()
-        json.dump(data, open(database, "w"), indent=4)
+
+        directory, filename = os.path.split(database)
+        temp = tempfile.NamedTemporaryFile(prefix='.', dir=directory,
+                                           delete=False)
+        json.dump(data, temp, indent=4)
+        os.rename(temp.name, database)
