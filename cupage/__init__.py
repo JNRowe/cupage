@@ -116,6 +116,11 @@ SITES = {
         "added": "0.1.0",
         "match": "({name}-[0-9\.]+\.tar\.gz)(?:#.*)",
     },
+    "savannah": {
+        "url": "http://download.savannah.gnu.org/releases/{name}/",
+        "select": "td a",
+        "added": "0.7.0",
+    },
     "vim-script": {
         "url": "http://www.vim.org/scripts/script.php?script_id={script}",
         "select": "td a",
