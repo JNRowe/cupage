@@ -45,6 +45,7 @@ selectors to match elements within a page, if you wish.
 :license: %s
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
+import datetime
 import httplib
 import json
 import logging
@@ -52,7 +53,6 @@ import os
 import re
 import socket
 import tempfile
-import time
 
 import configobj
 import httplib2
@@ -148,10 +148,9 @@ class Site(object):
         ret = ["%s @ %s using %s matcher" % (self.name, self.url,
                                              self.match_func), ]
         if self.checked:
-            ret.append(" last checked %s" % utils.isoformat(self.checked))
+            ret.append(" last checked %s" % self.checked)
         if self.frequency:
-            ret.append(" with a check frequency of %i hour%s"
-                       % (self.frequency, "" if self.frequency == 1 else "s"))
+            ret.append(" with a check frequency of %s" % self.frequency)
         if self.matches:
             ret.append("\n    ")
             ret.append(", ".join(utils.sort_packages(self.matches)))
@@ -162,10 +161,10 @@ class Site(object):
     def check(self, cache=None, timeout=None, force=False, no_write=False):
         """Check site for updates"""
         if self.frequency and self.checked:
-            next_check = self.checked + (self.frequency * 3600)
-            if time.time() < next_check and not force:
+            next_check = self.checked + self.frequency
+            if datetime.datetime.utcnow() < next_check and not force:
                 print utils.warn("%s is not due for check until %s"
-                                 % (self.name, utils.isoformat(next_check)))
+                                 % (self.name, next_check))
                 return
         # Disable SSL validation as 0.7 forces it, but includes very few certs
         http = httplib2.Http(cache=cache, timeout=timeout,
@@ -202,7 +201,7 @@ class Site(object):
         matches = getattr(self, "find_%s_matches" % self.match_func)(content)
         new_matches = filter(lambda s: s not in self.matches, matches)
         self.matches = matches
-        self.checked = time.time()
+        self.checked = datetime.datetime.utcnow()
         return new_matches
 
     def find_default_matches(self, content):
@@ -330,7 +329,8 @@ class Sites(list):
             raise IOError("Error reading config file")
 
         if os.path.exists(database):
-            data = json.load(open(database))
+            data = json.load(open(database),
+                             object_hook=utils.json_to_datetime)
         else:
             logging.debug("Database file `%s' doesn't exist", database)
             data = {}
@@ -347,5 +347,5 @@ class Sites(list):
         directory, filename = os.path.split(database)
         temp = tempfile.NamedTemporaryFile(prefix='.', dir=directory,
                                            delete=False)
-        json.dump(data, temp, indent=4)
+        json.dump(data, temp, indent=4, cls=utils.CupageEncoder)
         os.rename(temp.name, database)

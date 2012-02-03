@@ -17,10 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import datetime
+import json
 import re
 import robotparser
 import socket
-import time
 import urlparse
 
 import blessings
@@ -33,14 +34,16 @@ T = blessings.Terminal()
 def parse_timedelta(delta):
     """Parse human readable frequency
 
+    >>> parse_timedelta("3h")
+    datetime.timedelta(0, 10800)
     >>> parse_timedelta("1d")
-    24.0
+    datetime.timedelta(1)
     >>> parse_timedelta("1 d")
-    24.0
+    datetime.timedelta(1)
     >>> parse_timedelta("0.5 y")
-    30660.0
+    datetime.timedelta(182, 43200)
     >>> parse_timedelta("0.5 Y")
-    30660.0
+    datetime.timedelta(182, 43200)
     >>> parse_timedelta("1 k")
     Traceback (most recent call last):
         ...
@@ -52,19 +55,8 @@ def parse_timedelta(delta):
     value, units = match.groups()
     units = "hdwmy".index(units.lower())
     # hours per hour/day/week/month/year
-    multiplier = (1, 24, 168, 4704, 61320)
-    return float(value) * multiplier[units]
-
-
-def isoformat(secs):
-    """Format a epoch offset in an ISO-8601 compliant way
-
-    >>> isoformat(0)
-    '1970-01-01T00:00:00'
-    >>> isoformat(987654321)
-    '2001-04-19T04:25:21'
-    """
-    return time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(secs))
+    multiplier = (1, 24, 168, 672, 8760)
+    return datetime.timedelta(hours=float(value) * multiplier[units])
 
 
 def sort_packages(packages):
@@ -116,3 +108,29 @@ def fail(text):
 
 def warn(text):
     return _format_info(text, 'yellow')
+
+
+class CupageEncoder(json.JSONEncoder):
+    """Custom JSON encoding for supporting ``datetime`` objects"""
+    def default(self, obj):
+        try:
+            return obj.isoformat()
+        except TypeError:
+            pass
+        return json.JSONEncoder.default(self, obj)
+
+
+def json_to_datetime(obj):
+    """Parse datetime objects from ``cupage`` databases"""
+    if "checked" in obj:
+        try:
+            result = datetime.datetime.strptime(obj['checked'],
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+        except TypeError:
+            try:
+                # <0.7 compatibility
+                result = datetime.datetime.fromtimestamp(float(obj['checked']))
+            except TypeError:
+                result = None
+        obj["checked"] = result
+    return obj
