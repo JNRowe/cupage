@@ -7,7 +7,7 @@ from setuptools import setup
 _version = {}
 execfile('cupage/_version.py', {}, _version)
 
-install_requires = ['blessings', 'configobj', 'httplib2>=0.5.0', 'lxml']
+install_requires = ['blessings', 'configobj', 'httplib2>=0.7', 'lxml']
 
 
 setup(

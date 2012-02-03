@@ -13,7 +13,7 @@ Requirements
 
 * blessings_
 * configobj_
-* httplib2_, v0.5.0 or newer
+* httplib2_, v0.7 or newer
 * lxml_
 
 It should run with Python 2.6 or newer [#]_.  If ``cupage`` doesn't work with
