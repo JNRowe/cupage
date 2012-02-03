@@ -171,16 +171,21 @@ def sort_packages(packages):
     return sorted(packages, key=lambda s: [i for i in s if i.isdigit()])
 
 
+def _format_info(text, colour):
+    return "%s %s" % (getattr(T, 'bold_white_on_%s' % colour)('*'),
+                      getattr(T, 'bright_%s' % colour)(text))
+
+
 def success(text):
-    return T.bright_green(text)
+    return _format_info(text, 'green')
 
 
 def fail(text):
-    return T.bright_red(text)
+    return _format_info(text, 'red')
 
 
 def warn(text):
-    return T.bright_yellow(text)
+    return _format_info(text, 'yellow')
 
 
 class Site(object):
