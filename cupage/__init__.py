@@ -76,7 +76,10 @@ SITES = {
         "url": "http://ftp.debian.org/debian/pool/main/{name[0]}/{name}/",
         "select": "td a",
         "match_type": "re",
-        "match": r"{name}_[\d\.]+(?:\.orig\.tar|-\d+\.(?:diff|debian.tar))\.(?:bz2|gz)",
+        "re_verbose": True,
+        "match": r"""{name}_[\d\.]+
+                     (?:\.orig\.tar|-\d+\.(?:diff|debian.tar))
+                     \.(?:bz2|gz)""",
         "added": "0.3.0",
     },
     "failpad": {
@@ -128,12 +131,13 @@ class Site(object):
         self.url = url
         self.match_func = match_func
         self.options = options if options else {}
-        if self.options.get("match_type") == "re":
-            self.match = re.compile(self.options["match"])
-            self._match = self.options["match"]
-        elif self.options.get("match_type") in ("gem", "tar", "zip"):
-            self.match, self._match = self.package_re(self.name,
-                                                      self.options["match_type"])
+        re_verbose = 're_verbose' in options
+        if options.get("match_type") == "re":
+            self.match = re.compile(options["match"],
+                                    flags=re.VERBOSE if re_verbose else 0)
+        elif options.get("match_type") in ("gem", "tar", "zip"):
+            self.match = self.package_re(self.name, options["match_type"],
+                                         re_verbose)
         self.checked = checked
         self.frequency = frequency
         self.robots = robots
@@ -143,8 +147,6 @@ class Site(object):
         """Pretty printed ``Site`` string"""
         ret = ["%s @ %s using %s matcher" % (self.name, self.url,
                                              self.match_func), ]
-        if self.options.get("match_type") == "re":
-            ret.append("(%s)" % self._match)
         if self.checked:
             ret.append(" last checked %s" % utils.isoformat(self.checked))
         if self.frequency:
@@ -231,33 +233,33 @@ class Site(object):
         return [x.text for x in data.getchildren()]
 
     @staticmethod
-    def package_re(name, ext):
+    def package_re(name, ext, verbose=False):
         r"""Generate a compiled ``re`` for the package
 
-        >>> c, m = Site.package_re("test", "tar")
+        >>> c = Site.package_re("test", "tar")
         >>> re.match(c, "test-0.1.2.tar.bz2").group()
         'test-0.1.2.tar.bz2'
         >>> re.match(c, "test-0.1.2_rc2.tar.gz").group()
         'test-0.1.2_rc2.tar.gz'
-        >>> m
+        >>> c.pattern
         'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.tar.(?:bz2|gz)'
-        >>> c, m = Site.package_re("test", "zip")
+        >>> c = Site.package_re("test", "zip")
         >>> re.match(c, "test-0.1.2-rc2.zip").group()
         'test-0.1.2-rc2.zip'
         >>> re.match(c, "test-0.1.2-pre2.zip").group()
         'test-0.1.2-pre2.zip'
-        >>> m
+        >>> c.pattern
         'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.zip'
-        >>> c, m = Site.package_re("test_long", "gem")
+        >>> c = Site.package_re("test_long", "gem")
         >>> re.match(c, "test_long-0.1.2.gem").group()
         'test_long-0.1.2.gem'
-        >>> m
+        >>> c.pattern
         'test_long-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.gem'
         """
         if ext == "tar":
             ext = "tar.(?:bz2|gz)"
         match = r"%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s" % (name, ext)
-        return re.compile(match), match
+        return re.compile(match, flags=re.VERBOSE if verbose else 0)
 
     @staticmethod
     def parse(name, options, data):
@@ -284,6 +286,7 @@ class Site(object):
                 "selector": get_val("selector", "css"),
                 "select": get_val("select"),
                 "match_type": get_val("match_type", "tar"),
+                "re_verbose": get_val("re_verbose", False),
                 "match": get_val("match", "").format(**options),
             }  # pylint: disable-msg=W0142,C0301
             robots = "robots" in options and options.as_bool("robots")
