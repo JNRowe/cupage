@@ -1,6 +1,6 @@
 #
 # coding=utf-8
-"""cupage - a tool to check for updates on web pages"""
+"""command_line- Command line interface for cupage"""
 # Copyright (C) 2009-2012  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -115,9 +115,12 @@ def main():
     sites = cupage.Sites()
     try:
         sites.load(options.config, options.database)
-    except IOError:
-        print utils.fail("Missing config file")
+    except IOError as e:
+        print utils.fail(e.message)
         return 66
+    except ValueError:
+        print utils.fail("Error reading database file")
+        return 65
     except configobj.ConfigObjError:
         print utils.fail("Error reading config file")
         return 65

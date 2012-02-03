@@ -1,7 +1,6 @@
 #
 # coding=utf-8
-"""cupage - a tool to check for updates on web pages""" \
-    # pylint: disable-msg=W0622
+"""cupage - a tool to check for updates on web pages"""
 # Copyright (C) 2009-2012  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -26,7 +25,7 @@ __author__ = "James Rowe <jnrowe@gmail.com>"
 __copyright__ = "Copyright (C) 2009-2012  James Rowe"
 __license__ = "GNU General Public License Version 3"
 __credits__ = ""
-__history__ = "See Git repository"
+__history__ = "See Git repository at https://github.com/JNRowe/cupage"
 
 from email.utils import parseaddr
 
@@ -37,7 +36,7 @@ a given criteria.  Its original purpose was to check web pages for new software
 releases, but it is easily configurable and can be used for other purposes.
 
 Thanks to the excellent lxml package you can use complex XPath and CSS
-selectors to match elements within a page.
+selectors to match elements within a page, if you wish.
 
 :version: %s
 :author: `%s <mailto:%s>`__
