@@ -26,14 +26,6 @@ if sys.version_info[:2] < (2, 6):
 
 import cupage
 
-__version__ = cupage.__version__
-__date__ = cupage.__date__
-__author__ = cupage.__author__
-__copyright__ = cupage.__copyright__
-__license__ = cupage.__license__
-__credits__ = cupage.__credits__
-__history__ = cupage.__history__
-
 import atexit
 import logging
 import optparse
@@ -55,7 +47,7 @@ USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 def process_command_line():
     """Main command line interface"""
     parser = optparse.OptionParser(usage="%prog [options...] <site>...",
-                                   version="%prog v" + __version__,
+                                   version="%prog v" + cupage.__version__,
                                    description=USAGE)
 
     parser.set_defaults(config=os.path.expanduser("~/.cupage.conf"),
