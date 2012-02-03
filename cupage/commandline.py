@@ -17,8 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from __future__ import division
-
 # This has to be here, as cupage uses 2.6 features.
 import sys
 if sys.version_info[:2] < (2, 6):

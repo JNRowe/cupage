@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from __future__ import division
-
 from . import _version
 
 __version__ = _version.dotted
