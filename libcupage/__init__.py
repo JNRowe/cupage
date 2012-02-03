@@ -48,7 +48,6 @@ selectors to match elements within a page.
 :license: %s
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
-import ConfigParser
 import inspect
 import json
 import logging
@@ -60,6 +59,7 @@ import sys
 import time
 import urlparse
 
+import configobj
 import httplib2
 
 from lxml import html
@@ -399,9 +399,8 @@ class Sites(list):
 
     def load(self, config_file, database):
         """Read sites from a user's config file and database"""
-        conf = ConfigParser.ConfigParser()
-        conf.read(config_file)
-        if not conf.sections():
+        conf = configobj.ConfigObj(config_file, file_error=True)
+        if not conf.sections:
             logging.debug("Config file `%s' is empty", config_file)
             raise IOError("Error reading config file")
 
@@ -411,10 +410,7 @@ class Sites(list):
             logging.debug("Database file `%s' doesn't exist", database)
             data = {}
 
-        for name in conf.sections():
-            options = {}
-            for opt in conf.options(name):
-                options[opt] = conf.get(name, opt)
+        for name, options in conf.items():
             self.append(Site.parse(name, options, data.get(name, {})))
 
     def save(self, database):

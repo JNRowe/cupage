@@ -36,12 +36,14 @@ __credits__ = libcupage.__credits__
 __history__ = libcupage.__history__
 
 import atexit
-import ConfigParser
 import logging
 import optparse
 import os
 
 from operator import attrgetter
+
+import configobj
+
 
 # Pull the first paragraph from the docstring
 USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
@@ -120,7 +122,7 @@ def main():
     except IOError:
         print fail("Missing config file")
         return 66
-    except ConfigParser.MissingSectionHeaderError:
+    except configobj.ConfigObjError:
         print fail("Error reading config file")
         return 65
 

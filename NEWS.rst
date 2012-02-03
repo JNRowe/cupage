@@ -63,7 +63,7 @@ User-visible changes
 .. _Sphinx: http://sphinx.pocoo.org/
 .. _robots.txt: http://www.robotstxt.org/
 .. _httplib2: http://code.google.com/p/httplib2/
-.. _ConfigObj: http://code.google.com/p/configobj/
+.. _ConfigObj: http://pypi.python.org/pypi/configobj
 
 0.4.0 - 2010-01-22
 ------------------

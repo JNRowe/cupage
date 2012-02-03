@@ -10,8 +10,8 @@ Requirements
 ------------
 
 ``cupage``'s only mandatory dependencies outside of the standard library are the
-fantastic lxml_ and httplib2_ (v0.5.0+) packages. ``cupage`` can optionally use
-termcolor_ to display coloured output.
+fantastic configobj_, lxml_ and httplib2_ (v0.5.0+) packages. ``cupage`` can
+optionally use termcolor_ to display coloured output.
 
 It should run with Python 2.6 or newer [#]_.  If ``cupage`` doesn't work with
 the version of Python you have installed, drop me a mail_ and I'll endeavour to
@@ -107,6 +107,7 @@ file an issue_ or drop me a mail_.
 If you've found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
+.. _configobj: http://pypi.python.org/pypi/configobj
 .. _lxml: http://codespeak.net/lxml/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _PEP 8: http://www.python.org/dev/peps/pep-0008/
