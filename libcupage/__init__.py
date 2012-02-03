@@ -163,11 +163,12 @@ def isoformat(secs):
 def sort_packages(packages):
     """Order package list according to version number
 
-    >>> sort_packages(['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz'])
+    >>> sort_packages(['pkg-0.1.tar.gz', 'pkg-0.2.1.tar.gz', 'pkg-0.2.tar.gz'])
     ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']
     """
-    key_func = lambda s: filter(str.isdigit, s.split('-')[-1].split('.'))
-    return sorted(packages, key=key_func)
+    # Very ugly key function, but it removes the need to mangle unicode/str
+    # objects for digit tests
+    return sorted(packages, key=lambda s: [i for i in s if i.isdigit()])
 
 
 def success(text):
