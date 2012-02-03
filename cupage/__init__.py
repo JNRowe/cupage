@@ -65,6 +65,12 @@ from . import utils
 USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
 
 SITES = {
+    "bitbucket": {
+        "url": "https://bitbucket.org/{user}/{name}/downloads",
+        "select": "td.name a.execute",
+        "added": "0.7.0",
+        "keys": {"user": "bitbucket user name", },
+    },
     "cpan": {
         "url": "http://search.cpan.org/dist/{name}/",
         "select": "td small a",
