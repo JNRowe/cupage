@@ -27,6 +27,7 @@ if sys.version_info[:2] < (2, 6):
 import cupage
 
 import atexit
+import errno
 import logging
 import optparse
 import os
@@ -102,20 +103,20 @@ def main():
             if "keys" in values:
                 for item in values["keys"].items():
                     print "  * %s - %s" % item
-        return 0
+        return
 
     sites = cupage.Sites()
     try:
         sites.load(options.config, options.database)
     except IOError as e:
         print utils.fail(e.message)
-        return 66
+        return errno.EIO
     except ValueError:
         print utils.fail("Error reading database file")
-        return 65
+        return errno.ENOMSG
     except configobj.ConfigObjError:
         print utils.fail("Error reading config file")
-        return 65
+        return errno.ENOENT
 
     if not options.no_write:
         atexit.register(sites.save, options.database)
