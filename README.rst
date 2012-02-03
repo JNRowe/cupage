@@ -61,13 +61,6 @@ following is an example configuration file::
     user = JNRowe
     frequency = 1m
 
-libcupage
-'''''''''
-
-All the class definitions, methods and independent functions contain
-hopefully useful usage examples in the docstrings.  You can run the
-examples as tests with ``./setup.py test_code``.
-
 API Stability
 -------------
 

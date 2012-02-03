@@ -18,7 +18,7 @@
 
 import sys
 
-from libcupage import commandline
+from cupage import commandline
 
 
 sys.exit(commandline.main())

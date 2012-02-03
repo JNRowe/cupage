@@ -2,10 +2,10 @@
 
 from setuptools import setup
 
-# Hack to import _version file without importing libcupage/__init__.py, its
+# Hack to import _version file without importing cupage/__init__.py, its
 # purpose is to allow import without requiring dependencies at this point.
 _version = {}
-execfile('libcupage/_version.py', {}, _version)
+execfile('cupage/_version.py', {}, _version)
 
 install_requires = ['blessings', 'configobj', 'httplib2>=0.5.0', 'lxml']
 
@@ -20,8 +20,8 @@ setup(
     url="https://github.com/JNRowe/cupage",
     license="GPL-3",
     keywords="admin update web",
-    packages=['libcupage', ],
-    entry_points={'console_scripts': ['cupage = libcupage.command_line:main', ]},
+    packages=['cupage', ],
+    entry_points={'console_scripts': ['cupage = cupage.command_line:main', ]},
     install_requires=install_requires,
     zip_safe=False,
     test_suite="nose.collector",

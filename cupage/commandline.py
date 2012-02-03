@@ -19,21 +19,22 @@
 
 from __future__ import division
 
-# This has to be here, as libcupage uses 2.6 features.
+# This has to be here, as cupage uses 2.6 features.
 import sys
 if sys.version_info[:2] < (2, 6):
     print "Python v2.6, or later, is *required* for cupage!"
     sys.exit(1)
 
-import libcupage
 
-__version__ = libcupage.__version__
-__date__ = libcupage.__date__
-__author__ = libcupage.__author__
-__copyright__ = libcupage.__copyright__
-__license__ = libcupage.__license__
-__credits__ = libcupage.__credits__
-__history__ = libcupage.__history__
+import cupage
+
+__version__ = cupage.__version__
+__date__ = cupage.__date__
+__author__ = cupage.__author__
+__copyright__ = cupage.__copyright__
+__license__ = cupage.__license__
+__credits__ = cupage.__credits__
+__history__ = cupage.__history__
 
 import atexit
 import logging
@@ -46,14 +47,14 @@ import configobj
 
 
 # Pull the first paragraph from the docstring
-USAGE = libcupage.__doc__[:libcupage.__doc__.find('\n\n', 100)].splitlines()[2:]
+USAGE = cupage.__doc__[:cupage.__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
 # pylint: disable-msg=C0103
-success = libcupage.success
-fail = libcupage.fail
-warn = libcupage.warn
+success = cupage.success
+fail = cupage.fail
+warn = cupage.warn
 
 
 def process_command_line():
@@ -109,14 +110,14 @@ def main():
         if options.verbose:
             print "Supported site values and their non-standard values:"
             print
-        for site, values in sorted(libcupage.SITES.items()):
+        for site, values in sorted(cupage.SITES.items()):
             print "- %s (v%s)" % (site, values["added"])
             if "keys" in values:
                 for item in values["keys"].items():
                     print "  * %s - %s" % item
         return 0
 
-    sites = libcupage.Sites()
+    sites = cupage.Sites()
     try:
         sites.load(options.config, options.database)
     except IOError:
@@ -144,7 +145,7 @@ def main():
             if matches:
                 if options.verbose:
                     print "%s has new matches" % site.name
-                for match in libcupage.sort_packages(matches):
+                for match in cupage.sort_packages(matches):
                     print success("   " + match)
             else:
                 if options.verbose:
