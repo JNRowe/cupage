@@ -24,8 +24,6 @@ if sys.version_info[:2] < (2, 6):
     sys.exit(1)
 
 
-import cupage
-
 import atexit
 import errno
 import logging
@@ -35,6 +33,8 @@ import os
 from operator import attrgetter
 
 import configobj
+
+import cupage
 
 from . import utils
 
