@@ -6,6 +6,20 @@ User-visible changes
 
 .. contents::
 
+0.7.0 - 2012-02-03
+------------------
+
+* Added ``bitbucket`` and ``savannah`` site matchers
+* Support for ``re.VERBOSE`` matchers
+* Safer database updates
+* httplib2_ 0.7 is now required
+* Improved the robustness of config file reading, thanks to configobj_
+* Now requires blessings_
+* Fixes for people using distribute_ to install
+
+.. _blessings: http://pypi.python.org/pypi/blessings/
+.. _distribute: http://pypi.python.org/pypi/distribute
+
 0.6.0 - 2011-07-17
 ------------------
 
