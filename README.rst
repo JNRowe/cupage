@@ -84,7 +84,7 @@ just want to convince me that your style is better.
   such a need were to arise, you are encouraged to use v2.5 features now.
 * All new classes and methods should be accompanied by new ``doctest`` examples
   and reStructuredText_ formatted descriptions.
-* Tests *must not* span network boundaries, see ``test.mock`` for workarounds.
+* Tests *must not* span network boundaries, use mock_ if needed.
 * ``doctest`` tests in modules are only for unit testing in general, and should
   not rely on any modules that aren't in Python's standard library.
 * Functional tests should be in the ``doc`` directory in reStructuredText_
@@ -109,5 +109,6 @@ reproduce the problem, or even better a patch!
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _PEP 8: http://www.python.org/dev/peps/pep-0008/
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+.. _mock: http://pypi.python.org/pypi/mock
 .. _mail: jnrowe@gmail.com
 .. _issue: http://github.com/JNRowe/cupage/issues
