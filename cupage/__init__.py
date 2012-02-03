@@ -55,14 +55,13 @@ import socket
 import time
 import urlparse
 
-import blessings
 import configobj
 import httplib2
 
 from lxml import html
 
+from . import utils
 
-T = blessings.Terminal()
 
 USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
 
@@ -120,71 +119,6 @@ SITES = {
 }
 
 
-def parse_timedelta(delta):
-    """Parse human readable frequency
-
-    >>> parse_timedelta("1d")
-    24.0
-    >>> parse_timedelta("1 d")
-    24.0
-    >>> parse_timedelta("0.5 y")
-    30660.0
-    >>> parse_timedelta("0.5 Y")
-    30660.0
-    >>> parse_timedelta("1 k")
-    Traceback (most recent call last):
-        ...
-    ValueError: Invalid 'frequency' value
-    """
-    match = re.match("^(\d+(?:|\.\d+)) *([hdwmy])$", delta, re.IGNORECASE)
-    if not match:
-        raise ValueError("Invalid 'frequency' value")
-    value, units = match.groups()
-    units = "hdwmy".index(units.lower())
-    # hours per hour/day/week/month/year
-    multiplier = (1, 24, 168, 4704, 61320)
-    return float(value) * multiplier[units]
-
-
-def isoformat(secs):
-    """Format a epoch offset in an ISO-8601 compliant way
-
-    >>> isoformat(0)
-    '1970-01-01T00:00:00'
-    >>> isoformat(987654321)
-    '2001-04-19T04:25:21'
-    """
-    return time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime(secs))
-
-
-def sort_packages(packages):
-    """Order package list according to version number
-
-    >>> sort_packages(['pkg-0.1.tar.gz', 'pkg-0.2.1.tar.gz', 'pkg-0.2.tar.gz'])
-    ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']
-    """
-    # Very ugly key function, but it removes the need to mangle unicode/str
-    # objects for digit tests
-    return sorted(packages, key=lambda s: [i for i in s if i.isdigit()])
-
-
-def _format_info(text, colour):
-    return "%s %s" % (getattr(T, 'bold_white_on_%s' % colour)('*'),
-                      getattr(T, 'bright_%s' % colour)(text))
-
-
-def success(text):
-    return _format_info(text, 'green')
-
-
-def fail(text):
-    return _format_info(text, 'red')
-
-
-def warn(text):
-    return _format_info(text, 'yellow')
-
-
 class Site(object):
     """Simple object for representing a web site"""
 
@@ -215,13 +149,13 @@ class Site(object):
         if self.options.get("match_type") == "re":
             ret.append("(%s)" % self._match)
         if self.checked:
-            ret.append(" last checked %s" % isoformat(self.checked))
+            ret.append(" last checked %s" % utils.isoformat(self.checked))
         if self.frequency:
             ret.append(" with a check frequency of %i hour%s"
                        % (self.frequency, "" if self.frequency == 1 else "s"))
         if self.matches:
             ret.append("\n    ")
-            ret.append(", ".join(sort_packages(self.matches)))
+            ret.append(", ".join(utils.sort_packages(self.matches)))
         else:
             ret.append("\n    No matches")
         return "".join(ret)
@@ -231,8 +165,8 @@ class Site(object):
         if self.frequency and self.checked:
             next_check = self.checked + (self.frequency * 3600)
             if time.time() < next_check and not force:
-                print warn("%s is not due for check until %s"
-                           % (self.name, isoformat(next_check)))
+                print utils.warn("%s is not due for check until %s"
+                                 % (self.name, utils.isoformat(next_check)))
                 return
         # Disable SSL validation as 0.7 forces it, but includes very few certs
         http = httplib2.Http(cache=cache, timeout=timeout,
@@ -268,19 +202,19 @@ class Site(object):
             headers, content = http.request(self.url,
                                             headers={"User-Agent": USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print fail("Domain name lookup failed for %s" % self.name)
+            print utils.fail("Domain name lookup failed for %s" % self.name)
             return False
         except socket.timeout:
-            print fail("Socket timed out on %s" % self.name)
+            print utils.fail("Socket timed out on %s" % self.name)
             return False
 
         if not headers.get("content-location", self.url) == self.url:
-            print warn("%s moved to %s"
+            print utils.warn("%s moved to %s"
                        % (self.name, headers["content-location"]))
         if headers.status == 304:
             return
         elif headers.status in (403, 404):
-            print fail("%s returned a %s" % (self.name, headers.status))
+            print utils.fail("%s returned a %s" % (self.name, headers.status))
             return False
 
         matches = getattr(self, "find_%s_matches" % self.match_func)(content)
@@ -392,7 +326,7 @@ class Site(object):
             raise ValueError("site or url not specified for %s" % name)
         frequency = options.get("frequency")
         if frequency:
-            frequency = parse_timedelta(frequency)
+            frequency = utils.parse_timedelta(frequency)
         site = Site(name, url, match_func, match_options, frequency, robots,
                     data.get("checked"), data.get("matches"))
         return site

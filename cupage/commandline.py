@@ -43,16 +43,13 @@ from operator import attrgetter
 
 import configobj
 
+from . import utils
+
 
 # Pull the first paragraph from the docstring
 USAGE = cupage.__doc__[:cupage.__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
 USAGE = "\n".join(USAGE).replace("cupage", "%prog")
-
-# pylint: disable-msg=C0103
-success = cupage.success
-fail = cupage.fail
-warn = cupage.warn
 
 
 def process_command_line():
@@ -119,10 +116,10 @@ def main():
     try:
         sites.load(options.config, options.database)
     except IOError:
-        print fail("Missing config file")
+        print utils.fail("Missing config file")
         return 66
     except configobj.ConfigObjError:
-        print fail("Error reading config file")
+        print utils.fail("Error reading config file")
         return 65
 
     if not options.no_write:
@@ -132,7 +129,7 @@ def main():
         site_names = map(attrgetter("name"), sites)
         for arg in args:
             if arg not in site_names:
-                print fail("Invalid site argument `%s'" % arg)
+                print utils.fail("Invalid site argument `%s'" % arg)
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
@@ -143,8 +140,8 @@ def main():
             if matches:
                 if options.verbose:
                     print "%s has new matches" % site.name
-                for match in cupage.sort_packages(matches):
-                    print success("   " + match)
+                for match in utils.sort_packages(matches):
+                    print utils.success("   " + match)
             else:
                 if options.verbose:
                     print "%s has no new matches" % site.name
