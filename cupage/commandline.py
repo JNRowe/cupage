@@ -137,7 +137,7 @@ def main():
                 if options.verbose:
                     print "%s has new matches" % site.name
                 for match in utils.sort_packages(matches):
-                    print utils.success("   " + match)
+                    print utils.success(match)
             else:
                 if options.verbose:
                     print "%s has no new matches" % site.name
