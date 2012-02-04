@@ -110,6 +110,11 @@ SITES = {
         "match_func": "hackage",
         "added": "0.1.0",
     },
+    "luaforge": {
+        "url": "http://files.luaforge.net/releases/{name}/{name}}",
+        "select": "td a",
+        "added": "0.7.0",
+    },
     "pypi": {
         "url": "http://pypi.python.org/simple/{name}/",
         "select": "a",
