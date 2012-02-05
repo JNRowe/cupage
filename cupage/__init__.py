@@ -121,6 +121,12 @@ SITES = {
         "added": "0.1.0",
         "match": "({name}-[0-9\.]+\.tar\.gz)(?:#.*)",
     },
+    "rubyforge": {
+        "url": "http://rubyforge.org/frs/?group_id={group}",
+        "select": "dd a",
+        "keys": {"group": "Group identifier for file downloads", },
+        "added": "0.7.0",
+    },
     "savannah": {
         "url": "http://download.savannah.gnu.org/releases/{name}/",
         "select": "td a",
