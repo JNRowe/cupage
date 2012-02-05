@@ -21,7 +21,7 @@ setup(
     license="GPL-3",
     keywords="admin update web",
     packages=['cupage', ],
-    entry_points={'console_scripts': ['cupage = cupage.command_line:main', ]},
+    entry_points={'console_scripts': ['cupage = cupage.commandline:main', ]},
     install_requires=install_requires,
     zip_safe=False,
     test_suite="nose.collector",
