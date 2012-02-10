@@ -245,13 +245,13 @@ class Site(object):
     def find_github_matches(self, content):
         """Extract matches from GitHub content"""
         doc = json.loads(content)
-        return [tag['name'] for tag in doc]
+        return sorted(tag['name'] for tag in doc)
 
     def find_hackage_matches(self, content):
         """Extract matches from hackage content"""
         doc = html.fromstring(content)
         data = doc.cssselect('table tr')[0][1]
-        return [x.text for x in data.getchildren()]
+        return sorted(x.text for x in data.getchildren())
 
     @staticmethod
     def package_re(name, ext, verbose=False):
