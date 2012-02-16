@@ -64,10 +64,13 @@ def sort_packages(packages):
 
     >>> sort_packages(['pkg-0.1.tar.gz', 'pkg-0.2.1.tar.gz', 'pkg-0.2.tar.gz'])
     ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']
+    >>> sort_packages(['v0.1.0', 'v0.11.0', 'v0.1.2'])
+    ['v0.1.0', 'v0.1.2', 'v0.11.0']
     """
-    # Very ugly key function, but it removes the need to mangle unicode/str
-    # objects for digit tests
-    return sorted(packages, key=lambda s: [i for i in s if i.isdigit()])
+    # Very ugly key function, but it handles the common case of varying
+    # component length just about "Good Enough™"
+    return sorted(packages,
+                  key=lambda s: [i for i in s if i.isdigit() or i == '.'])
 
 
 def robots_test(http, url, name, user_agent="*"):
