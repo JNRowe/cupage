@@ -132,6 +132,11 @@ SITES = {
         "select": "td a",
         "added": "0.7.0",
     },
+    "sourceforge": {
+        "url": "http://sourceforge.net/api/file/index/project-name/{name}/rss",
+        "match_func": "sourceforge",
+        "added": "0.7.1",
+    },
     "vim-script": {
         "url": "http://www.vim.org/scripts/script.php?script_id={script}",
         "select": "td a",
@@ -252,6 +257,16 @@ class Site(object):
         doc = html.fromstring(content)
         data = doc.cssselect('table tr')[0][1]
         return sorted(x.text for x in data.getchildren())
+
+    def find_sourceforge_matches(self, content):
+        # We use lxml.html here to sidestep part of the stupidity of RSS 2.0,
+        # if a usable format comes along we'll switch to something better.
+        doc = html.fromstring(content)
+        matches = set()
+        for x in doc.cssselect('item link'):
+            if '/download' in x.tail:
+                matches.add(x.tail.split('/')[-2])
+        return sorted(list(matches))
 
     @staticmethod
     def package_re(name, ext, verbose=False):
