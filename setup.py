@@ -1,18 +1,21 @@
 #! /usr/bin/python -tt
 
+import imp
+
 from setuptools import setup
 
 # Hack to import _version file without importing cupage/__init__.py, its
 # purpose is to allow import without requiring dependencies at this point.
-_version = {}
-execfile('cupage/_version.py', {}, _version)
+ver_file = open("cupage/_version.py")
+_version = imp.load_module("_version", ver_file, ver_file.name,
+                           (".py", ver_file.mode, imp.PY_SOURCE))
 
 install_requires = ['blessings', 'configobj', 'httplib2>=0.7', 'lxml']
 
 
 setup(
     name='cupage',
-    version=_version['dotted'],
+    version=_version.dotted,
     description='A tool to check for updates on web pages',
     long_description=open("README.rst").read(),
     author="James Rowe",
