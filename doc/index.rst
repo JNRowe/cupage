@@ -23,6 +23,7 @@ Contents:
    configuration
    usage
    cupage manpage <cupage.1>
+   release
 
 Indices and tables
 ==================
