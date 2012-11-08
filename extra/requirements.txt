@@ -1,0 +1,4 @@
+blessings
+configobj
+httplib2>=0.7
+lxml
