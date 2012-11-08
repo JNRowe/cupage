@@ -10,7 +10,7 @@ ver_file = open("cupage/_version.py")
 _version = imp.load_module("_version", ver_file, ver_file.name,
                            (".py", ver_file.mode, imp.PY_SOURCE))
 
-install_requires = ['blessings', 'configobj', 'httplib2>=0.7', 'lxml']
+install_requires = map(str.strip, open('extra/requirements.txt').readlines())
 
 
 setup(
