@@ -46,7 +46,7 @@ USAGE = "\n".join(USAGE).replace("cupage", "%prog")
 
 
 def process_command_line():
-    """Main command line interface"""
+    """Main command line interface."""
     parser = optparse.OptionParser(usage="%prog [options...] <site>...",
                                    version="%prog v" + cupage.__version__,
                                    description=USAGE)
@@ -88,7 +88,7 @@ def process_command_line():
 
 
 def main():
-    """Main script handler"""
+    """Main script handler."""
     logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',
                         datefmt="%Y-%m-%dT%H:%M:%S%z")
 
