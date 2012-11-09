@@ -1,11 +1,10 @@
-*.html
-*.pyc
-
-.ropeproject/
+*.egg-info/
 build/
-cupage.egg-info/
 dist/
-doc/.build
+doc/.build/
+
+*.py[co]
 
 .coverage
 .noseids
+MANIFEST
