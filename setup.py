@@ -27,8 +27,7 @@ setup(
     entry_points={'console_scripts': ['cupage = cupage.commandline:main', ]},
     install_requires=install_requires,
     zip_safe=False,
-    test_suite="nose.collector",
-    tests_require=['nose', 'expecter'],
+    tests_require=['nose2', 'expecter'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
