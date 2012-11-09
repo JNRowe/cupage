@@ -60,4 +60,3 @@ Options
 .. cmdoption:: -q, --quiet
 
    output only results and errors
-

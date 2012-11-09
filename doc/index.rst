@@ -34,4 +34,3 @@ Indices and tables
 
 .. _Python: http://www.python.org
 .. _GPL v3: http://www.gnu.org/licenses/
-
