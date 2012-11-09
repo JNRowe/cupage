@@ -6,3 +6,6 @@ build/
 cupage.egg-info/
 dist/
 doc/.build
+
+.coverage
+.noseids
