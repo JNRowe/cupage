@@ -28,7 +28,7 @@ setup(
     install_requires=install_requires,
     zip_safe=False,
     test_suite="nose.collector",
-    tests_require=['nose', ],
+    tests_require=['nose', 'expecter'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
