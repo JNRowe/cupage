@@ -228,6 +228,8 @@ man_pages = [
      [u'James Rowe'], 1)
 ]
 
+# Autodoc extension settings
+autodoc_default_flags = ['members', ]
 
 # -- Options for Epub output --------------------------------------------------
 
