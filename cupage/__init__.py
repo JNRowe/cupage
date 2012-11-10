@@ -214,9 +214,8 @@ class Site(object):
                 print utils.warn("%s is not due for check until %s"
                                  % (self.name, next_check))
                 return
-        # Disable SSL validation as 0.7 forces it, but includes very few certs
         http = httplib2.Http(cache=cache, timeout=timeout,
-                             disable_ssl_certificate_validation=True)
+                             ca_certs=utils.CA_CERTS)
         # hillbilly monkeypatch to allow us to still read the cache, but make
         # writing a NOP
         if no_write:
