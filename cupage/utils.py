@@ -32,7 +32,11 @@ T = blessings.Terminal()
 
 
 def parse_timedelta(delta):
-    """Parse human readable frequency."""
+    """Parse human readable frequency.
+
+    :param str delta: Frequency to parse
+
+    """
     match = re.match("^(\d+(?:|\.\d+)) *([hdwmy])$", delta, re.IGNORECASE)
     if not match:
         raise ValueError("Invalid 'frequency' value")
@@ -44,7 +48,11 @@ def parse_timedelta(delta):
 
 
 def sort_packages(packages):
-    """Order package list according to version number."""
+    """Order package list according to version number.
+
+    :param list packages: Packages to sort
+
+    """
     # Very ugly key function, but it handles the common case of varying
     # component length just about "Good Enough™"
     return sorted(packages,
@@ -52,7 +60,14 @@ def sort_packages(packages):
 
 
 def robots_test(http, url, name, user_agent="*"):
-    """Check whether a given URL is blocked by robots.txt."""
+    """Check whether a given URL is blocked by ``robots.txt``.
+
+    :param http: :class:`httplib2.Http` object to use for requests
+    :param str url: URL to check
+    :param name: Site name being checked
+    :param str user_agent: User agent to check in :file:`robots.txt`
+
+    """
     parsed = urlparse.urlparse(url, "http")
     if parsed.scheme.startswith("http"):
         robots_url = "%(scheme)s://%(netloc)s/robots.txt" \
@@ -80,17 +95,29 @@ def _format_info(text, colour):
 
 
 def success(text):
-    """Format a success message with colour, if possible."""
+    """Format a success message with colour, if possible.
+
+    :param str text: Text to format
+
+    """
     return _format_info(text, 'green')
 
 
 def fail(text):
-    """Format a failure message with colour, if possible."""
+    """Format a failure message with colour, if possible.
+
+    :param str text: Text to format
+
+    """
     return _format_info(text, 'red')
 
 
 def warn(text):
-    """Format a warning message with colour, if possible."""
+    """Format a warning message with colour, if possible.
+
+    :param str text: Text to format
+
+    """
     return _format_info(text, 'yellow')
 
 
@@ -99,7 +126,14 @@ class CupageEncoder(json.JSONEncoder):
     """Custom JSON encoding for supporting ``datetime`` objects."""
 
     def default(self, obj):
-        """Handle ``datetime`` objects when encoding as JSON."""
+        """Handle ``datetime`` objects when encoding as JSON.
+
+        This simply falls through to :meth:`~json.JSONEncoder.default` if
+        ``obj`` has no ``isoformat`` method.
+
+        :param obj: Object to encode
+
+        """
         try:
             return obj.isoformat()
         except TypeError:
@@ -108,7 +142,13 @@ class CupageEncoder(json.JSONEncoder):
 
 
 def json_to_datetime(obj):
-    """Parse datetime objects from ``cupage`` databases."""
+    """Parse ``checked`` datetimes from ``cupage`` databases.
+
+    :see: `json.JSONDecoder`
+
+    :param obj: Object to decode
+
+    """
     if "checked" in obj:
         try:
             result = datetime.datetime.strptime(obj['checked'],
