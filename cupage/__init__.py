@@ -382,6 +382,7 @@ class Site(object):
                     data.get("checked"), data.get("matches"))
         return site
 
+    @property
     def state(self):
         """Return ``Site`` state for database storage."""
         return {"matches": self.matches, "checked": self.checked}
@@ -421,7 +422,7 @@ class Sites(list):
         """
         data = {}
         for site in self:
-            data[site.name] = site.state()
+            data[site.name] = site.state
 
         directory, filename = os.path.split(database)
         temp = tempfile.NamedTemporaryFile(prefix='.', dir=directory,
