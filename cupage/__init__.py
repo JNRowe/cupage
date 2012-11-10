@@ -239,7 +239,7 @@ class Site(object):
             selected = doc.cssselect(self.options["select"])
         elif self.options["selector"] == "xpath":
             selected = doc.xpath(self.options["select"])
-        # We use a set to remove duplicates
+        # We use a set to remove duplicates the lazy way
         matches = set()
         for sel in selected:
             match = re.search(self.match, sel.get('href', ""))
