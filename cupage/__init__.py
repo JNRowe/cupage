@@ -184,6 +184,10 @@ class Site(object):
         self.robots = robots
         self.matches = matches if matches else []
 
+    def __repr__(self):
+        return "%r(%r, %r, ...)" % (self.__class__.__name__, self.name,
+                                    self.url)
+
     def __str__(self):
         """Pretty printed ``Site`` string."""
         ret = ["%s @ %s using %s matcher" % (self.name, self.url,
