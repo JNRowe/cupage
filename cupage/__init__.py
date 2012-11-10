@@ -62,8 +62,10 @@ from lxml import html
 from . import utils
 
 
+#: User agent to use for HTTP requests
 USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
 
+#: Site specific configuration data
 SITES = {
     "bitbucket": {
         "url": "https://bitbucket.org/{user}/{name}/downloads",
