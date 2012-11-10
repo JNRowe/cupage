@@ -188,9 +188,9 @@ class Site(object):
 
     def check(self, cache=None, timeout=None, force=False, no_write=False):
         """Check site for updates."""
-        if self.frequency and self.checked:
+        if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
-            if datetime.datetime.utcnow() < next_check and not force:
+            if datetime.datetime.utcnow() < next_check:
                 print utils.warn("%s is not due for check until %s"
                                  % (self.name, next_check))
                 return
