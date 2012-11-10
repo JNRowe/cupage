@@ -27,7 +27,9 @@ import sys
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ["sphinx.ext.%s" % ext for ext in []] + \
+extensions = \
+    ["sphinx.ext.%s" % ext for ext in ["autodoc", "coverage", "doctest",
+                                       "intersphinx", "viewcode"]] + \
     ["sphinxcontrib.%s" % ext for ext in ["blockdiag", ]]
 
 # Only activate spelling, if it is installed.  It is not required in the
@@ -84,7 +86,7 @@ exclude_patterns = ['.build']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
-#default_role = None
+default_role = 'py:obj'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 #add_function_parentheses = True
@@ -235,7 +237,8 @@ man_pages = [
      [u'James Rowe'], 1)
 ]
 
-
+# Autodoc extension settings
+autodoc_default_flags = ['members', ]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'http://docs.python.org/': None}
