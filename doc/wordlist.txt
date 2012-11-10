@@ -1,0 +1,15 @@
+# month/week abbreviation
+m
+w
+
+XPath
+
+config
+css
+cupage
+prebuilt
+py
+shortcuts
+tarballs
+timeout
+xpath
