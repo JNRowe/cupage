@@ -98,7 +98,7 @@ def main():
 
     if options.list_sites:
         if options.verbose:
-            print "Supported site values and their non-standard values:"
+            print _("Supported site values and their non-standard values:")
             print
         for site, values in sorted(cupage.SITES.items()):
             print "- %s (v%s)" % (site, values["added"])
@@ -114,10 +114,10 @@ def main():
         print utils.fail(e.message)
         return errno.EIO
     except ValueError:
-        print utils.fail("Error reading database file")
+        print utils.fail(_("Error reading database file"))
         return errno.ENOMSG
     except configobj.ConfigObjError:
-        print utils.fail("Error reading config file")
+        print utils.fail(_("Error reading config file"))
         return errno.ENOENT
 
     if not options.no_write:
@@ -127,19 +127,19 @@ def main():
         site_names = map(attrgetter("name"), sites)
         for arg in args:
             if arg not in site_names:
-                print utils.fail("Invalid site argument `%s'" % arg)
+                print utils.fail(_("Invalid site argument `%s'") % arg)
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:
                 print site
-                print "Checking %s..." % site.name
+                print _("Checking %s...") % site.name
             matches = site.check(options.cache, options.timeout, options.force,
                                  options.no_write)
             if matches:
                 if options.verbose:
-                    print "%s has new matches" % site.name
+                    print _("%s has new matches") % site.name
                 for match in utils.sort_packages(matches):
                     print utils.success(match)
             else:
                 if options.verbose:
-                    print "%s has no new matches" % site.name
+                    print _("%s has no new matches") % site.name

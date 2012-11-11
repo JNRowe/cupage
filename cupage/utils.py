@@ -100,16 +100,16 @@ def robots_test(http, url, name, user_agent="*"):
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print fail("Domain name lookup failed for %s" % name)
+            print fail(_("Domain name lookup failed for %s") % name)
             return False
         except socket.timeout:
-            print fail("Socket timed out on %s" % name)
+            print fail(_("Socket timed out on %s") % name)
             return False
         # Ignore errors 4xx errors for robots.txt
         if not str(headers.status).startswith("4"):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print fail("Can't check %s, blocked by robots.txt" % name)
+                print fail(_("Can't check %s, blocked by robots.txt") % name)
                 return False
 
 
