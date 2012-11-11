@@ -142,7 +142,7 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
         atexit.register(sites.save, database)
 
     if pages:
-        site_names = map(attrgetter('name'), sites)
+        site_names = list(map(attrgetter('name'), sites))
         for page in pages:
             if page not in site_names:
                 print(utils.fail(_('Invalid site argument %r') % page))
