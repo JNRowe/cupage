@@ -1,0 +1,81 @@
+# Translations template for cupage.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the cupage project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: cupage 0.7.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-11-11 19:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: cupage/__init__.py:219
+#, python-format
+msgid "%s is not due for check until %s"
+msgstr ""
+
+#: cupage/__init__.py:237 cupage/utils.py:103
+#, python-format
+msgid "Domain name lookup failed for %s"
+msgstr ""
+
+#: cupage/__init__.py:240 cupage/utils.py:106
+#, python-format
+msgid "Socket timed out on %s"
+msgstr ""
+
+#: cupage/__init__.py:244
+#, python-format
+msgid "%s moved to %s"
+msgstr ""
+
+#: cupage/__init__.py:249
+#, python-format
+msgid "%s returned %r"
+msgstr ""
+
+#: cupage/commandline.py:101
+msgid "Supported site values and their non-standard values:"
+msgstr ""
+
+#: cupage/commandline.py:117
+msgid "Error reading database file"
+msgstr ""
+
+#: cupage/commandline.py:120
+msgid "Error reading config file"
+msgstr ""
+
+#: cupage/commandline.py:130
+#, python-format
+msgid "Invalid site argument `%s'"
+msgstr ""
+
+#: cupage/commandline.py:135
+#, python-format
+msgid "Checking %s..."
+msgstr ""
+
+#: cupage/commandline.py:140
+#, python-format
+msgid "%s has new matches"
+msgstr ""
+
+#: cupage/commandline.py:145
+#, python-format
+msgid "%s has no new matches"
+msgstr ""
+
+#: cupage/utils.py:112
+#, python-format
+msgid "Can't check %s, blocked by robots.txt"
+msgstr ""
+
