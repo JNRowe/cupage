@@ -20,7 +20,7 @@
 # This has to be here, as cupage uses 2.6 features.
 import sys
 if sys.version_info[:2] < (2, 6):
-    print 'Python v2.6, or later, is *required* for cupage!'
+    print('Python v2.6, or later, is *required* for cupage!')
     sys.exit(1)
 
 
@@ -124,13 +124,13 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
     try:
         sites.load(config, database)
     except IOError as e:
-        print utils.fail(e.message)
+        print(utils.fail(e.message))
         return errno.EIO
     except ValueError:
-        print utils.fail(_('Error reading database file'))
+        print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
     except ConfigParser.ParsingError:
-        print utils.fail(_('Error reading config file'))
+        print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
     if not no_write:
@@ -140,22 +140,22 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
         site_names = map(attrgetter('name'), sites)
         for page in pages:
             if page not in site_names:
-                print utils.fail(_('Invalid site argument %r') % page)
+                print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
             if verbose:
-                print site
-                print _('Checking %s...') % site.name
+                print(site)
+                print(_('Checking %s...') % site.name)
             matches = site.check(cache, timeout, force, no_write)
             if matches:
                 if verbose:
-                    print _('%s has new matches') % site.name
+                    print(_('%s has new matches') % site.name)
                 for match in utils.sort_packages(matches):
-                    print utils.success(match)
+                    print(utils.success(match))
             else:
                 if verbose:
-                    print _('%s has no new matches') % site.name
+                    print(_('%s has no new matches') % site.name)
 
 
 @APP.cmd(name='list', help='list definitions from config file')
@@ -176,40 +176,40 @@ def list_conf(verbose, config, database, match, pages):
     try:
         sites.load(config, database)
     except IOError as e:
-        print utils.fail(e.message)
+        print(utils.fail(e.message))
         return errno.EIO
     except ValueError:
-        print utils.fail(_('Error reading database file'))
+        print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
     except ConfigParser.ParsingError:
-        print utils.fail(_('Error reading config file'))
+        print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
     if pages:
         site_names = map(attrgetter('name'), sites)
         for page in pages:
             if page not in site_names:
-                print utils.fail(_('Invalid site argument %r') % page)
+                print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for site in sorted(sites, key=attrgetter('name')):
         if not pages and not match:
-            print site
+            print(site)
         elif pages and site.name in pages:
-            print site
+            print(site)
         elif match and match.search(site.name):
-            print site
+            print(site)
 
 
 @APP.cmd(name='list-sites', help='list supported site values')
 def list_sites(verbose):
     if verbose:
-        print _('Supported site values and their non-standard values:')
-        print
+        print(_('Supported site values and their non-standard values:'))
+        print()
     for site, values in sorted(cupage.SITES.items()):
-        print '- %s (v%s)' % (site, values['added'])
+        print('- %s (v%s)' % (site, values['added']))
         if 'keys' in values:
             for item in values['keys'].items():
-                print '  * %s - %s' % item
+                print('  * %s - %s' % item)
 
 
 @APP.cmd(help='remove site from config')
@@ -224,11 +224,11 @@ def remove(verbose, config, pages):
     if pages:
         for page in pages:
             if not conf.has_section(page):
-                print utils.fail(_('Invalid site argument %r') % page)
+                print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for page in pages:
         if verbose:
-            print _('Removing %s...') % page
+            print(_('Removing %s...') % page)
         conf.remove_section(page)
     conf.write(open(config, 'w'))
 
