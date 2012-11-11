@@ -36,6 +36,7 @@ import configobj
 
 import cupage
 
+from .i18n import _
 from . import utils
 
 

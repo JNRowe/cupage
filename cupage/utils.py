@@ -29,6 +29,8 @@ import urlparse
 import blessings
 import httplib2
 
+from .i18n import _
+
 
 T = blessings.Terminal()
 

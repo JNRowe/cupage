@@ -59,6 +59,7 @@ import httplib2
 
 from lxml import html
 
+from .i18n import _
 from . import utils
 
 
