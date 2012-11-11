@@ -258,7 +258,7 @@ class Site(object):
             return False
 
         matches = getattr(self, 'find_%s_matches' % self.match_func)(content)
-        new_matches = filter(lambda s: s not in self.matches, matches)
+        new_matches = [s for s in matches if not s in self.matches]
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
         return new_matches
