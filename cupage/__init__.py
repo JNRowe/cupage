@@ -45,15 +45,21 @@ selectors to match elements within a page, if you wish.
 :license: %s
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
-import ConfigParser
 import datetime
-import httplib
 import json
 import logging
 import os
 import re
 import socket
 import tempfile
+
+try:
+    # For Python 3
+    import http.client as httplib
+    import configparser
+except ImportError:
+    import httplib  # NOQA
+    import ConfigParser as configparser  # NOQA
 
 import httplib2
 
@@ -405,7 +411,7 @@ class Sites(list):
         :param str database: Database file to read
 
         """
-        conf = ConfigParser.ConfigParser()
+        conf = configparser.ConfigParser()
         conf.read(config_file)
         if not conf.sections():
             logging.debug('Config file %r is empty', config_file)

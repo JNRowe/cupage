@@ -21,10 +21,16 @@ import datetime
 import json
 import os
 import re
-import robotparser
 import socket
 import sys
-import urlparse
+
+try:
+    # For Python 3
+    from urllib import robotparser
+    import urllib.parse as urlparse
+except ImportError:
+    import robotparser  # NOQA
+    import urlparse  # NOQA
 
 import blessings
 import httplib2

@@ -24,7 +24,6 @@ if sys.version_info[:2] < (2, 6):
     sys.exit(1)
 
 
-import ConfigParser
 import atexit
 import errno
 import logging
@@ -32,6 +31,12 @@ import os
 import re
 
 from operator import attrgetter
+
+try:
+    # For Python 3
+    import configparser
+except ImportError:
+    import ConfigParser as configparser  # NOQA
 
 import argparse
 import aaargh
@@ -79,7 +84,7 @@ def frequency_typecheck(string):
 @APP.cmd_arg('name', help=_('site name'))
 def add(verbose, config, site, url, match_type, match, frequency, select,
         selector, name):
-    conf = ConfigParser.ConfigParser()
+    conf = configparser.ConfigParser()
     conf.read(config)
 
     conf.add_section(name)
@@ -129,7 +134,7 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
     except ValueError:
         print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
-    except ConfigParser.ParsingError:
+    except configparser.ParsingError:
         print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
@@ -181,7 +186,7 @@ def list_conf(verbose, config, database, match, pages):
     except ValueError:
         print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
-    except ConfigParser.ParsingError:
+    except configparser.ParsingError:
         print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
@@ -218,7 +223,7 @@ def list_sites(verbose):
              help=_('config file to read page definitions from'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
 def remove(verbose, config, pages):
-    conf = ConfigParser.ConfigParser()
+    conf = configparser.ConfigParser()
     conf.read(config)
 
     if pages:
