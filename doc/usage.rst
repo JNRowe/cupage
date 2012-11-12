@@ -1,11 +1,11 @@
 Usage
------
+=====
 
 The :program:`cupage` is run from the command prompt, and displays updates on
 ``stdout``.
 
 Options
-'''''''
+-------
 
 .. program:: cupage
 
@@ -16,6 +16,22 @@ Options
 .. cmdoption:: -h, --help
 
    show this help message and exit
+
+.. cmdoption:: -v, --verbose
+
+   produce verbose output
+
+.. cmdoption:: -q, --quiet
+
+   output only matches and errors
+
+Commands
+--------
+
+``check`` - check sites for updates
+'''''''''''''''''''''''''''''''''''
+
+.. program:: cupage check
 
 .. cmdoption:: -f <file>, --config <file>
 
@@ -47,16 +63,7 @@ Options
 
    timeout for network operations
 
-.. cmdoption:: --list-sites
+``list-sites`` - list supported site values
+'''''''''''''''''''''''''''''''''''''''''''
 
-   display site matchers and their required values
-
-   See :ref:`site-label`.
-
-.. cmdoption:: -v, --verbose
-
-   produce verbose output
-
-.. cmdoption:: -q, --quiet
-
-   output only results and errors
+.. program:: cupage list-sites

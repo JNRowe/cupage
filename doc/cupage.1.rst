@@ -2,7 +2,7 @@ cupage.py
 =========
 
 Check for updates on web pages
-""""""""""""""""""""""""""""""
+------------------------------
 
 :Author: James Rowe <jnrowe@gmail.com>
 :Date: 2010-01-23
@@ -13,12 +13,12 @@ Check for updates on web pages
 SYNOPSIS
 --------
 
-    cupage.py [option]... <site>...
+    cupage.py [option]... <command>
 
 DESCRIPTION
 -----------
 
-**cupage.py** checks web pages and displays changes from the last run that match
+:mod:`cupage` checks web pages and displays changes from the last run that match
 a given criteria.  Its original purpose was to check web pages for new software
 releases, but it is easily configurable and can be used for other purposes.
 
@@ -31,26 +31,48 @@ OPTIONS
 -h, --help
     show this help message and exit
 
--f, --config **file**
-    configuration file to read
-
--d, --database **file**
-    database to store page in
-
---no-write
-    don't update database on exit
-
---force
-    ignore frequency checks
-
---list-sites
-    display site matchers and their required values
-
 -v, --verbose
     produce verbose output
 
 -q, --quiet
-    output only results and errors
+    output only matches and errors
+
+COMMANDS
+--------
+
+``check``
+'''''''''
+
+Check sites for updates
+
+-f <file>, --config <file>
+    configuration file to read
+
+-d <file>, --database <file>
+    database to store page data to.  Default based on :option:`--config <-f>`
+    value, for example ``--config my_conf`` will result in a default setting of
+    ``--database my_conf.db``.
+
+    See :ref:`database-label` for details of the database format.
+
+-c <dir>, --cache <dir>
+    directory to store page cache
+
+    This can, and in fact *should* be, shared between all cupage uses.
+
+--no-write
+    don't update cache or database
+
+--force
+    ignore frequency checks
+
+-t <n>, --timeout=<n>
+    timeout for network operations
+
+``list-sites``
+''''''''''''''
+
+List supported site values
 
 CONFIGURATION FILE
 ------------------

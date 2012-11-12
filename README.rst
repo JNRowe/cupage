@@ -14,6 +14,7 @@ Requirements
 
 ``cupage``'s mandatory dependencies outside of the standard library are:
 
+* aaargh_
 * blessings_
 * configobj_
 * httplib2_, v0.7 or newer
@@ -106,6 +107,7 @@ file an issue_ or drop me a mail_.
 If you've found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
+.. _aaargh: http://pypi.python.org/pypi/aaargh/
 .. _blessings: http://pypi.python.org/pypi/blessings/
 .. _configobj: http://pypi.python.org/pypi/configobj
 .. _lxml: http://codespeak.net/lxml/

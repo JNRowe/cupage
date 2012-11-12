@@ -31,7 +31,7 @@ from email.utils import parseaddr
 
 __doc__ += """.
 
-%%prog checks web pages and displays changes from the last run that match
+cupage checks web pages and displays changes from the last run that match
 a given criteria.  Its original purpose was to check web pages for new software
 releases, but it is easily configurable and can be used for other purposes.
 
