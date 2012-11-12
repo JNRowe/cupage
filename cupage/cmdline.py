@@ -28,6 +28,7 @@ import atexit
 import errno
 import logging
 import os
+import re
 
 from operator import attrgetter
 
@@ -162,8 +163,10 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
 @APP.cmd_arg('-d', '--database', metavar='~/.cupage.db',
              help=_('database to store page data to(default based on --config '
                     'value)'))
+@APP.cmd_arg('-m', '--match', metavar='regex', type=re.compile,
+             help=_('match sites using regular expression'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to display'))
-def list_conf(verbose, config, database, pages):
+def list_conf(verbose, config, database, match, pages):
     if database is None:
         database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
 
@@ -184,7 +187,11 @@ def list_conf(verbose, config, database, pages):
                 print utils.fail(_('Invalid site argument %r') % page)
                 return False
     for site in sorted(sites, key=attrgetter('name')):
-        if not pages or site.name in pages:
+        if not pages and not match:
+            print site
+        elif pages and site.name in pages:
+            print site
+        elif match and match.search(site.name):
             print site
 
 

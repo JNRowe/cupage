@@ -113,6 +113,9 @@ List definitions from config file
 
     See :ref:`database-label` for details of the database format.
 
+-m <regex>, --match <regex>
+    match sites using regular expression
+
 ``list-sites``
 ''''''''''''''
 

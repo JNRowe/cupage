@@ -117,6 +117,10 @@ Commands
 
    See :ref:`database-label` for details of the database format.
 
+.. cmdopton:: -m <regex>, --match <regex>
+
+   match sites using regular expression
+
 ``list-sites`` - list supported site values
 '''''''''''''''''''''''''''''''''''''''''''
 
