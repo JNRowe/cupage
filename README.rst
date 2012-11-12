@@ -1,6 +1,9 @@
 CUPage - Check for Updated Pages
 ================================
 
+.. image:: https://secure.travis-ci.org/JNRowe/cupage.png?branch=master
+   :target: http://travis-ci.org/JNRowe/cupage
+
 Introduction
 ------------
 
