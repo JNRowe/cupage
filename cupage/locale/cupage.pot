@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cupage 0.7.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-12 17:48+0000\n"
+"POT-Creation-Date: 2012-11-12 18:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,72 +42,118 @@ msgstr ""
 msgid "%s returned %r"
 msgstr ""
 
-#: cupage/cmdline.py:62
+#: cupage/cmdline.py:51
+msgid "Please report bugs to jnrowe@gmail.com"
+msgstr ""
+
+#: cupage/cmdline.py:64 cupage/cmdline.py:103 cupage/cmdline.py:161
+#: cupage/cmdline.py:206
 msgid "config file to read page definitions from"
 msgstr ""
 
-#: cupage/cmdline.py:65
-msgid "database to store page data to(default based on --config value)"
+#: cupage/cmdline.py:66
+msgid "site helper to use"
 msgstr ""
 
-#: cupage/cmdline.py:68
-msgid "directory to store page cache"
+#: cupage/cmdline.py:67
+msgid "site url to check"
 msgstr ""
 
 #: cupage/cmdline.py:70
-msgid "don't update cache or database"
+msgid "pre-defined regular expression to use"
 msgstr ""
 
 #: cupage/cmdline.py:72
-msgid "ignore frequency checks"
+msgid "regular expression to use with --match-type=re"
 msgstr ""
 
-#: cupage/cmdline.py:74
-msgid "timeout for network operations"
+#: cupage/cmdline.py:75
+msgid "content selector"
 msgstr ""
 
-#: cupage/cmdline.py:76
-msgid "list site matchers and required values"
+#: cupage/cmdline.py:77
+msgid "selector method to use"
 msgstr ""
 
 #: cupage/cmdline.py:78
-msgid "produce verbose output"
+msgid "site name"
 msgstr ""
 
-#: cupage/cmdline.py:81
-msgid "output only matches and errors"
+#: cupage/cmdline.py:105 cupage/cmdline.py:163
+msgid "database to store page data to(default based on --config value)"
 msgstr ""
 
-#: cupage/cmdline.py:101
-msgid "Supported site values and their non-standard values:"
+#: cupage/cmdline.py:109
+msgid "directory to store page cache"
 msgstr ""
 
-#: cupage/cmdline.py:117
+#: cupage/cmdline.py:111
+msgid "don't update cache or database"
+msgstr ""
+
+#: cupage/cmdline.py:112
+msgid "ignore frequency checks"
+msgstr ""
+
+#: cupage/cmdline.py:114
+msgid "timeout for network operations"
+msgstr ""
+
+#: cupage/cmdline.py:115
+msgid "pages to check"
+msgstr ""
+
+#: cupage/cmdline.py:127
 msgid "Error reading database file"
 msgstr ""
 
-#: cupage/cmdline.py:120
+#: cupage/cmdline.py:130 cupage/cmdline.py:177
 msgid "Error reading config file"
 msgstr ""
 
-#: cupage/cmdline.py:130
+#: cupage/cmdline.py:140 cupage/cmdline.py:184 cupage/cmdline.py:214
 #, python-format
 msgid "Invalid site argument %r"
 msgstr ""
 
-#: cupage/cmdline.py:135
+#: cupage/cmdline.py:146
 #, python-format
 msgid "Checking %s..."
 msgstr ""
 
-#: cupage/cmdline.py:140
+#: cupage/cmdline.py:150
 #, python-format
 msgid "%s has new matches"
 msgstr ""
 
-#: cupage/cmdline.py:145
+#: cupage/cmdline.py:155
 #, python-format
 msgid "%s has no new matches"
+msgstr ""
+
+#: cupage/cmdline.py:165
+msgid "pages to display"
+msgstr ""
+
+#: cupage/cmdline.py:194
+msgid "Supported site values and their non-standard values:"
+msgstr ""
+
+#: cupage/cmdline.py:207
+msgid "pages to remove"
+msgstr ""
+
+#: cupage/cmdline.py:218
+#, python-format
+msgid "Removing %s..."
+msgstr ""
+
+#: cupage/cmdline.py:231
+msgid "produce verbose output"
+msgstr ""
+
+#: cupage/cmdline.py:233
+msgid "output only matches and errors"
 msgstr ""
 
 #: cupage/utils.py:112

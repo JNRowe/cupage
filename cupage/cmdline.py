@@ -27,89 +27,99 @@ if sys.version_info[:2] < (2, 6):
 import atexit
 import errno
 import logging
-import optparse
 import os
 
 from operator import attrgetter
 
+import argparse
+import aaargh
 import configobj
 
 import cupage
 
 from .i18n import _
-from . import utils
+from . import (_version, utils)
 
 
 #: Command line help string, for use with :mod:`argparse`
 # Pull the first paragraph from the docstring
 USAGE = cupage.__doc__[:cupage.__doc__.find('\n\n', 100)].splitlines()[2:]
 # Replace script name with optparse's substitution var, and rebuild string
-USAGE = "\n".join(USAGE).replace("cupage", "%prog")
+USAGE = "\n".join(USAGE).replace("cupage", "%(prog)s")
+
+APP = aaargh.App(description=USAGE,
+                 epilog=_("Please report bugs to jnrowe@gmail.com"))
 
 
-def process_command_line():
-    """Main command line interface."""
-    parser = optparse.OptionParser(usage="%prog [options...] <site>...",
-                                   version="%prog v" + cupage.__version__,
-                                   description=USAGE)
-
-    parser.set_defaults(config=os.path.expanduser("~/.cupage.conf"),
-                        database=None, cache=os.path.expanduser("~/.cupage/"),
-                        timeout=30)
-
-    parser.add_option("-f", "--config", action="store",
-                      metavar="~/.cupage.conf",
-                      help=_("config file to read page definitions from"))
-    parser.add_option("-d", "--database", action="store",
-                      metavar="~/.cupage.db",
-                      help=_("database to store page data to(default based on "
-                             "--config value)"))
-    parser.add_option("-c", "--cache", action="store", metavar="~/.cupage/",
-                      help=_("directory to store page cache"))
-    parser.add_option("--no-write", action="store_true",
-                      help=_("don't update cache or database"))
-    parser.add_option("--force", action="store_true",
-                      help=_("ignore frequency checks"))
-    parser.add_option("-t", "--timeout", type="int", metavar="30",
-                      help=_("timeout for network operations"))
-    parser.add_option("--list-sites", action="store_true",
-                      help=_("list site matchers and required values"))
-    parser.add_option("-v", "--verbose", action="store_true",
-                      dest="verbose", help=_("produce verbose output"))
-    parser.add_option("-q", "--quiet", action="store_false",
-                      dest="verbose",
-                      help=_("output only matches and errors"))
-
-    options, args = parser.parse_args()
-
-    if options.database is None:
-        options.database = "%s%sdb" % (os.path.splitext(options.config)[0],
-                                       os.path.extsep)
-
-    return options, args
+def frequency_typecheck(string):
+    if utils.parse_timedelta(string):
+        return string
+    else:
+        raise argparse.ArgumentTypeError('Invalid frequency value')
 
 
-def main():
-    """Main script handler."""
-    logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',
-                        datefmt="%Y-%m-%dT%H:%M:%S%z")
+@APP.cmd(help='add definition to config file')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg('-s', '--site', choices=cupage.SITES.keys(),
+             help=_('site helper to use'))
+@APP.cmd_arg('-u', '--url', metavar='url', help=_('site url to check'))
+@APP.cmd_arg('-t', '--match-type', default='tar',
+             choices=['gem', 're', 'tar', 'zip'],
+             help=_('pre-defined regular expression to use'))
+@APP.cmd_arg('-m', '--match', metavar='regex',
+             help=_('regular expression to use with --match-type=re'))
+@APP.cmd_arg('-q', '--frequency', metavar='frequency',
+             type=frequency_typecheck, help='update check frequency')
+@APP.cmd_arg('-x', '--select', metavar='selector', help=_('content selector'))
+@APP.cmd_arg('--selector', default='css', choices=['css', 'xpath'],
+             help=_('selector method to use'))
+@APP.cmd_arg('name', help=_('site name'))
+def add(verbose, config, site, url, match_type, match, frequency, select,
+        selector, name):
+    conf = configobj.ConfigObj(config)
 
-    options, args = process_command_line()
+    conf[name] = {
+        'site': site,
+        'url': url,
+        'match_type': match_type,
+        'match': match,
+        'frequency': frequency,
+        'select': select,
+        'selector': selector,
+    }
+    # Flush unused values
+    for key, value in conf[name].items():
+        if not value:
+            conf[name].pop(key)
 
-    if options.list_sites:
-        if options.verbose:
-            print _("Supported site values and their non-standard values:")
-            print
-        for site, values in sorted(cupage.SITES.items()):
-            print "- %s (v%s)" % (site, values["added"])
-            if "keys" in values:
-                for item in values["keys"].items():
-                    print "  * %s - %s" % item
-        return
+    conf.write()
+
+
+@APP.cmd(help='check sites for updates')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg("-d", "--database", metavar="~/.cupage.db",
+             help=_("database to store page data to(default based on --config "
+                    "value)"))
+@APP.cmd_arg("-c", "--cache", metavar="~/.cupage/",
+             default=os.path.expanduser("~/.cupage/"),
+             help=_("directory to store page cache"))
+@APP.cmd_arg("--no-write", action="store_true",
+             help=_("don't update cache or database"))
+@APP.cmd_arg("--force", action="store_true", help=_("ignore frequency checks"))
+@APP.cmd_arg("-t", "--timeout", type=int, metavar="30", default=30,
+             help=_("timeout for network operations"))
+@APP.cmd_arg('pages', nargs='*', help=_('pages to check'))
+def check(verbose, config, database, cache, no_write, force, timeout, pages):
+    if database is None:
+        database = "%s%sdb" % (os.path.splitext(config)[0], os.path.extsep)
 
     sites = cupage.Sites()
     try:
-        sites.load(options.config, options.database)
+        sites.load(config, database)
     except IOError as e:
         print utils.fail(e.message)
         return errno.EIO
@@ -120,26 +130,110 @@ def main():
         print utils.fail(_("Error reading config file"))
         return errno.ENOENT
 
-    if not options.no_write:
-        atexit.register(sites.save, options.database)
+    if not no_write:
+        atexit.register(sites.save, database)
 
-    if args:
+    if pages:
         site_names = map(attrgetter("name"), sites)
-        for arg in args:
-            if arg not in site_names:
-                print utils.fail(_("Invalid site argument %r") % arg)
+        for page in pages:
+            if page not in site_names:
+                print utils.fail(_('Invalid site argument %r') % page)
+                return False
     for site in sorted(sites, key=attrgetter("name")):
-        if not args or site.name in args:
-            if options.verbose:
+        if not pages or site.name in pages:
+            if verbose:
                 print site
                 print _("Checking %s...") % site.name
-            matches = site.check(options.cache, options.timeout, options.force,
-                                 options.no_write)
+            matches = site.check(cache, timeout, force, no_write)
             if matches:
-                if options.verbose:
+                if verbose:
                     print _("%s has new matches") % site.name
                 for match in utils.sort_packages(matches):
                     print utils.success(match)
             else:
-                if options.verbose:
+                if verbose:
                     print _("%s has no new matches") % site.name
+
+
+@APP.cmd(name='list', help='list definitions from config file')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg("-d", "--database", metavar="~/.cupage.db",
+             help=_("database to store page data to(default based on --config "
+                    "value)"))
+@APP.cmd_arg('pages', nargs='*', help=_('pages to display'))
+def list_conf(verbose, config, database, pages):
+    if database is None:
+        database = "%s%sdb" % (os.path.splitext(config)[0], os.path.extsep)
+
+    sites = cupage.Sites()
+    try:
+        sites.load(config, database)
+    except IOError as e:
+        print utils.fail(e.message)
+        return errno.EIO
+    except configobj.ConfigObjError:
+        print utils.fail(_("Error reading config file"))
+        return errno.ENOENT
+
+    if pages:
+        site_names = map(attrgetter("name"), sites)
+        for page in pages:
+            if page not in site_names:
+                print utils.fail(_("Invalid site argument %r") % page)
+                return False
+    for site in sorted(sites, key=attrgetter("name")):
+        if not pages or site.name in pages:
+            print site
+
+
+@APP.cmd(name='list-sites', help='list supported site values')
+def list_sites(verbose):
+    if verbose:
+        print _("Supported site values and their non-standard values:")
+        print
+    for site, values in sorted(cupage.SITES.items()):
+        print "- %s (v%s)" % (site, values["added"])
+        if "keys" in values:
+            for item in values["keys"].items():
+                print "  * %s - %s" % item
+
+
+@APP.cmd(help='remove site from config')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
+def remove(verbose, config, pages):
+    conf = configobj.ConfigObj(config)
+
+    if pages:
+        for page in pages:
+            if page not in conf.sections:
+                print utils.fail(_("Invalid site argument %r") % page)
+                return False
+    for page in pages:
+        if verbose:
+            print _("Removing %s...") % page
+        conf.pop(page)
+    conf.write()
+
+
+def main():
+    """Main script handler."""
+    logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',
+                        datefmt="%Y-%m-%dT%H:%M:%S%z")
+
+    APP.arg('--version', action='version',
+            version="%%(prog)s %s" % _version.dotted)
+    APP.arg("-v", "--verbose", action="store_true", dest="verbose",
+            help=_("produce verbose output"))
+    APP.arg("-q", "--quiet", action="store_false", dest="verbose",
+            help=_("output only matches and errors"))
+
+    try:
+        APP.run()
+    except IOError as error:
+        print(utils.fail(error.message))
+        return 2

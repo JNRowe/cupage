@@ -1,11 +1,11 @@
 Usage
------
+=====
 
 The :program:`cupage` is run from the command prompt, and displays updates on
 ``stdout``.
 
 Options
-'''''''
+-------
 
 .. program:: cupage
 
@@ -16,6 +16,59 @@ Options
 .. cmdoption:: -h, --help
 
    show this help message and exit
+
+.. cmdoption:: -v, --verbose
+
+   produce verbose output
+
+.. cmdoption:: -q, --quiet
+
+   output only matches and errors
+
+Commands
+--------
+
+``add`` - add definition to config file
+'''''''''''''''''''''''''''''''''''''''
+
+.. program:: cupage add
+
+.. cmdoption:: -f <file>, --config <file>
+
+   configuration file to read
+
+.. cmdoption:: -s <site>, --site <site>
+
+   site helper to use
+
+.. cmdoption:: -u <url>, --url <url>
+
+   site url to check
+
+.. cmdoption:: -t <type>, --match-type <type>
+
+   pre-defined regular expression to use
+
+.. cmdoption:: -m <regex>, --match <regex>
+
+   regular expression to use with --match-type=re
+
+.. cmdoption:: -q <frequency>, --frequency <frequency>
+
+   update check frequency
+
+.. cmdoption:: -x <selector>, --select <selector>
+
+   content selector
+
+.. cmdoption:: --selector <type>
+
+   selector method to use
+
+``check`` - check sites for updates
+'''''''''''''''''''''''''''''''''''
+
+.. program:: cupage check
 
 .. cmdoption:: -f <file>, --config <file>
 
@@ -47,16 +100,33 @@ Options
 
    timeout for network operations
 
-.. cmdoption:: --list-sites
+``list`` - list definitions from config file
+''''''''''''''''''''''''''''''''''''''''''''
 
-   display site matchers and their required values
+.. program:: cupage list
 
-   See :ref:`site-label`.
+.. cmdoption:: -f <file>, --config <file>
 
-.. cmdoption:: -v, --verbose
+   configuration file to read
 
-   produce verbose output
+.. cmdoption:: -d <file>, --database <file>
 
-.. cmdoption:: -q, --quiet
+   database to store page data to.  Default based on :option:`--config <-f>`
+   value, for example ``--config my_conf`` will result in a default setting of
+   ``--database my_conf.db``.
 
-   output only results and errors
+   See :ref:`database-label` for details of the database format.
+
+``list-sites`` - list supported site values
+'''''''''''''''''''''''''''''''''''''''''''
+
+.. program:: cupage list-sites
+
+``remove`` - remove site from config
+''''''''''''''''''''''''''''''''''''
+
+.. program:: cupage remove
+
+.. cmdoption:: -f <file>, --config <file>
+
+   configuration file to read
