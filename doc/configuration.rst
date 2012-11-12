@@ -61,7 +61,7 @@ Unit  Purpose
 h     Hours
 d     Days
 w     Week
-m     Month, which is defined as 28 days here
+m     Month, which is defined as 28 days
 y     Year, which is defined as 13 ``m`` units
 ====  ========================================
 
