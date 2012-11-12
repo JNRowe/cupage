@@ -393,7 +393,7 @@ class Sites(list):
 
     """``Site`` bundle wrapper."""
 
-    def load(self, config_file, database):
+    def load(self, config_file, database=None):
         """Read sites from a user's config file and database.
 
         :param str config_file: Config file to read
@@ -405,12 +405,12 @@ class Sites(list):
             logging.debug('Config file %r is empty', config_file)
             raise IOError('Error reading config file')
 
-        if os.path.exists(database):
+        data = {}
+        if database and os.path.exists(database):
             data = json.load(open(database),
                              object_hook=utils.json_to_datetime)
-        else:
+        elif database:
             logging.debug("Database file %r doesn't exist", database)
-            data = {}
 
         for name, options in conf.items():
             self.append(Site.parse(name, options, data.get(name, {})))

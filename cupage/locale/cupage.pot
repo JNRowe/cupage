@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cupage 0.7.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-12 18:27+0000\n"
+"POT-Creation-Date: 2012-11-12 18:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgid "Please report bugs to jnrowe@gmail.com"
 msgstr ""
 
 #: cupage/cmdline.py:65 cupage/cmdline.py:104 cupage/cmdline.py:162
-#: cupage/cmdline.py:213
+#: cupage/cmdline.py:207
 msgid "config file to read page definitions from"
 msgstr ""
 
@@ -79,7 +79,7 @@ msgstr ""
 msgid "site name"
 msgstr ""
 
-#: cupage/cmdline.py:106 cupage/cmdline.py:164
+#: cupage/cmdline.py:106
 msgid "database to store page data to(default based on --config value)"
 msgstr ""
 
@@ -107,11 +107,11 @@ msgstr ""
 msgid "Error reading database file"
 msgstr ""
 
-#: cupage/cmdline.py:131 cupage/cmdline.py:180
+#: cupage/cmdline.py:131 cupage/cmdline.py:174
 msgid "Error reading config file"
 msgstr ""
 
-#: cupage/cmdline.py:141 cupage/cmdline.py:187 cupage/cmdline.py:221
+#: cupage/cmdline.py:141 cupage/cmdline.py:181 cupage/cmdline.py:215
 #, python-format
 msgid "Invalid site argument %r"
 msgstr ""
@@ -131,32 +131,32 @@ msgstr ""
 msgid "%s has no new matches"
 msgstr ""
 
-#: cupage/cmdline.py:167
+#: cupage/cmdline.py:164
 msgid "match sites using regular expression"
 msgstr ""
 
-#: cupage/cmdline.py:168
+#: cupage/cmdline.py:165
 msgid "pages to display"
 msgstr ""
 
-#: cupage/cmdline.py:201
+#: cupage/cmdline.py:195
 msgid "Supported site values and their non-standard values:"
 msgstr ""
 
-#: cupage/cmdline.py:214
+#: cupage/cmdline.py:208
 msgid "pages to remove"
 msgstr ""
 
-#: cupage/cmdline.py:225
+#: cupage/cmdline.py:219
 #, python-format
 msgid "Removing %s..."
 msgstr ""
 
-#: cupage/cmdline.py:238
+#: cupage/cmdline.py:232
 msgid "produce verbose output"
 msgstr ""
 
-#: cupage/cmdline.py:240
+#: cupage/cmdline.py:234
 msgid "output only matches and errors"
 msgstr ""
 
