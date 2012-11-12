@@ -108,6 +108,39 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
                     print _("%s has no new matches") % site.name
 
 
+@APP.cmd(name='list', help='list definitions from config file')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg("-d", "--database", metavar="~/.cupage.db",
+             help=_("database to store page data to(default based on --config "
+                    "value)"))
+@APP.cmd_arg('pages', nargs='*', help=_('pages to display'))
+def list_conf(verbose, config, database, pages):
+    if database is None:
+        database = "%s%sdb" % (os.path.splitext(config)[0], os.path.extsep)
+
+    sites = cupage.Sites()
+    try:
+        sites.load(config, database)
+    except IOError as e:
+        print utils.fail(e.message)
+        return errno.EIO
+    except configobj.ConfigObjError:
+        print utils.fail(_("Error reading config file"))
+        return errno.ENOENT
+
+    if pages:
+        site_names = map(attrgetter("name"), sites)
+        for page in pages:
+            if page not in site_names:
+                print utils.fail(_("Invalid site argument `%s'") % page)
+                return False
+    for site in sorted(sites, key=attrgetter("name")):
+        if not pages or site.name in pages:
+            print site
+
+
 @APP.cmd(name='list-sites', help='list supported site values')
 def list_sites(verbose):
     if verbose:

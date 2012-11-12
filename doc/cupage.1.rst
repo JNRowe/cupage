@@ -69,6 +69,21 @@ Check sites for updates
 -t <n>, --timeout=<n>
     timeout for network operations
 
+``list``
+''''''''
+
+List definitions from config file
+
+-f <file>, --config <file>
+    configuration file to read
+
+-d <file>, --database <file>
+    database to store page data to.  Default based on :option:`--config <-f>`
+    value, for example ``--config my_conf`` will result in a default setting of
+    ``--database my_conf.db``.
+
+    See :ref:`database-label` for details of the database format.
+
 ``list-sites``
 ''''''''''''''
 

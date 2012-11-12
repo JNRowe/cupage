@@ -46,11 +46,11 @@ msgstr ""
 msgid "Please report bugs to jnrowe@gmail.com"
 msgstr ""
 
-#: cupage/cmdline.py:56
+#: cupage/cmdline.py:56 cupage/cmdline.py:114
 msgid "config file to read page definitions from"
 msgstr ""
 
-#: cupage/cmdline.py:58
+#: cupage/cmdline.py:58 cupage/cmdline.py:116
 msgid "database to store page data to(default based on --config value)"
 msgstr ""
 
@@ -78,11 +78,11 @@ msgstr ""
 msgid "Error reading database file"
 msgstr ""
 
-#: cupage/cmdline.py:83
+#: cupage/cmdline.py:83 cupage/cmdline.py:130
 msgid "Error reading config file"
 msgstr ""
 
-#: cupage/cmdline.py:93
+#: cupage/cmdline.py:93 cupage/cmdline.py:137
 #, python-format
 msgid "Invalid site argument `%s'"
 msgstr ""
@@ -102,15 +102,19 @@ msgstr ""
 msgid "%s has no new matches"
 msgstr ""
 
-#: cupage/cmdline.py:114
+#: cupage/cmdline.py:118
+msgid "pages to display"
+msgstr ""
+
+#: cupage/cmdline.py:147
 msgid "Supported site values and their non-standard values:"
 msgstr ""
 
-#: cupage/cmdline.py:131
+#: cupage/cmdline.py:164
 msgid "produce verbose output"
 msgstr ""
 
-#: cupage/cmdline.py:133
+#: cupage/cmdline.py:166
 msgid "output only matches and errors"
 msgstr ""
 

@@ -63,6 +63,23 @@ Commands
 
    timeout for network operations
 
+``list`` - list definitions from config file
+''''''''''''''''''''''''''''''''''''''''''''
+
+.. program:: cupage list
+
+.. cmdoption:: -f <file>, --config <file>
+
+   configuration file to read
+
+.. cmdoption:: -d <file>, --database <file>
+
+   database to store page data to.  Default based on :option:`--config <-f>`
+   value, for example ``--config my_conf`` will result in a default setting of
+   ``--database my_conf.db``.
+
+   See :ref:`database-label` for details of the database format.
+
 ``list-sites`` - list supported site values
 '''''''''''''''''''''''''''''''''''''''''''
 
