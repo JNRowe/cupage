@@ -31,6 +31,7 @@ import os
 
 from operator import attrgetter
 
+import argparse
 import aaargh
 import configobj
 
@@ -48,6 +49,52 @@ USAGE = "\n".join(USAGE).replace("cupage", "%(prog)s")
 
 APP = aaargh.App(description=USAGE,
                  epilog=_("Please report bugs to jnrowe@gmail.com"))
+
+
+def frequency_typecheck(string):
+    if utils.parse_timedelta(string):
+        return string
+    else:
+        raise argparse.ArgumentTypeError('Invalid frequency value')
+
+
+@APP.cmd(help='add definition to config file')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg('-s', '--site', choices=cupage.SITES.keys(),
+             help=_('site helper to use'))
+@APP.cmd_arg('-u', '--url', metavar='url', help=_('site url to check'))
+@APP.cmd_arg('-t', '--match-type', default='tar',
+             choices=['gem', 're', 'tar', 'zip'],
+             help=_('pre-defined regular expression to use'))
+@APP.cmd_arg('-m', '--match', metavar='regex',
+             help=_('regular expression to use with --match-type=re'))
+@APP.cmd_arg('-q', '--frequency', metavar='frequency',
+             type=frequency_typecheck, help='update check frequency')
+@APP.cmd_arg('-x', '--select', metavar='selector', help=_('content selector'))
+@APP.cmd_arg('--selector', default='css', choices=['css', 'xpath'],
+             help=_('selector method to use'))
+@APP.cmd_arg('name', help=_('site name'))
+def add(verbose, config, site, url, match_type, match, frequency, select,
+        selector, name):
+    conf = configobj.ConfigObj(config)
+
+    conf[name] = {
+        'site': site,
+        'url': url,
+        'match_type': match_type,
+        'match': match,
+        'frequency': frequency,
+        'select': select,
+        'selector': selector,
+    }
+    # Flush unused values
+    for key, value in conf[name].items():
+        if not value:
+            conf[name].pop(key)
+
+    conf.write()
 
 
 @APP.cmd(help='check sites for updates')

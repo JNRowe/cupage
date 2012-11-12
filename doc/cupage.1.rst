@@ -40,6 +40,35 @@ OPTIONS
 COMMANDS
 --------
 
+``add``
+'''''''
+
+Add definition to config file
+
+-f <file>, --config <file>
+    configuration file to read
+
+-s <site>, --site <site>
+    site helper to use
+
+-u <url>, --url <url>
+    site url to check
+
+-t <type>, --match-type <type>
+    pre-defined regular expression to use
+
+-m <regex>, --match <regex>
+    regular expression to use with --match-type=re
+
+-q <frequency>, --frequency <frequency>
+    update check frequency
+
+-x <selector>, --select <selector>
+    content selector
+
+--selector <type>
+    selector method to use
+
 ``check``
 '''''''''
 

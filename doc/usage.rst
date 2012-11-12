@@ -28,6 +28,43 @@ Options
 Commands
 --------
 
+``add`` - add definition to config file
+'''''''''''''''''''''''''''''''''''''''
+
+.. program:: cupage add
+
+.. cmdoption:: -f <file>, --config <file>
+
+   configuration file to read
+
+.. cmdoption:: -s <site>, --site <site>
+
+   site helper to use
+
+.. cmdoption:: -u <url>, --url <url>
+
+   site url to check
+
+.. cmdoption:: -t <type>, --match-type <type>
+
+   pre-defined regular expression to use
+
+.. cmdoption:: -m <regex>, --match <regex>
+
+   regular expression to use with --match-type=re
+
+.. cmdoption:: -q <frequency>, --frequency <frequency>
+
+   update check frequency
+
+.. cmdoption:: -x <selector>, --select <selector>
+
+   content selector
+
+.. cmdoption:: --selector <type>
+
+   selector method to use
+
 ``check`` - check sites for updates
 '''''''''''''''''''''''''''''''''''
 
