@@ -10,9 +10,11 @@ definition.  The section header is the site's name which will be displayed in
 the update output, or used to select individual sites to check on the command
 line.  Each section consists of a section of ``name=value`` option pairs.
 
-The file is processed with Python's ConfigParser_ module, the documentation for
-which will describe some of the advanced features available within the
-configuration file.
+.. note:
+
+   The file is processed with the configobj_ module, the documentation for which
+   describes some of the advanced features available within the configuration
+   file.
 
 An example configuration file is below:
 
@@ -151,7 +153,7 @@ used, it must be a valid :abbr:`FTP (File Transfer Protocol)`/:abbr:`HTTP
 (HyperText Transfer Protocol)`/:abbr:`HTTPS (HyperText Transfer Protocol)`
 address.
 
-.. _ConfigParser: http://docs.python.org/library/configparser.html
+.. _configobj: http://pypi.python.org/pypi/configobj
 .. _GitHub: http://github.com
 .. _vim website: http://www.vim.org/
 .. _rubygems: http://rubyforge.org/projects/rubygems/
