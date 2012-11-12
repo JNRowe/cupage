@@ -59,26 +59,26 @@ def process_command_line():
 
     parser.add_option("-f", "--config", action="store",
                       metavar="~/.cupage.conf",
-                      help="config file to read page definitions from")
+                      help=_("config file to read page definitions from"))
     parser.add_option("-d", "--database", action="store",
                       metavar="~/.cupage.db",
-                      help="database to store page data to(default based on "
-                           "--config value)")
+                      help=_("database to store page data to(default based on "
+                             "--config value)"))
     parser.add_option("-c", "--cache", action="store", metavar="~/.cupage/",
-                      help="directory to store page cache")
+                      help=_("directory to store page cache"))
     parser.add_option("--no-write", action="store_true",
-                      help="don't update cache or database")
+                      help=_("don't update cache or database"))
     parser.add_option("--force", action="store_true",
-                      help="ignore frequency checks")
+                      help=_("ignore frequency checks"))
     parser.add_option("-t", "--timeout", type="int", metavar="30",
-                      help="timeout for network operations")
+                      help=_("timeout for network operations"))
     parser.add_option("--list-sites", action="store_true",
-                      help="list site matchers and required values")
+                      help=_("list site matchers and required values"))
     parser.add_option("-v", "--verbose", action="store_true",
-                      dest="verbose", help="produce verbose output")
+                      dest="verbose", help=_("produce verbose output"))
     parser.add_option("-q", "--quiet", action="store_false",
                       dest="verbose",
-                      help="output only matches and errors")
+                      help=_("output only matches and errors"))
 
     options, args = parser.parse_args()
 

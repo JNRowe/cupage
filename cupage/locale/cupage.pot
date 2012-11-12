@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cupage 0.7.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-12 15:08+0000\n"
+"POT-Creation-Date: 2012-11-12 15:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,6 +40,42 @@ msgstr ""
 #: cupage/__init__.py:249
 #, python-format
 msgid "%s returned %r"
+msgstr ""
+
+#: cupage/cmdline.py:62
+msgid "config file to read page definitions from"
+msgstr ""
+
+#: cupage/cmdline.py:65
+msgid "database to store page data to(default based on --config value)"
+msgstr ""
+
+#: cupage/cmdline.py:68
+msgid "directory to store page cache"
+msgstr ""
+
+#: cupage/cmdline.py:70
+msgid "don't update cache or database"
+msgstr ""
+
+#: cupage/cmdline.py:72
+msgid "ignore frequency checks"
+msgstr ""
+
+#: cupage/cmdline.py:74
+msgid "timeout for network operations"
+msgstr ""
+
+#: cupage/cmdline.py:76
+msgid "list site matchers and required values"
+msgstr ""
+
+#: cupage/cmdline.py:78
+msgid "produce verbose output"
+msgstr ""
+
+#: cupage/cmdline.py:81
+msgid "output only matches and errors"
 msgstr ""
 
 #: cupage/cmdline.py:101
