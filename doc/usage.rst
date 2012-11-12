@@ -84,3 +84,12 @@ Commands
 '''''''''''''''''''''''''''''''''''''''''''
 
 .. program:: cupage list-sites
+
+``remove`` - remove site from config
+''''''''''''''''''''''''''''''''''''
+
+.. program:: cupage remove
+
+.. cmdoption:: -f <file>, --config <file>
+
+   configuration file to read

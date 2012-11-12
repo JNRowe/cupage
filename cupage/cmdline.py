@@ -153,6 +153,26 @@ def list_sites(verbose):
                 print "  * %s - %s" % item
 
 
+@APP.cmd(help='remove site from config')
+@APP.cmd_arg("-f", "--config", metavar="~/.cupage.conf",
+             default=os.path.expanduser("~/.cupage.conf"),
+             help=_("config file to read page definitions from"))
+@APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
+def remove(verbose, config, pages):
+    conf = configobj.ConfigObj(config)
+
+    if pages:
+        for page in pages:
+            if page not in conf.sections:
+                print utils.fail(_("Invalid site argument `%s'") % page)
+                return False
+    for page in pages:
+        if verbose:
+            print _("Removing %s...") % page
+        conf.pop(page)
+    conf.write()
+
+
 def main():
     """Main script handler."""
     logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',

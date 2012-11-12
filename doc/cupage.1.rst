@@ -89,6 +89,14 @@ List definitions from config file
 
 List supported site values
 
+``remove``
+''''''''''
+
+Remove site from config
+
+-f <file>, --config <file>
+    configuration file to read
+
 CONFIGURATION FILE
 ------------------
 
