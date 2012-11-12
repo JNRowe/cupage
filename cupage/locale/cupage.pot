@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cupage 0.7.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-11 19:56+0000\n"
+"POT-Creation-Date: 2012-11-12 15:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,34 +42,34 @@ msgstr ""
 msgid "%s returned %r"
 msgstr ""
 
-#: cupage/commandline.py:101
+#: cupage/cmdline.py:101
 msgid "Supported site values and their non-standard values:"
 msgstr ""
 
-#: cupage/commandline.py:117
+#: cupage/cmdline.py:117
 msgid "Error reading database file"
 msgstr ""
 
-#: cupage/commandline.py:120
+#: cupage/cmdline.py:120
 msgid "Error reading config file"
 msgstr ""
 
-#: cupage/commandline.py:130
+#: cupage/cmdline.py:130
 #, python-format
 msgid "Invalid site argument `%s'"
 msgstr ""
 
-#: cupage/commandline.py:135
+#: cupage/cmdline.py:135
 #, python-format
 msgid "Checking %s..."
 msgstr ""
 
-#: cupage/commandline.py:140
+#: cupage/cmdline.py:140
 #, python-format
 msgid "%s has new matches"
 msgstr ""
 
-#: cupage/commandline.py:145
+#: cupage/cmdline.py:145
 #, python-format
 msgid "%s has no new matches"
 msgstr ""

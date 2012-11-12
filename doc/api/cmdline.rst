@@ -1,4 +1,4 @@
-.. currentmodule:: cupage.commandline
+.. currentmodule:: cupage.cmdline
 
 Command line
 ============

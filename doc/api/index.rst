@@ -13,5 +13,5 @@ API documentation
    :maxdepth: 2
 
    Site
-   commandline
+   cmdline
    utils
