@@ -402,14 +402,14 @@ class Sites(list):
         """
         conf = configobj.ConfigObj(config_file, file_error=True)
         if not conf.sections:
-            logging.debug("Config file `%s' is empty", config_file)
+            logging.debug("Config file %r is empty", config_file)
             raise IOError("Error reading config file")
 
         if os.path.exists(database):
             data = json.load(open(database),
                              object_hook=utils.json_to_datetime)
         else:
-            logging.debug("Database file `%s' doesn't exist", database)
+            logging.debug("Database file %r doesn't exist", database)
             data = {}
 
         for name, options in conf.items():

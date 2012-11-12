@@ -127,7 +127,7 @@ def main():
         site_names = map(attrgetter("name"), sites)
         for arg in args:
             if arg not in site_names:
-                print utils.fail(_("Invalid site argument `%s'") % arg)
+                print utils.fail(_("Invalid site argument %r") % arg)
     for site in sorted(sites, key=attrgetter("name")):
         if not args or site.name in args:
             if options.verbose:

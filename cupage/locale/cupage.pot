@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cupage 0.7.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-12 15:13+0000\n"
+"POT-Creation-Date: 2012-11-12 17:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: cupage/cmdline.py:130
 #, python-format
-msgid "Invalid site argument `%s'"
+msgid "Invalid site argument %r"
 msgstr ""
 
 #: cupage/cmdline.py:135
