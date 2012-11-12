@@ -89,7 +89,7 @@ Match type  Purpose
 ==========  =======================================================
 ``gem``     to match rubygems_ archives.
 ``re``      to define custom regular expressions
-``tar``     to match gzip_/bzip2_ compressed tar_ archives(default)
+``tar``     to match gzip_/bzip2_/xz_ compressed tar_ archives(default)
 ``zip``     to match zip_ archives
 ==========  =======================================================
 
@@ -159,6 +159,7 @@ address.
 .. _rubygems: http://rubyforge.org/projects/rubygems/
 .. _gzip: http://www.gnu.org/software/gzip/
 .. _bzip2: http://www.bzip.org/
+.. _xz: http://tukaani.org/xz/
 .. _tar: http://www.gnu.org/software/tar/
 .. _zip: http://www.info-zip.org/
 .. _CSS selectors: http://www.w3.org/TR/2001/CR-css3-selectors-20011113/

@@ -7,8 +7,9 @@ from cupage import Site
 
 
 @params(
-    ("test", "tar", ["test-0.1.2.tar.bz2", "test-0.1.2_rc2.tar.gz"],
-     'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.tar.(?:bz2|gz)'),
+    ("test", "tar",
+     ["test-0.1.2.tar.bz2", "test-0.1.2_rc2.tar.gz", "test-0.1.2.tar.xz"],
+     'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.tar.(?:bz2|gz|xz)'),
 
     ("test", "zip", ["test-0.1.2-rc2.zip", "test-0.1.2-pre2.zip"],
      'test-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.zip'),

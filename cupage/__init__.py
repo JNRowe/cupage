@@ -88,7 +88,7 @@ SITES = {
         "re_verbose": True,
         "match": r"""{name}_[\d\.]+
                      (?:\.orig\.tar|-\d+\.(?:diff|debian.tar))
-                     \.(?:bz2|gz)""",
+                     \.(?:bz2|gz|xz)""",
         "added": "0.3.0",
     },
     "failpad": {
@@ -320,7 +320,7 @@ class Site(object):
 
         """
         if ext == "tar":
-            ext = "tar.(?:bz2|gz)"
+            ext = "tar.(?:bz2|gz|xz)"
         match = r"%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s" % (name, ext)
         return re.compile(match, flags=re.VERBOSE if verbose else 0)
 
