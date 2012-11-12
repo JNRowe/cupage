@@ -7,11 +7,11 @@ from cupage.utils import (parse_timedelta, sort_packages)
 
 
 @params(
-    ("3h", datetime.timedelta(0, 10800)),
-    ("1d", datetime.timedelta(1)),
-    ("1 d", datetime.timedelta(1)),
-    ("0.5 y", datetime.timedelta(182, 43200)),
-    ("0.5 Y", datetime.timedelta(182, 43200)),
+    ('3h', datetime.timedelta(0, 10800)),
+    ('1d', datetime.timedelta(1)),
+    ('1 d', datetime.timedelta(1)),
+    ('0.5 y', datetime.timedelta(182, 43200)),
+    ('0.5 Y', datetime.timedelta(182, 43200)),
 )
 def test_parse_timedelta(string, dt):
     expect(parse_timedelta(string)) == dt
@@ -19,7 +19,7 @@ def test_parse_timedelta(string, dt):
 
 def test_parse_invalid_timedelta():
     with expect.raises(ValueError, "Invalid 'frequency' value"):
-        parse_timedelta("1 k")
+        parse_timedelta('1 k')
 
 
 @params(

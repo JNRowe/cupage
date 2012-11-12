@@ -61,11 +61,11 @@ def parse_timedelta(delta):
     :param str delta: Frequency to parse
 
     """
-    match = re.match("^(\d+(?:|\.\d+)) *([hdwmy])$", delta, re.IGNORECASE)
+    match = re.match('^(\d+(?:|\.\d+)) *([hdwmy])$', delta, re.IGNORECASE)
     if not match:
         raise ValueError("Invalid 'frequency' value")
     value, units = match.groups()
-    units = "hdwmy".index(units.lower())
+    units = 'hdwmy'.index(units.lower())
     # hours per hour/day/week/month/year
     multiplier = (1, 24, 168, 672, 8760)
     return datetime.timedelta(hours=float(value) * multiplier[units])
@@ -78,12 +78,12 @@ def sort_packages(packages):
 
     """
     # Very ugly key function, but it handles the common case of varying
-    # component length just about "Good Enough™"
+    # component length just about 'Good Enough™'
     return sorted(packages,
                   key=lambda s: [i for i in s if i.isdigit() or i == '.'])
 
 
-def robots_test(http, url, name, user_agent="*"):
+def robots_test(http, url, name, user_agent='*'):
     """Check whether a given URL is blocked by ``robots.txt``.
 
     :param http: :class:`httplib2.Http` object to use for requests
@@ -92,21 +92,21 @@ def robots_test(http, url, name, user_agent="*"):
     :param str user_agent: User agent to check in :file:`robots.txt`
 
     """
-    parsed = urlparse.urlparse(url, "http")
-    if parsed.scheme.startswith("http"):
-        robots_url = "%(scheme)s://%(netloc)s/robots.txt" \
+    parsed = urlparse.urlparse(url, 'http')
+    if parsed.scheme.startswith('http'):
+        robots_url = '%(scheme)s://%(netloc)s/robots.txt' \
             % parsed._asdict()
         robots = robotparser.RobotFileParser(robots_url)
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print fail(_("Domain name lookup failed for %s") % name)
+            print fail(_('Domain name lookup failed for %s') % name)
             return False
         except socket.timeout:
-            print fail(_("Socket timed out on %s") % name)
+            print fail(_('Socket timed out on %s') % name)
             return False
         # Ignore errors 4xx errors for robots.txt
-        if not str(headers.status).startswith("4"):
+        if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
                 print fail(_("Can't check %s, blocked by robots.txt") % name)
@@ -114,7 +114,7 @@ def robots_test(http, url, name, user_agent="*"):
 
 
 def _format_info(text, colour):
-    return "%s %s" % (getattr(T, 'bold_white_on_%s' % colour)('*'),
+    return '%s %s' % (getattr(T, 'bold_white_on_%s' % colour)('*'),
                       getattr(T, 'bright_%s' % colour)(text))
 
 
@@ -173,7 +173,7 @@ def json_to_datetime(obj):
     :param obj: Object to decode
 
     """
-    if "checked" in obj:
+    if 'checked' in obj:
         try:
             result = datetime.datetime.strptime(obj['checked'],
                                                 '%Y-%m-%dT%H:%M:%S.%f')
@@ -183,5 +183,5 @@ def json_to_datetime(obj):
                 result = datetime.datetime.fromtimestamp(float(obj['checked']))
             except TypeError:
                 result = None
-        obj["checked"] = result
+        obj['checked'] = result
     return obj

@@ -21,11 +21,11 @@ from . import _version
 
 __version__ = _version.dotted
 __date__ = _version.date
-__author__ = "James Rowe <jnrowe@gmail.com>"
-__copyright__ = "Copyright (C) 2009-2012  James Rowe"
-__license__ = "GNU General Public License Version 3"
-__credits__ = ""
-__history__ = "See Git repository at https://github.com/JNRowe/cupage"
+__author__ = 'James Rowe <jnrowe@gmail.com>'
+__copyright__ = 'Copyright (C) 2009-2012  James Rowe'
+__license__ = 'GNU General Public License Version 3'
+__credits__ = ''
+__history__ = 'See Git repository at https://github.com/JNRowe/cupage'
 
 from email.utils import parseaddr
 
@@ -64,89 +64,89 @@ from . import utils
 
 
 #: User agent to use for HTTP requests
-USER_AGENT = "cupage/%s +https://github.com/JNRowe/cupage/" % __version__
+USER_AGENT = 'cupage/%s +https://github.com/JNRowe/cupage/' % __version__
 
 #: Site specific configuration data
 SITES = {
-    "bitbucket": {
-        "url": "https://bitbucket.org/{user}/{name}/downloads",
-        "select": "td.name a.execute",
-        "added": "0.7.0",
-        "keys": {"user": "bitbucket user name", },
+    'bitbucket': {
+        'url': 'https://bitbucket.org/{user}/{name}/downloads',
+        'select': 'td.name a.execute',
+        'added': '0.7.0',
+        'keys': {'user': 'bitbucket user name', },
     },
-    "cpan": {
-        "url": "http://search.cpan.org/dist/{name}/",
-        "select": "td small a",
-        "match_type": "re",
-        "match": "{name}-[\d\.]+.tar.gz",
-        "added": "0.4.0",
+    'cpan': {
+        'url': 'http://search.cpan.org/dist/{name}/',
+        'select': 'td small a',
+        'match_type': 're',
+        'match': '{name}-[\d\.]+.tar.gz',
+        'added': '0.4.0',
     },
-    "debian": {
-        "url": "http://ftp.debian.org/debian/pool/main/{name[0]}/{name}/",
-        "select": "td a",
-        "match_type": "re",
-        "re_verbose": True,
-        "match": r"""{name}_[\d\.]+
+    'debian': {
+        'url': 'http://ftp.debian.org/debian/pool/main/{name[0]}/{name}/',
+        'select': 'td a',
+        'match_type': 're',
+        're_verbose': True,
+        'match': r"""{name}_[\d\.]+
                      (?:\.orig\.tar|-\d+\.(?:diff|debian.tar))
                      \.(?:bz2|gz|xz)""",
-        "added": "0.3.0",
+        'added': '0.3.0',
     },
-    "failpad": {
-        "url": "https://launchpad.net/{name}/+download",
-        "select": "table.listing td a",
-        "added": "0.5.0",
+    'failpad': {
+        'url': 'https://launchpad.net/{name}/+download',
+        'select': 'table.listing td a',
+        'added': '0.5.0',
     },
-    "github": {
-        "url": "https://api.github.com/repos/{user}/{name}/tags",
-        "match_func": "github",
-        "keys": {"user": "GitHub user name", },
-        "added": "0.3.1",
-        "robots": "false",
+    'github': {
+        'url': 'https://api.github.com/repos/{user}/{name}/tags',
+        'match_func': 'github',
+        'keys': {'user': 'GitHub user name', },
+        'added': '0.3.1',
+        'robots': 'false',
     },
-    "google code": {
-        "url": "http://code.google.com/p/{name}/downloads/list",
-        "select": "td.id a",
-        "added": "0.1.0",
+    'google code': {
+        'url': 'http://code.google.com/p/{name}/downloads/list',
+        'select': 'td.id a',
+        'added': '0.1.0',
     },
-    "hackage": {
-        "url": "http://hackage.haskell.org/package/{name}",
-        "match_func": "hackage",
-        "added": "0.1.0",
+    'hackage': {
+        'url': 'http://hackage.haskell.org/package/{name}',
+        'match_func': 'hackage',
+        'added': '0.1.0',
     },
-    "luaforge": {
-        "url": "http://files.luaforge.net/releases/{name}/{name}}",
-        "select": "td a",
-        "added": "0.7.0",
+    'luaforge': {
+        'url': 'http://files.luaforge.net/releases/{name}/{name}}',
+        'select': 'td a',
+        'added': '0.7.0',
     },
-    "pypi": {
-        "url": "http://pypi.python.org/simple/{name}/",
-        "select": "a",
-        "added": "0.1.0",
-        "match": "({name}-[0-9\.]+\.tar\.gz)(?:#.*)",
+    'pypi': {
+        'url': 'http://pypi.python.org/simple/{name}/',
+        'select': 'a',
+        'added': '0.1.0',
+        'match': '({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
     },
-    "rubyforge": {
-        "url": "http://rubyforge.org/frs/?group_id={group}",
-        "select": "dd a",
-        "keys": {"group": "Group identifier for file downloads", },
-        "added": "0.7.0",
+    'rubyforge': {
+        'url': 'http://rubyforge.org/frs/?group_id={group}',
+        'select': 'dd a',
+        'keys': {'group': 'Group identifier for file downloads', },
+        'added': '0.7.0',
     },
-    "savannah": {
-        "url": "http://download.savannah.gnu.org/releases/{name}/",
-        "select": "td a",
-        "added": "0.7.0",
+    'savannah': {
+        'url': 'http://download.savannah.gnu.org/releases/{name}/',
+        'select': 'td a',
+        'added': '0.7.0',
     },
-    "sourceforge": {
-        "url": "http://sourceforge.net/api/file/index/project-name/{name}/rss",
-        "match_func": "sourceforge",
-        "added": "0.7.1",
+    'sourceforge': {
+        'url': 'http://sourceforge.net/api/file/index/project-name/{name}/rss',
+        'match_func': 'sourceforge',
+        'added': '0.7.1',
     },
-    "vim-script": {
-        "url": "http://www.vim.org/scripts/script.php?script_id={script}",
-        "select": "td a",
-        "match_type": "re",
-        "match": "download_script.php\?src_id=([\d]+)",
-        "keys": {"script": "script id on the vim website", },
-        "added": "0.3.0",
+    'vim-script': {
+        'url': 'http://www.vim.org/scripts/script.php?script_id={script}',
+        'select': 'td a',
+        'match_type': 're',
+        'match': 'download_script.php\?src_id=([\d]+)',
+        'keys': {'script': 'script id on the vim website', },
+        'added': '0.3.0',
     },
 }
 
@@ -155,7 +155,7 @@ class Site(object):
 
     """Simple object for representing a web site."""
 
-    def __init__(self, name, url, match_func="default", options=None,
+    def __init__(self, name, url, match_func='default', options=None,
                  frequency=None, robots=True, checked=None, matches=None):
         """Initialise a new ``Site`` object.
 
@@ -174,11 +174,11 @@ class Site(object):
         self.match_func = match_func
         self.options = options if options else {}
         re_verbose = 're_verbose' in options
-        if options.get("match_type") == "re":
-            self.match = re.compile(options["match"],
+        if options.get('match_type') == 're':
+            self.match = re.compile(options['match'],
                                     flags=re.VERBOSE if re_verbose else 0)
-        elif options.get("match_type") in ("gem", "tar", "zip"):
-            self.match = self.package_re(self.name, options["match_type"],
+        elif options.get('match_type') in ('gem', 'tar', 'zip'):
+            self.match = self.package_re(self.name, options['match_type'],
                                          re_verbose)
         self.checked = checked
         self.frequency = frequency
@@ -186,23 +186,23 @@ class Site(object):
         self.matches = matches if matches else []
 
     def __repr__(self):
-        return "%r(%r, %r, ...)" % (self.__class__.__name__, self.name,
+        return '%r(%r, %r, ...)' % (self.__class__.__name__, self.name,
                                     self.url)
 
     def __str__(self):
         """Pretty printed ``Site`` string."""
-        ret = ["%s @ %s using %s matcher" % (self.name, self.url,
+        ret = ['%s @ %s using %s matcher' % (self.name, self.url,
                                              self.match_func), ]
         if self.checked:
-            ret.append(" last checked %s" % self.checked)
+            ret.append(' last checked %s' % self.checked)
         if self.frequency:
-            ret.append(" with a check frequency of %s" % self.frequency)
+            ret.append(' with a check frequency of %s' % self.frequency)
         if self.matches:
-            ret.append("\n    ")
-            ret.append(", ".join(utils.sort_packages(self.matches)))
+            ret.append('\n    ')
+            ret.append(', '.join(utils.sort_packages(self.matches)))
         else:
-            ret.append("\n    No matches")
-        return "".join(ret)
+            ret.append('\n    No matches')
+        return ''.join(ret)
 
     def check(self, cache=None, timeout=None, force=False, no_write=False):
         """Check site for updates.
@@ -216,7 +216,7 @@ class Site(object):
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print utils.warn(_("%s is not due for check until %s")
+                print utils.warn(_('%s is not due for check until %s')
                                  % (self.name, next_check))
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
@@ -226,31 +226,31 @@ class Site(object):
         if no_write:
             http.cache.set = lambda x, y: True
 
-        if self.robots and not os.getenv("CUPAGE_IGNORE_ROBOTS_TXT"):
+        if self.robots and not os.getenv('CUPAGE_IGNORE_ROBOTS_TXT'):
             if not utils.robots_test(http, self.url, self.name, USER_AGENT):
                 return False
 
         try:
             headers, content = http.request(self.url,
-                                            headers={"User-Agent": USER_AGENT})
+                                            headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print utils.fail(_("Domain name lookup failed for %s") % self.name)
+            print utils.fail(_('Domain name lookup failed for %s') % self.name)
             return False
         except socket.timeout:
-            print utils.fail(_("Socket timed out on %s") % self.name)
+            print utils.fail(_('Socket timed out on %s') % self.name)
             return False
 
-        if not headers.get("content-location", self.url) == self.url:
-            print utils.warn(_("%s moved to %s")
-                       % (self.name, headers["content-location"]))
+        if not headers.get('content-location', self.url) == self.url:
+            print utils.warn(_('%s moved to %s')
+                       % (self.name, headers['content-location']))
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print utils.fail(_("%s returned %r")
+            print utils.fail(_('%s returned %r')
                              % (self.name, httplib.responses[headers.status]))
             return False
 
-        matches = getattr(self, "find_%s_matches" % self.match_func)(content)
+        matches = getattr(self, 'find_%s_matches' % self.match_func)(content)
         new_matches = filter(lambda s: s not in self.matches, matches)
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
@@ -263,14 +263,14 @@ class Site(object):
 
         """
         doc = html.fromstring(content)
-        if self.options["selector"] == "css":
-            selected = doc.cssselect(self.options["select"])
-        elif self.options["selector"] == "xpath":
-            selected = doc.xpath(self.options["select"])
+        if self.options['selector'] == 'css':
+            selected = doc.cssselect(self.options['select'])
+        elif self.options['selector'] == 'xpath':
+            selected = doc.xpath(self.options['select'])
         # We use a set to remove duplicates the lazy way
         matches = set()
         for sel in selected:
-            match = re.search(self.match, sel.get('href', ""))
+            match = re.search(self.match, sel.get('href', ''))
             if match:
                 groups = match.groups()
                 matches.add(groups[0] if groups else match.group())
@@ -319,9 +319,9 @@ class Site(object):
         :param bool verbose: Whether to enable :data:`re.VERBOSE`
 
         """
-        if ext == "tar":
-            ext = "tar.(?:bz2|gz|xz)"
-        match = r"%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s" % (name, ext)
+        if ext == 'tar':
+            ext = 'tar.(?:bz2|gz|xz)'
+        match = r'%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s' % (name, ext)
         return re.compile(match, flags=re.VERBOSE if verbose else 0)
 
     @staticmethod
@@ -333,60 +333,60 @@ class Site(object):
         :param data: Stored data from database file
 
         """
-        if "site" in options:
+        if 'site' in options:
             try:
-                site_opts = SITES[options["site"]]
+                site_opts = SITES[options['site']]
             except KeyError:
-                raise ValueError("Invalid site option for %s" % name)
-            if "keys" in site_opts:
-                for key in site_opts["keys"]:
+                raise ValueError('Invalid site option for %s' % name)
+            if 'keys' in site_opts:
+                for key in site_opts['keys']:
                     if not key in options:
-                        raise ValueError("%r is required for site=%s from %s"
-                                         % (key, options["site"], name))
-            options["name"] = name  # For .format usage
+                        raise ValueError('%r is required for site=%s from %s'
+                                         % (key, options['site'], name))
+            options['name'] = name  # For .format usage
 
             def get_val(name, default=None):
                 """Get option from site defaults with local override."""
                 return options.get(name, site_opts.get(name, default))
 
-            match_func = get_val("match_func", "default")
-            url = get_val("url").format(**options)  # pylint: disable-msg=W0142
+            match_func = get_val('match_func', 'default')
+            url = get_val('url').format(**options)  # pylint: disable-msg=W0142
             match_options = {
-                "selector": get_val("selector", "css"),
-                "select": get_val("select"),
-                "match_type": get_val("match_type", "tar"),
-                "re_verbose": get_val("re_verbose", False),
-                "match": get_val("match", "").format(**options),
+                'selector': get_val('selector', 'css'),
+                'select': get_val('select'),
+                'match_type': get_val('match_type', 'tar'),
+                're_verbose': get_val('re_verbose', False),
+                'match': get_val('match', '').format(**options),
             }  # pylint: disable-msg=W0142,C0301
-            robots = "robots" in options and options.as_bool("robots")
-        elif "url" in options:
-            match_func = options.get("match_func", "default")
-            url = options["url"]
+            robots = 'robots' in options and options.as_bool('robots')
+        elif 'url' in options:
+            match_func = options.get('match_func', 'default')
+            url = options['url']
             match_options = {
-                "selector": options.get("selector", "css"),
-                "select": options.get("select"),
-                "match_type": options.get("match_type", "tar"),
-                "match": options.get("match"),
+                'selector': options.get('selector', 'css'),
+                'select': options.get('select'),
+                'match_type': options.get('match_type', 'tar'),
+                'match': options.get('match'),
             }
-            if not match_options["select"]:
-                raise ValueError("missing select option for %s" % name)
-            if match_options["match_type"] == "re" \
-                and not match_options["match"]:
-                raise ValueError("missing match option for %s" % name)
-            robots = "robots" in options and options.as_bool("robots")
+            if not match_options['select']:
+                raise ValueError('missing select option for %s' % name)
+            if match_options['match_type'] == 're' \
+                and not match_options['match']:
+                raise ValueError('missing match option for %s' % name)
+            robots = 'robots' in options and options.as_bool('robots')
         else:
-            raise ValueError("site or url not specified for %s" % name)
-        frequency = options.get("frequency")
+            raise ValueError('site or url not specified for %s' % name)
+        frequency = options.get('frequency')
         if frequency:
             frequency = utils.parse_timedelta(frequency)
         site = Site(name, url, match_func, match_options, frequency, robots,
-                    data.get("checked"), data.get("matches"))
+                    data.get('checked'), data.get('matches'))
         return site
 
     @property
     def state(self):
         """Return ``Site`` state for database storage."""
-        return {"matches": self.matches, "checked": self.checked}
+        return {'matches': self.matches, 'checked': self.checked}
 
 
 class Sites(list):
@@ -402,8 +402,8 @@ class Sites(list):
         """
         conf = configobj.ConfigObj(config_file, file_error=True)
         if not conf.sections:
-            logging.debug("Config file %r is empty", config_file)
-            raise IOError("Error reading config file")
+            logging.debug('Config file %r is empty', config_file)
+            raise IOError('Error reading config file')
 
         if os.path.exists(database):
             data = json.load(open(database),

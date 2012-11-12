@@ -28,9 +28,9 @@ import sys
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = \
-    ["sphinx.ext.%s" % ext for ext in ["autodoc", "coverage", "doctest",
-                                       "intersphinx", "viewcode"]] + \
-    ["sphinxcontrib.%s" % ext for ext in ["blockdiag", ]]
+    ['sphinx.ext.%s' % ext for ext in ['autodoc', 'coverage', 'doctest',
+                                       'intersphinx', 'viewcode']] + \
+    ['sphinxcontrib.%s' % ext for ext in ['blockdiag', ]]
 
 # Only activate spelling, if it is installed.  It is not required in the
 # general case and we don't have the granularity to describe this in a clean
@@ -66,7 +66,7 @@ root_dir = os.path.sep.join(os.path.realpath(__file__).split(os.path.sep)[:-2])
 sys.path.insert(0, root_dir)
 from cupage import _version
 # The short X.Y version.
-version = ".".join(map(str, _version.tuple[:2]))
+version = '.'.join(map(str, _version.tuple[:2]))
 # The full version, including alpha/beta/rc tags.
 release = _version.dotted
 
@@ -116,14 +116,14 @@ html_theme = 'default'
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    "externalrefs": True,
+    'externalrefs': True,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
-# "<project> v<release> documentation".
+# '<project> v<release> documentation'.
 #html_title = None
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
@@ -140,7 +140,7 @@ html_theme_options = {
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
+# so a file named 'default.css' will overwrite the builtin 'default.css'.
 html_static_path = []
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
@@ -170,10 +170,10 @@ html_static_path = []
 # If true, links to the reST sources are added to the pages.
 #html_show_sourcelink = True
 
-# If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
+# If true, 'Created using Sphinx' is shown in the HTML footer. Default is True.
 #html_show_sphinx = True
 
-# If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
+# If true, '(C) Copyright ...' is shown in the HTML footer. Default is True.
 #html_show_copyright = True
 
 # If true, an OpenSearch description file will be output, and all pages will
@@ -181,7 +181,7 @@ html_static_path = []
 # base URL from which the finished HTML is served.
 #html_use_opensearch = ''
 
-# This is the file name suffix for HTML files (e.g. ".xhtml").
+# This is the file name suffix for HTML files (e.g. '.xhtml').
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
@@ -208,7 +208,7 @@ latex_documents = [
 # the title page.
 #latex_logo = None
 
-# For "manual" documents, if this is true, then toplevel headings are parts,
+# For 'manual' documents, if this is true, then toplevel headings are parts,
 # not chapters.
 #latex_use_parts = False
 
