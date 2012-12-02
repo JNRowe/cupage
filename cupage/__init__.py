@@ -1,7 +1,7 @@
 #
 # coding=utf-8
 """cupage - a tool to check for updates on web pages"""
-# Copyright (C) 2009-2012  James Rowe <jnrowe@gmail.com>
+# Copyright © 2012  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ from . import _version
 __version__ = _version.dotted
 __date__ = _version.date
 __author__ = 'James Rowe <jnrowe@gmail.com>'
-__copyright__ = 'Copyright (C) 2009-2012  James Rowe'
+__copyright__ = 'Copyright © 2012  James Rowe'
 __license__ = 'GNU General Public License Version 3'
 __credits__ = ''
 __history__ = 'See Git repository at https://github.com/JNRowe/cupage'
