@@ -45,6 +45,7 @@ selectors to match elements within a page, if you wish.
 :license: %s
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
+import ConfigParser
 import datetime
 import httplib
 import json
@@ -54,7 +55,6 @@ import re
 import socket
 import tempfile
 
-import configobj
 import httplib2
 
 from lxml import html
@@ -333,6 +333,10 @@ class Site(object):
         :param data: Stored data from database file
 
         """
+        def get_bool(name):
+            """Read boolean option from config file values"""
+            return options.get(name, '').lower() in ('1', 'true', 'on')
+
         if 'site' in options:
             try:
                 site_opts = SITES[options['site']]
@@ -358,7 +362,7 @@ class Site(object):
                 're_verbose': get_val('re_verbose', False),
                 'match': get_val('match', '').format(**options),
             }  # pylint: disable-msg=W0142,C0301
-            robots = 'robots' in options and options.as_bool('robots')
+            robots = get_bool('robots')
         elif 'url' in options:
             match_func = options.get('match_func', 'default')
             url = options['url']
@@ -373,7 +377,7 @@ class Site(object):
             if match_options['match_type'] == 're' \
                 and not match_options['match']:
                 raise ValueError('missing match option for %s' % name)
-            robots = 'robots' in options and options.as_bool('robots')
+            robots = get_bool('robots')
         else:
             raise ValueError('site or url not specified for %s' % name)
         frequency = options.get('frequency')
@@ -400,8 +404,9 @@ class Sites(list):
         :param str database: Database file to read
 
         """
-        conf = configobj.ConfigObj(config_file, file_error=True)
-        if not conf.sections:
+        conf = ConfigParser.ConfigParser()
+        conf.read(config_file)
+        if not conf.sections():
             logging.debug('Config file %r is empty', config_file)
             raise IOError('Error reading config file')
 
@@ -412,7 +417,10 @@ class Sites(list):
         elif database:
             logging.debug("Database file %r doesn't exist", database)
 
-        for name, options in conf.items():
+        for name in conf.sections():
+            options = {}
+            for opt in conf.options(name):
+                options[opt] = conf.get(name, opt)
             self.append(Site.parse(name, options, data.get(name, {})))
 
     def save(self, database):

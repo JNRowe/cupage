@@ -24,6 +24,7 @@ if sys.version_info[:2] < (2, 6):
     sys.exit(1)
 
 
+import ConfigParser
 import atexit
 import errno
 import logging
@@ -34,7 +35,6 @@ from operator import attrgetter
 
 import argparse
 import aaargh
-import configobj
 
 import cupage
 
@@ -79,9 +79,11 @@ def frequency_typecheck(string):
 @APP.cmd_arg('name', help=_('site name'))
 def add(verbose, config, site, url, match_type, match, frequency, select,
         selector, name):
-    conf = configobj.ConfigObj(config)
+    conf = ConfigParser.ConfigParser()
+    conf.read(config)
 
-    conf[name] = {
+    conf.add_section(name)
+    data = {
         'site': site,
         'url': url,
         'match_type': match_type,
@@ -90,12 +92,12 @@ def add(verbose, config, site, url, match_type, match, frequency, select,
         'select': select,
         'selector': selector,
     }
-    # Flush unused values
-    for key, value in conf[name].items():
-        if not value:
-            conf[name].pop(key)
+    # Don't store unused values
+    for key, value in data.items():
+        if value:
+            conf.set(name, key, value)
 
-    conf.write()
+    conf.write(open(config, 'w'))
 
 
 @APP.cmd(help='check sites for updates')
@@ -127,7 +129,7 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
     except ValueError:
         print utils.fail(_('Error reading database file'))
         return errno.ENOMSG
-    except configobj.ConfigObjError:
+    except ConfigParser.ParsingError:
         print utils.fail(_('Error reading config file'))
         return errno.ENOENT
 
@@ -216,18 +218,19 @@ def list_sites(verbose):
              help=_('config file to read page definitions from'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
 def remove(verbose, config, pages):
-    conf = configobj.ConfigObj(config)
+    conf = ConfigParser.ConfigParser()
+    conf.read(config)
 
     if pages:
         for page in pages:
-            if page not in conf.sections:
+            if not conf.has_section(page):
                 print utils.fail(_('Invalid site argument %r') % page)
                 return False
     for page in pages:
         if verbose:
             print _('Removing %s...') % page
-        conf.pop(page)
-    conf.write()
+        conf.remove_section(page)
+    conf.write(open(config, 'w'))
 
 
 def main():
