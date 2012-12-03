@@ -160,17 +160,26 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
 @APP.cmd_arg('-f', '--config', metavar='~/.cupage.conf',
              default=os.path.expanduser('~/.cupage.conf'),
              help=_('config file to read page definitions from'))
+@APP.cmd_arg('-d', '--database', metavar='~/.cupage.db',
+             help=_('database to store page data to(default based on --config '
+                    'value)'))
 @APP.cmd_arg('-m', '--match', metavar='regex', type=re.compile,
              help=_('match sites using regular expression'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to display'))
 def list_conf(verbose, config, database, match, pages):
+    if database is None:
+        database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
+
     sites = cupage.Sites()
     try:
-        sites.load(config)
+        sites.load(config, database)
     except IOError as e:
         print utils.fail(e.message)
         return errno.EIO
-    except configobj.ConfigObjError:
+    except ValueError:
+        print utils.fail(_('Error reading database file'))
+        return errno.ENOMSG
+    except ConfigParser.ParsingError:
         print utils.fail(_('Error reading config file'))
         return errno.ENOENT
 
