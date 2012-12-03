@@ -242,7 +242,7 @@ class Site(object):
 
         if not headers.get('content-location', self.url) == self.url:
             print utils.warn(_('%s moved to %s')
-                       % (self.name, headers['content-location']))
+                             % (self.name, headers['content-location']))
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
