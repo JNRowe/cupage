@@ -252,6 +252,6 @@ def main():
 
     try:
         APP.run()
-    except IOError as error:
+    except (configparser.DuplicateSectionError, IOError) as error:
         print(utils.fail(error.message))
         return 2
