@@ -247,6 +247,8 @@ class Site(object):
             print(utils.fail(_('Socket timed out on %s') % self.name))
             return False
 
+        content = content.decode(utils.charset_from_headers(headers))
+
         if not headers.get('content-location', self.url) == self.url:
             print(utils.warn(_('%s moved to %s')
                              % (self.name, headers['content-location'])))

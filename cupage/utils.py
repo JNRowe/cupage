@@ -191,3 +191,18 @@ def json_to_datetime(obj):
                 result = None
         obj['checked'] = result
     return obj
+
+
+def charset_from_headers(headers):
+    """Parse charset from headers.
+
+    :param httplib2.Response headers: Request headers
+    :return: Defined encoding, or default to ISO-8859-1
+
+    """
+    match = re.search("charset=([^ ;]+)", headers.get('content-type', ""))
+    if match:
+        charset = match.groups()[0]
+    else:
+        charset = "iso-8859-1"
+    return charset
