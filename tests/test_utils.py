@@ -22,7 +22,7 @@ import datetime
 from expecter import expect
 from nose2.tools import params
 
-from cupage.utils import (parse_timedelta, sort_packages)
+from cupage.utils import (charset_from_headers, parse_timedelta, sort_packages)
 
 
 @params(
@@ -48,3 +48,12 @@ def test_parse_invalid_timedelta():
 )
 def test_sort_packages(input, ordered):
     expect(sort_packages(input)) == ordered
+
+
+@params(
+    ({}, 'iso-8859-1'),
+    ({'content-type': 'text/html; charset=utf-8'}, 'utf-8'),
+    ({'content-type': 'text/html; charset=ISO-8859-1'}, 'ISO-8859-1'),
+)
+def test_charset_header(headers, charset):
+    expect(charset_from_headers(headers)) == charset

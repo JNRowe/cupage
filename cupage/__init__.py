@@ -46,7 +46,6 @@ selectors to match elements within a page, if you wish.
 """ % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import datetime
-import httplib
 import json
 import logging
 import os
@@ -54,7 +53,14 @@ import re
 import socket
 import tempfile
 
-import configobj
+try:
+    # For Python 3
+    import http.client as httplib
+    import configparser
+except ImportError:
+    import httplib  # NOQA
+    import ConfigParser as configparser  # NOQA
+
 import httplib2
 
 from lxml import html
@@ -216,8 +222,8 @@ class Site(object):
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print utils.warn(_('%s is not due for check until %s')
-                                 % (self.name, next_check))
+                print(utils.warn(_('%s is not due for check until %s')
+                                 % (self.name, next_check)))
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
                              ca_certs=utils.CA_CERTS)
@@ -234,24 +240,27 @@ class Site(object):
             headers, content = http.request(self.url,
                                             headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print utils.fail(_('Domain name lookup failed for %s') % self.name)
+            print(utils.fail(_('Domain name lookup failed for %s')
+                             % self.name))
             return False
         except socket.timeout:
-            print utils.fail(_('Socket timed out on %s') % self.name)
+            print(utils.fail(_('Socket timed out on %s') % self.name))
             return False
 
+        content = content.decode(utils.charset_from_headers(headers))
+
         if not headers.get('content-location', self.url) == self.url:
-            print utils.warn(_('%s moved to %s')
-                             % (self.name, headers['content-location']))
+            print(utils.warn(_('%s moved to %s')
+                             % (self.name, headers['content-location'])))
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print utils.fail(_('%s returned %r')
-                             % (self.name, httplib.responses[headers.status]))
+            print(utils.fail(_('%s returned %r')
+                             % (self.name, httplib.responses[headers.status])))
             return False
 
         matches = getattr(self, 'find_%s_matches' % self.match_func)(content)
-        new_matches = filter(lambda s: s not in self.matches, matches)
+        new_matches = [s for s in matches if not s in self.matches]
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
         return new_matches
@@ -333,6 +342,10 @@ class Site(object):
         :param data: Stored data from database file
 
         """
+        def get_bool(name):
+            """Read boolean option from config file values"""
+            return options.get(name, '').lower() in ('1', 'true', 'on')
+
         if 'site' in options:
             try:
                 site_opts = SITES[options['site']]
@@ -358,7 +371,7 @@ class Site(object):
                 're_verbose': get_val('re_verbose', False),
                 'match': get_val('match', '').format(**options),
             }  # pylint: disable-msg=W0142,C0301
-            robots = 'robots' in options and options.as_bool('robots')
+            robots = get_bool('robots')
         elif 'url' in options:
             match_func = options.get('match_func', 'default')
             url = options['url']
@@ -373,7 +386,7 @@ class Site(object):
             if match_options['match_type'] == 're' \
                 and not match_options['match']:
                 raise ValueError('missing match option for %s' % name)
-            robots = 'robots' in options and options.as_bool('robots')
+            robots = get_bool('robots')
         else:
             raise ValueError('site or url not specified for %s' % name)
         frequency = options.get('frequency')
@@ -400,8 +413,9 @@ class Sites(list):
         :param str database: Database file to read
 
         """
-        conf = configobj.ConfigObj(config_file, file_error=True)
-        if not conf.sections:
+        conf = configparser.ConfigParser()
+        conf.read(config_file)
+        if not conf.sections():
             logging.debug('Config file %r is empty', config_file)
             raise IOError('Error reading config file')
 
@@ -412,7 +426,10 @@ class Sites(list):
         elif database:
             logging.debug("Database file %r doesn't exist", database)
 
-        for name, options in conf.items():
+        for name in conf.sections():
+            options = {}
+            for opt in conf.options(name):
+                options[opt] = conf.get(name, opt)
             self.append(Site.parse(name, options, data.get(name, {})))
 
     def save(self, database):

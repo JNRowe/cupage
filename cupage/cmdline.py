@@ -20,7 +20,7 @@
 # This has to be here, as cupage uses 2.6 features.
 import sys
 if sys.version_info[:2] < (2, 6):
-    print 'Python v2.6, or later, is *required* for cupage!'
+    print('Python v2.6, or later, is *required* for cupage!')
     sys.exit(1)
 
 
@@ -32,9 +32,14 @@ import re
 
 from operator import attrgetter
 
+try:
+    # For Python 3
+    import configparser
+except ImportError:
+    import ConfigParser as configparser  # NOQA
+
 import argparse
 import aaargh
-import configobj
 
 import cupage
 
@@ -79,9 +84,11 @@ def frequency_typecheck(string):
 @APP.cmd_arg('name', help=_('site name'))
 def add(verbose, config, site, url, match_type, match, frequency, select,
         selector, name):
-    conf = configobj.ConfigObj(config)
+    conf = configparser.ConfigParser()
+    conf.read(config)
 
-    conf[name] = {
+    conf.add_section(name)
+    data = {
         'site': site,
         'url': url,
         'match_type': match_type,
@@ -90,12 +97,12 @@ def add(verbose, config, site, url, match_type, match, frequency, select,
         'select': select,
         'selector': selector,
     }
-    # Flush unused values
-    for key, value in conf[name].items():
-        if not value:
-            conf[name].pop(key)
+    # Don't store unused values
+    for key, value in data.items():
+        if value:
+            conf.set(name, key, value)
 
-    conf.write()
+    conf.write(open(config, 'w'))
 
 
 @APP.cmd(help='check sites for updates')
@@ -122,38 +129,38 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
     try:
         sites.load(config, database)
     except IOError as e:
-        print utils.fail(e.message)
+        print(utils.fail(e.message))
         return errno.EIO
     except ValueError:
-        print utils.fail(_('Error reading database file'))
+        print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
-    except configobj.ConfigObjError:
-        print utils.fail(_('Error reading config file'))
+    except configparser.ParsingError:
+        print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
     if not no_write:
         atexit.register(sites.save, database)
 
     if pages:
-        site_names = map(attrgetter('name'), sites)
+        site_names = list(map(attrgetter('name'), sites))
         for page in pages:
             if page not in site_names:
-                print utils.fail(_('Invalid site argument %r') % page)
+                print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
             if verbose:
-                print site
-                print _('Checking %s...') % site.name
+                print(site)
+                print(_('Checking %s...') % site.name)
             matches = site.check(cache, timeout, force, no_write)
             if matches:
                 if verbose:
-                    print _('%s has new matches') % site.name
+                    print(_('%s has new matches') % site.name)
                 for match in utils.sort_packages(matches):
-                    print utils.success(match)
+                    print(utils.success(match))
             else:
                 if verbose:
-                    print _('%s has no new matches') % site.name
+                    print(_('%s has no new matches') % site.name)
 
 
 @APP.cmd(name='list', help='list definitions from config file')
@@ -174,40 +181,40 @@ def list_conf(verbose, config, database, match, pages):
     try:
         sites.load(config, database)
     except IOError as e:
-        print utils.fail(e.message)
+        print(utils.fail(e.message))
         return errno.EIO
     except ValueError:
-        print utils.fail(_('Error reading database file'))
+        print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
-    except ConfigParser.ParsingError:
-        print utils.fail(_('Error reading config file'))
+    except configparser.ParsingError:
+        print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
     if pages:
         site_names = map(attrgetter('name'), sites)
         for page in pages:
             if page not in site_names:
-                print utils.fail(_('Invalid site argument %r') % page)
+                print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for site in sorted(sites, key=attrgetter('name')):
         if not pages and not match:
-            print site
+            print(site)
         elif pages and site.name in pages:
-            print site
+            print(site)
         elif match and match.search(site.name):
-            print site
+            print(site)
 
 
 @APP.cmd(name='list-sites', help='list supported site values')
 def list_sites(verbose):
     if verbose:
-        print _('Supported site values and their non-standard values:')
-        print
+        print(_('Supported site values and their non-standard values:'))
+        print()
     for site, values in sorted(cupage.SITES.items()):
-        print '- %s (v%s)' % (site, values['added'])
+        print('- %s (v%s)' % (site, values['added']))
         if 'keys' in values:
             for item in values['keys'].items():
-                print '  * %s - %s' % item
+                print('  * %s - %s' % item)
 
 
 @APP.cmd(help='remove site from config')
@@ -216,18 +223,19 @@ def list_sites(verbose):
              help=_('config file to read page definitions from'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
 def remove(verbose, config, pages):
-    conf = configobj.ConfigObj(config)
+    conf = configparser.ConfigParser()
+    conf.read(config)
 
     if pages:
         for page in pages:
-            if page not in conf.sections:
-                print utils.fail(_('Invalid site argument %r') % page)
+            if not conf.has_section(page):
+                print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for page in pages:
         if verbose:
-            print _('Removing %s...') % page
-        conf.pop(page)
-    conf.write()
+            print(_('Removing %s...') % page)
+        conf.remove_section(page)
+    conf.write(open(config, 'w'))
 
 
 def main():
@@ -244,6 +252,6 @@ def main():
 
     try:
         APP.run()
-    except IOError as error:
+    except (configparser.DuplicateSectionError, IOError) as error:
         print(utils.fail(error.message))
         return 2

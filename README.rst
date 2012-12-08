@@ -16,7 +16,6 @@ Requirements
 
 * aaargh_
 * blessings_
-* configobj_
 * httplib2_, v0.7 or newer
 * lxml_
 
@@ -109,7 +108,6 @@ reproduce the problem, or even better a patch!
 
 .. _aaargh: http://pypi.python.org/pypi/aaargh/
 .. _blessings: http://pypi.python.org/pypi/blessings/
-.. _configobj: http://pypi.python.org/pypi/configobj
 .. _lxml: http://codespeak.net/lxml/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _PEP 8: http://www.python.org/dev/peps/pep-0008/

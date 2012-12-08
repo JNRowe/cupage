@@ -21,10 +21,16 @@ import datetime
 import json
 import os
 import re
-import robotparser
 import socket
 import sys
-import urlparse
+
+try:
+    # For Python 3
+    from urllib import robotparser
+    import urllib.parse as urlparse
+except ImportError:
+    import robotparser  # NOQA
+    import urlparse  # NOQA
 
 import blessings
 import httplib2
@@ -100,16 +106,16 @@ def robots_test(http, url, name, user_agent='*'):
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print fail(_('Domain name lookup failed for %s') % name)
+            print(fail(_('Domain name lookup failed for %s') % name))
             return False
         except socket.timeout:
-            print fail(_('Socket timed out on %s') % name)
+            print(fail(_('Socket timed out on %s') % name))
             return False
         # Ignore errors 4xx errors for robots.txt
         if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print fail(_("Can't check %s, blocked by robots.txt") % name)
+                print(fail(_("Can't check %s, blocked by robots.txt") % name))
                 return False
 
 
@@ -185,3 +191,18 @@ def json_to_datetime(obj):
                 result = None
         obj['checked'] = result
     return obj
+
+
+def charset_from_headers(headers):
+    """Parse charset from headers.
+
+    :param httplib2.Response headers: Request headers
+    :return: Defined encoding, or default to ISO-8859-1
+
+    """
+    match = re.search("charset=([^ ;]+)", headers.get('content-type', ""))
+    if match:
+        charset = match.groups()[0]
+    else:
+        charset = "iso-8859-1"
+    return charset
