@@ -247,7 +247,7 @@ class Site(object):
             print(utils.fail(_('Socket timed out on %s') % self.name))
             return False
 
-        content = content.decode(utils.charset_from_headers(headers))
+        charset = utils.charset_from_headers(headers)
 
         if not headers.get('content-location', self.url) == self.url:
             print(utils.warn(_('%s moved to %s')
@@ -259,16 +259,18 @@ class Site(object):
                              % (self.name, httplib.responses[headers.status])))
             return False
 
-        matches = getattr(self, 'find_%s_matches' % self.match_func)(content)
+        matches = getattr(self, 'find_%s_matches' % self.match_func)(content,
+                                                                     charset)
         new_matches = [s for s in matches if not s in self.matches]
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
         return new_matches
 
-    def find_default_matches(self, content):
+    def find_default_matches(self, content, charset):
         """Extract matches from content.
 
         :param str content: Content to search
+        :param str charset: Character set for content
 
         """
         doc = html.fromstring(content)
@@ -285,29 +287,33 @@ class Site(object):
                 matches.add(groups[0] if groups else match.group())
         return sorted(list(matches))
 
-    def find_github_matches(self, content):
+    def find_github_matches(self, content, charset):
         """Extract matches from GitHub content.
 
         :param str content: Content to search
+        :param str charset: Character set for content
 
         """
+        content = content.encode(charset)
         doc = json.loads(content)
         return sorted(tag['name'] for tag in doc)
 
-    def find_hackage_matches(self, content):
+    def find_hackage_matches(self, content, charset):
         """Extract matches from hackage content.
 
         :param str content: Content to search
+        :param str charset: Character set for content
 
         """
         doc = html.fromstring(content)
         data = doc.cssselect('table tr')[0][1]
         return sorted(x.text for x in data.getchildren())
 
-    def find_sourceforge_matches(self, content):
+    def find_sourceforge_matches(self, content, charset):
         """Extract matches from sourceforge content.
 
         :param str content: Content to search
+        :param str charset: Character set for content
 
         """
         # We use lxml.html here to sidestep part of the stupidity of RSS 2.0,
