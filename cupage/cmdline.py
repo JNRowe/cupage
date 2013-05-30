@@ -29,6 +29,7 @@ import errno
 import logging
 import os
 import re
+import socket
 
 from operator import attrgetter
 
@@ -252,6 +253,9 @@ def main():
 
     try:
         APP.run()
+    except socket.error as error:
+        print(utils.fail(error.strerror))
+        return 99
     except (configparser.DuplicateSectionError, IOError) as error:
         print(utils.fail(error.message))
         return 2
