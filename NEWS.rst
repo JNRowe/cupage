@@ -6,6 +6,20 @@ User-visible changes
 
 .. contents::
 
+0.8.0 - 2013-05-30
+------------------
+
+* aaargh_ is now required
+* Python 3 is now supported
+* Added site matcher for ``luaforge``, ``rubyforge`` and ``sourceforge``
+* SSL certificates are now verified by default
+* New subcommands for mangling configuration file; ``add``, ``list`` and
+  ``remove``
+* ``xz`` archives are now matched by default with the tar matcher
+* configobj_ is no longer required
+
+.. _aaargh: http://pypi.python.org/pypi/aaargh/
+
 0.7.0 - 2012-02-03
 ------------------
 
