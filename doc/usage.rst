@@ -109,7 +109,7 @@ Commands
 
    configuration file to read
 
-.. cmdopton:: -m <regex>, --match <regex>
+.. cmdoption:: -m <regex>, --match <regex>
 
    match sites using regular expression
 
