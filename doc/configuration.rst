@@ -2,7 +2,7 @@ Configuration
 -------------
 
 :program:`cupage` stores its configuration in :file:`~/.cupage.conf` by default,
-although you can specify a different location with the :option:`cupage -f`
+although you can specify a different location with the :option:`cupage list -f`
 command line option.
 
 The configuration file is a ``INI`` format file, with a section for each site

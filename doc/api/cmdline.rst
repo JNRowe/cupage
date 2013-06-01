@@ -12,7 +12,12 @@ Command line
 .. autodata:: USAGE
 
 .. autofunction:: main
-.. autofunction:: process_command_line
+
+.. autofunction:: add
+.. autofunction:: check
+.. autofunction:: list_conf
+.. autofunction:: list_sites
+.. autofunction:: remove
 
 Examples
 --------

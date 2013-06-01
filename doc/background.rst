@@ -24,11 +24,11 @@ database for use from other tools and applications.
 :abbr:`JSON (JavaScript Object Notation)` was chosen as it is simple to read and
 write, especially so from Python_ using the json_ module [#]_.
 
-The database is a simple serialisation of the :class:`Sites` object.  The
-:class:`Sites` object is a container for :class:`Site` objects.  Only persistent
-data from :class:`Site` objects that can not be regenerated from the
-configuration file is stored in the database, namely last check time stamp and
-the current matches.
+The database is a simple serialisation of the :class:`cupage.Sites` object.  The
+:class:`cupage.Sites` object is a container for :class:`cupage.Site` objects.
+Only persistent data from :class:`cupage.Site` objects that can not be
+regenerated from the configuration file is stored in the database, namely last
+check time stamp and the current matches.
 
 .. blockdiag::
 

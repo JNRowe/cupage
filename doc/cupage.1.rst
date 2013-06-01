@@ -78,7 +78,7 @@ Check sites for updates
     configuration file to read
 
 -d <file>, --database <file>
-    database to store page data to.  Default based on :option:`--config <-f>`
+    database to store page data to.  Default based on :option:`cupage check -f`
     value, for example ``--config my_conf`` will result in a default setting of
     ``--database my_conf.db``.
 

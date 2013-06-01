@@ -240,8 +240,9 @@ man_pages = [
 # Autodoc extension settings
 autodoc_default_flags = ['members', ]
 
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/', os.getenv('SPHINX_PYTHON_OBJECTS')),
+}
 
 spelling_lang = 'en_GB'
 spelling_word_list_filename = 'wordlist.txt'
