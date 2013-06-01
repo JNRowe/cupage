@@ -26,6 +26,7 @@ Contents:
    faq
    api/index
    release
+   appendix
 
 Indices and tables
 ==================
