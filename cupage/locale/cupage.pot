@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cupage 0.8.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-30 13:45+0100\n"
+"POT-Creation-Date: 2013-06-14 18:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: cupage/__init__.py:225
+#: cupage/__init__.py:226
 #, python-format
 msgid "%s is not due for check until %s"
 msgstr ""
 
-#: cupage/__init__.py:243 cupage/utils.py:109
+#: cupage/__init__.py:244 cupage/utils.py:109
 #, python-format
 msgid "Domain name lookup failed for %s"
 msgstr ""
 
-#: cupage/__init__.py:247 cupage/utils.py:112
+#: cupage/__init__.py:248 cupage/utils.py:112
 #, python-format
 msgid "Socket timed out on %s"
 msgstr ""
 
-#: cupage/__init__.py:253
+#: cupage/__init__.py:254
 #, python-format
 msgid "%s moved to %s"
 msgstr ""
 
-#: cupage/__init__.py:258
+#: cupage/__init__.py:259
 #, python-format
 msgid "%s returned %r"
 msgstr ""
