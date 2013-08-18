@@ -126,7 +126,7 @@ SITES = {
         'added': '0.7.0',
     },
     'pypi': {
-        'url': 'http://pypi.python.org/simple/{name}/',
+        'url': 'https://pypi.python.org/simple/{name}/',
         'select': 'a',
         'added': '0.1.0',
         'match': '({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
