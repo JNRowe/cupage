@@ -399,7 +399,7 @@ class Site(object):
             if not match_options['select']:
                 raise ValueError('missing select option for %s' % name)
             if match_options['match_type'] == 're' \
-                and not match_options['match']:
+                    and not match_options['match']:
                 raise ValueError('missing match option for %s' % name)
             robots = get_bool('robots')
         else:
