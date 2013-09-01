@@ -242,7 +242,7 @@ def main():
         APP.run()
     except socket.error as error:
         print(utils.fail(error.strerror or error.message))
-        return 99
+        return errno.EADDRNOTAVAIL
     except (configparser.DuplicateSectionError, IOError) as error:
         print(utils.fail(error.message))
-        return 2
+        return errno.ENOENT
