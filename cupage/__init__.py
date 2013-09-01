@@ -51,6 +51,7 @@ import logging
 import os
 import re
 import socket
+import ssl
 import tempfile
 
 try:
@@ -243,6 +244,10 @@ class Site(object):
         except httplib2.ServerNotFoundError:
             print(utils.fail(_('Domain name lookup failed for %s')
                              % self.name))
+            return False
+        except ssl.SSLError as error:
+            print(utils.fail(_('SSL error %s (%s)') % (self.name,
+                                                       error.message)))
             return False
         except socket.timeout:
             print(utils.fail(_('Socket timed out on %s') % self.name))
