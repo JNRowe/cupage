@@ -65,6 +65,32 @@ def frequency_typecheck(string):
         raise argparse.ArgumentTypeError('Invalid frequency value')
 
 
+def load_sites(config, database, pages):
+    if database is None:
+        database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
+
+    sites = cupage.Sites()
+    try:
+        sites.load(config, database)
+    except IOError as e:
+        print(utils.fail(e.message))
+        return errno.EIO
+    except ValueError:
+        print(utils.fail(_('Error reading database file')))
+        return errno.ENOMSG
+    except configparser.ParsingError:
+        print(utils.fail(_('Error reading config file')))
+        return errno.ENOENT
+
+    # Check all named pages exist in config
+    site_names = list(map(attrgetter('name'), sites))
+    for page in pages:
+        if page not in site_names:
+            raise ValueError(_('Invalid site argument %r') % page)
+
+    return sites
+
+
 @APP.cmd(help='add definition to config file')
 @APP.cmd_arg('-f', '--config', metavar='~/.cupage.conf',
              default=os.path.expanduser('~/.cupage.conf'),
@@ -123,31 +149,13 @@ def add(verbose, config, site, url, match_type, match, frequency, select,
              help=_('timeout for network operations'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to check'))
 def check(verbose, config, database, cache, no_write, force, timeout, pages):
-    if database is None:
-        database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
-
-    sites = cupage.Sites()
-    try:
-        sites.load(config, database)
-    except IOError as e:
-        print(utils.fail(e.message))
-        return errno.EIO
-    except ValueError:
-        print(utils.fail(_('Error reading database file')))
-        return errno.ENOMSG
-    except configparser.ParsingError:
-        print(utils.fail(_('Error reading config file')))
-        return errno.ENOENT
+    sites = load_sites(config, database, pages)
 
     if not no_write:
+        if database is None:
+            database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
         atexit.register(sites.save, database)
 
-    if pages:
-        site_names = list(map(attrgetter('name'), sites))
-        for page in pages:
-            if page not in site_names:
-                print(utils.fail(_('Invalid site argument %r') % page))
-                return False
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
             if verbose:
@@ -175,28 +183,7 @@ def check(verbose, config, database, cache, no_write, force, timeout, pages):
              help=_('match sites using regular expression'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to display'))
 def list_conf(verbose, config, database, match, pages):
-    if database is None:
-        database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
-
-    sites = cupage.Sites()
-    try:
-        sites.load(config, database)
-    except IOError as e:
-        print(utils.fail(e.message))
-        return errno.EIO
-    except ValueError:
-        print(utils.fail(_('Error reading database file')))
-        return errno.ENOMSG
-    except configparser.ParsingError:
-        print(utils.fail(_('Error reading config file')))
-        return errno.ENOENT
-
-    if pages:
-        site_names = map(attrgetter('name'), sites)
-        for page in pages:
-            if page not in site_names:
-                print(utils.fail(_('Invalid site argument %r') % page))
-                return False
+    sites = load_sites(config, database, pages)
     for site in sorted(sites, key=attrgetter('name')):
         if not pages and not match:
             print(site)
