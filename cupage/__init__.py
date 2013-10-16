@@ -364,8 +364,8 @@ class Site(object):
             except KeyError:
                 raise ValueError('Invalid site option for %s' % name)
             if 'deprecated' in site_opts:
-                print "%s: %s - %s" % (name, options['site'],
-                                       site_opts['deprecated'])
+                print("%s: %s - %s" % (name, options['site'],
+                                       site_opts['deprecated']))
             if 'keys' in site_opts:
                 for key in site_opts['keys']:
                     if not key in options:
