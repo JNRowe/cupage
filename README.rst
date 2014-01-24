@@ -16,8 +16,9 @@ Requirements
 
 * aaargh_
 * blessings_
+* cssselect_, v0.7.0 or newer
 * httplib2_, v0.7 or newer
-* lxml_
+* lxml_, v3.0.0 or newer
 
 It should run with Python 2.6 or newer [#]_.  If ``cupage`` doesn't work with
 the version of Python you have installed, drop me a mail_ and I'll endeavour to
@@ -108,6 +109,7 @@ reproduce the problem, or even better a patch!
 
 .. _aaargh: http://pypi.python.org/pypi/aaargh/
 .. _blessings: http://pypi.python.org/pypi/blessings/
+.. _cssselect: http://pypi.python.org/pypi/cssselect/
 .. _lxml: http://codespeak.net/lxml/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _PEP 8: http://www.python.org/dev/peps/pep-0008/
