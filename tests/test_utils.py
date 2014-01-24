@@ -1,7 +1,7 @@
 #
 # coding=utf-8
 """test_utils - Tests for cupage utils"""
-# Copyright © 2009-2013  James Rowe <jnrowe@gmail.com>
+# Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
