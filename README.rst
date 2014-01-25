@@ -4,15 +4,14 @@ CUPage - Check for Updated Pages
 .. image:: https://secure.travis-ci.org/JNRowe/cupage.png?branch=master
    :target: http://travis-ci.org/JNRowe/cupage
 
-Introduction
-------------
-
 ``cupage`` is a tool to check for updates on web pages.
+
+``cupage`` is released under the `GPL v3`_ license.
 
 Requirements
 ------------
 
-``cupage``'s mandatory dependencies outside of the standard library are:
+``cupage``'s dependencies outside of the standard library are:
 
 * aaargh_
 * blessings_
@@ -20,20 +19,17 @@ Requirements
 * httplib2_, v0.7 or newer
 * lxml_, v3.0.0 or newer
 
-It should run with Python 2.6 or newer [#]_.  If ``cupage`` doesn't work with
-the version of Python you have installed, drop me a mail_ and I'll endeavour to
-fix it.
+It should work with any version of Python_ 2.6 or newer.  If ``cupage`` doesn't
+work with the version of Python you have installed, file an issue_ and I'll
+endeavour to fix it.
 
-The modules have been tested on many UNIX-like systems, including Linux,
-Solaris and OS X, but it should work fine on other systems too.  The
-modules and scripts contain a large collection of ``doctest`` tests that
-can be checked with ``./setup.py test_code``, and the code examples in the
-documentation can be tested with ``./setup.py test_doc``.
+The module has been tested on many UNIX-like systems, including Linux and OS X,
+but it should work fine on other systems too.
 
-.. [#] If you still run older versions only small changes are required, for
-       example to the base class definitions and the unrolling of conditional
-       expressions with python 2.4 or below.  And for 2.5 only ``str.format``
-       usage and the ``json`` import should need changing.
+To run the tests you'll need nose2_.  Once you have nose2_ installed you can run
+the tests with the following commands::
+
+    $ nose2 -v tests
 
 Example
 -------
@@ -65,38 +61,28 @@ following is an example configuration file::
     user = JNRowe
     frequency = 1m
 
-API Stability
--------------
+Contributors
+------------
 
-API stability isn't guaranteed across versions, although frivolous
-changes won't be made.
+I'd like to thank the following people who have contributed to ``cupage``.
 
-When ``cupage`` 1.0 is released the library API will be frozen, and any
-changes which aren't backwards compatible will force a major version
-bump.
+Patches
+'''''''
 
-Hacking
--------
+* <Your name here?>
 
-Patches are most welcome, but I'd appreciate it if you could follow the
-guidelines below to make it easier to integrate your changes.  These are
-guidelines however, and as such can be broken if the need arises or you
-just want to convince me that your style is better.
+Bug reports
+'''''''''''
 
-* `PEP 8`_, the style guide, should be followed where possible.
-* While support for Python versions prior to v2.5 may be added in the future if
-  such a need were to arise, you are encouraged to use v2.5 features now.
-* All new classes and methods should be accompanied by new ``doctest`` examples
-  and reStructuredText_ formatted descriptions.
-* Tests *must not* span network boundaries, use mock_ if needed.
-* ``doctest`` tests in modules are only for unit testing in general, and should
-  not rely on any modules that aren't in Python's standard library.
-* Functional tests should be in the ``doc`` directory in reStructuredText_
-  formatted files, with actual tests in ``doctest`` blocks.  Functional tests
-  can depend on external modules, but they must be Open Source.
+* Matt Leighy
 
-New examples for the ``doc`` directory are as appreciated as code
-changes.
+Ideas
+'''''
+
+* <Your name here?>
+
+If I've forgotten to include your name I wholeheartedly apologise.  Just drop me
+a mail_ and I'll update the list!
 
 Bugs
 ----
@@ -107,13 +93,13 @@ file an issue_ or drop me a mail_.
 If you've found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
-.. _aaargh: http://pypi.python.org/pypi/aaargh/
-.. _blessings: http://pypi.python.org/pypi/blessings/
-.. _cssselect: http://pypi.python.org/pypi/cssselect/
-.. _lxml: http://codespeak.net/lxml/
+.. _GPL v3: http://www.gnu.org/licenses/
+.. _aaargh: https://crate.io/packages/aaargh/
+.. _blessings: https://crate.io/packages/blessings/
+.. _cssselect: https://crate.io/packages/cssselect/
 .. _httplib2: http://code.google.com/p/httplib2/
-.. _PEP 8: http://www.python.org/dev/peps/pep-0008/
-.. _reStructuredText: http://docutils.sourceforge.net/rst.html
-.. _mock: http://pypi.python.org/pypi/mock
+.. _lxml: http://lxml.de/
+.. _Python: http://www.python.org/
+.. _issue: https://github.com/JNRowe/cupage/issues
+.. _nose2: https://crate.io/packages/nose2/
 .. _mail: jnrowe@gmail.com
-.. _issue: http://github.com/JNRowe/cupage/issues
