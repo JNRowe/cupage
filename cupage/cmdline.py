@@ -150,6 +150,8 @@ def add(verbose, config, site, url, match_type, match, frequency, select,
 @APP.cmd_arg('pages', nargs='*', help=_('pages to check'))
 def check(verbose, config, database, cache, no_write, force, timeout, pages):
     sites = load_sites(config, database, pages)
+    if not isinstance(sites, cupage.Sites):
+        raise IOError(_('Error processing config or database'))
 
     if not no_write:
         if database is None:
