@@ -25,6 +25,7 @@ Contents:
    cupage manpage <cupage.1>
    faq
    api/index
+   alternatives
    release
    appendix
 
