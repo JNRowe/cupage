@@ -1,4 +1,4 @@
-#! /usr/bin/python -tt
+#! /usr/bin/env python
 # coding=utf-8
 """cupage - a tool to check for updates on web pages"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>

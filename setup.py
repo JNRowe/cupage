@@ -1,4 +1,4 @@
-#! /usr/bin/python -tt
+#! /usr/bin/env python
 # coding=utf-8
 """setup.py - Build and installation support"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
