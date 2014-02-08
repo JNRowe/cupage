@@ -33,11 +33,12 @@ import socket
 
 from operator import attrgetter
 
-try:
-    # For Python 3
-    import configparser
+try:  # For Python 3
+    from configparser import (ConfigParser, DuplicateSectionError,
+                              ParsingError)
 except ImportError:
-    import ConfigParser as configparser  # NOQA
+    from ConfigParser import SafeConfigParser as ConfigParser  # NOQA
+    from ConfigParser import (DuplicateSectionError, ParsingError)  # NOQA
 
 import argparse
 import aaargh
@@ -78,7 +79,7 @@ def load_sites(config, database, pages):
     except ValueError:
         print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
-    except configparser.ParsingError:
+    except ParsingError:
         print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
@@ -111,7 +112,7 @@ def load_sites(config, database, pages):
 @APP.cmd_arg('name', help=_('site name'))
 def add(verbose, config, site, url, match_type, match, frequency, select,
         selector, name):
-    conf = configparser.ConfigParser()
+    conf = ConfigParser()
     conf.read(config)
 
     conf.add_section(name)
@@ -213,7 +214,7 @@ def list_sites(verbose):
              help=_('config file to read page definitions from'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
 def remove(verbose, config, pages):
-    conf = configparser.ConfigParser()
+    conf = ConfigParser()
     conf.read(config)
 
     if pages:
@@ -245,6 +246,6 @@ def main():
     except socket.error as error:
         print(utils.fail(error.strerror or error.message))
         return errno.EADDRNOTAVAIL
-    except (configparser.DuplicateSectionError, IOError) as error:
+    except (DuplicateSectionError, IOError) as error:
         print(utils.fail(error.message))
         return errno.ENOENT
