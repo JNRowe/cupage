@@ -67,7 +67,7 @@ import httplib2
 from lxml import html
 
 from .i18n import _
-from . import utils
+from . import (compat, utils)
 
 
 #: User agent to use for HTTP requests
@@ -159,6 +159,7 @@ SITES = {
 }
 
 
+@compat.mangle_repr_type
 class Site(object):
 
     """Simple object for representing a web site."""
@@ -417,6 +418,7 @@ class Site(object):
         return {'matches': self.matches, 'checked': self.checked}
 
 
+@compat.mangle_repr_type
 class Sites(list):
 
     """``Site`` bundle wrapper."""
