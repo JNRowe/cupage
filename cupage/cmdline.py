@@ -46,7 +46,7 @@ import aaargh
 import cupage
 
 from .i18n import _
-from . import (_version, utils)
+from . import (_version, compat, utils)
 
 
 #: Command line help string, for use with :mod:`argparse`
@@ -113,7 +113,7 @@ def load_sites(config, database, pages):
 def add(verbose, config, site, url, match_type, match, frequency, select,
         selector, name):
     conf = ConfigParser()
-    conf.read(config)
+    conf.readfp(compat.open(config))
 
     conf.add_section(name)
     data = {
@@ -130,7 +130,7 @@ def add(verbose, config, site, url, match_type, match, frequency, select,
         if value:
             conf.set(name, key, value)
 
-    conf.write(open(config, 'w'))
+    conf.write(compat.open(config, 'w'))
 
 
 @APP.cmd(help='check sites for updates')
@@ -215,7 +215,7 @@ def list_sites(verbose):
 @APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
 def remove(verbose, config, pages):
     conf = ConfigParser()
-    conf.read(config)
+    conf.readfp(compat.open(config))
 
     if pages:
         for page in pages:
@@ -226,7 +226,7 @@ def remove(verbose, config, pages):
         if verbose:
             print(_('Removing %s...') % page)
         conf.remove_section(page)
-    conf.write(open(config, 'w'))
+    conf.write(compat.open(config, 'w'))
 
 
 def main():
