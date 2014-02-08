@@ -9,19 +9,19 @@ Options
 
 .. program:: cupage
 
-.. cmdoption:: --version
+.. option:: --version
 
    show program's version number and exit
 
-.. cmdoption:: -h, --help
+.. option:: -h, --help
 
    show this help message and exit
 
-.. cmdoption:: -v, --verbose
+.. option:: -v, --verbose
 
    produce verbose output
 
-.. cmdoption:: -q, --quiet
+.. option:: -q, --quiet
 
    output only matches and errors
 
@@ -33,35 +33,35 @@ Commands
 
 .. program:: cupage add
 
-.. cmdoption:: -f <file>, --config <file>
+.. option:: -f <file>, --config <file>
 
    configuration file to read
 
-.. cmdoption:: -s <site>, --site <site>
+.. option:: -s <site>, --site <site>
 
    site helper to use
 
-.. cmdoption:: -u <url>, --url <url>
+.. option:: -u <url>, --url <url>
 
    site url to check
 
-.. cmdoption:: -t <type>, --match-type <type>
+.. option:: -t <type>, --match-type <type>
 
    pre-defined regular expression to use
 
-.. cmdoption:: -m <regex>, --match <regex>
+.. option:: -m <regex>, --match <regex>
 
    regular expression to use with --match-type=re
 
-.. cmdoption:: -q <frequency>, --frequency <frequency>
+.. option:: -q <frequency>, --frequency <frequency>
 
    update check frequency
 
-.. cmdoption:: -x <selector>, --select <selector>
+.. option:: -x <selector>, --select <selector>
 
    content selector
 
-.. cmdoption:: --selector <type>
+.. option:: --selector <type>
 
    selector method to use
 
@@ -70,11 +70,11 @@ Commands
 
 .. program:: cupage check
 
-.. cmdoption:: -f <file>, --config <file>
+.. option:: -f <file>, --config <file>
 
    configuration file to read
 
-.. cmdoption:: -d <file>, --database <file>
+.. option:: -d <file>, --database <file>
 
    database to store page data to.  Default based on :option:`--config <-f>`
    value, for example ``--config my_conf`` will result in a default setting of
@@ -82,21 +82,21 @@ Commands
 
    See :ref:`database-label` for details of the database format.
 
-.. cmdoption:: -c <dir>, --cache <dir>
+.. option:: -c <dir>, --cache <dir>
 
    directory to store page cache
 
    This can, and in fact *should* be, shared between all cupage uses.
 
-.. cmdoption:: --no-write
+.. option:: --no-write
 
    don't update cache or database
 
-.. cmdoption:: --force
+.. option:: --force
 
    ignore frequency checks
 
-.. cmdoption:: -t <n>, --timeout=<n>
+.. option:: -t <n>, --timeout=<n>
 
    timeout for network operations
 
@@ -105,11 +105,11 @@ Commands
 
 .. program:: cupage list
 
-.. cmdoption:: -f <file>, --config <file>
+.. option:: -f <file>, --config <file>
 
    configuration file to read
 
-.. cmdoption:: -m <regex>, --match <regex>
+.. option:: -m <regex>, --match <regex>
 
    match sites using regular expression
 
@@ -123,6 +123,6 @@ Commands
 
 .. program:: cupage remove
 
-.. cmdoption:: -f <file>, --config <file>
+.. option:: -f <file>, --config <file>
 
    configuration file to read
