@@ -19,8 +19,6 @@
 
 import imp
 
-from sys import version_info
-
 from setuptools import setup
 
 # Hack to import _version file without importing cupage/__init__.py, its
@@ -28,6 +26,7 @@ from setuptools import setup
 ver_file = open('cupage/_version.py')
 _version = imp.load_module('_version', ver_file, ver_file.name,
                            ('.py', ver_file.mode, imp.PY_SOURCE))
+
 
 def parse_requires(file):
     deps = []
@@ -43,7 +42,7 @@ def parse_requires(file):
             deps.append(dep)
     return deps
 
-install_requires = parse_requires('requirements-py%s%s.txt' % version_info[:2])
+install_requires = parse_requires('requirements.txt')
 
 setup(
     name='cupage',
