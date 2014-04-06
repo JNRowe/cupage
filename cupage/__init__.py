@@ -71,7 +71,7 @@ from . import (compat, utils)
 
 
 #: User agent to use for HTTP requests
-USER_AGENT = 'cupage/%s +https://github.com/JNRowe/cupage/' % __version__
+USER_AGENT = 'cupage/%s (https://github.com/JNRowe/cupage/)' % __version__
 
 #: Site specific configuration data
 SITES = {
