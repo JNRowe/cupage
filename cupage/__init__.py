@@ -175,7 +175,6 @@ class Site(object):
         :param bool robots: Whether to respect a host's :file:`robots.txt`
         :param datetime.datetime checked: Last checked date
         :param list matches: Previous matches
-
         """
         self.name = name
         self.url = url
@@ -219,7 +218,6 @@ class Site(object):
         :param int timeout: Timeout value for :class:`httplib2.Http`
         :param bool force: Ignore configured check frequency
         :param bool no_write: Do not write to cache, useful for testing
-
         """
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
@@ -277,7 +275,6 @@ class Site(object):
 
         :param str content: Content to search
         :param str charset: Character set for content
-
         """
         doc = html.fromstring(content)
         if self.options['selector'] == 'css':
@@ -298,7 +295,6 @@ class Site(object):
 
         :param str content: Content to search
         :param str charset: Character set for content
-
         """
         content = content.encode(charset)
         doc = json.loads(content)
@@ -309,7 +305,6 @@ class Site(object):
 
         :param str content: Content to search
         :param str charset: Character set for content
-
         """
         doc = html.fromstring(content)
         data = doc.cssselect('table tr')[0][1]
@@ -320,7 +315,6 @@ class Site(object):
 
         :param str content: Content to search
         :param str charset: Character set for content
-
         """
         # We use lxml.html here to sidestep part of the stupidity of RSS 2.0,
         # if a usable format on sf comes along we'll switch to it.
@@ -338,7 +332,6 @@ class Site(object):
         :param str name: File name to check for
         :param str ext: File extension to check
         :param bool verbose: Whether to enable :data:`re.VERBOSE`
-
         """
         if ext == 'tar':
             ext = 'tar.(?:bz2|gz|xz)'
@@ -352,7 +345,6 @@ class Site(object):
         :param str name: Site name from config file
         :param configobj.ConfigObj options: Site options from config file
         :param dict data: Stored data from database file
-
         """
         if 'site' in options:
             try:
@@ -429,7 +421,6 @@ class Sites(list):
 
         :param str config_file: Config file to read
         :param str database: Database file to read
-
         """
         conf = configobj.ConfigObj(config_file, file_error=True)
         if not conf.sections:
@@ -450,7 +441,6 @@ class Sites(list):
         """Save ``Sites`` to the user's database.
 
         :param str database: Database file to write
-
         """
         data = {}
         for site in self:

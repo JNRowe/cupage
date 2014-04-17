@@ -74,7 +74,6 @@ def parse_timedelta(delta):
     """Parse human readable frequency.
 
     :param str delta: Frequency to parse
-
     """
     match = re.match('^(\d+(?:|\.\d+)) *([hdwmy])$', delta, re.IGNORECASE)
     if not match:
@@ -90,7 +89,6 @@ def sort_packages(packages):
     """Order package list according to version number.
 
     :param list packages: Packages to sort
-
     """
     # Very ugly key function, but it handles the common case of varying
     # component length just about 'Good Enough™'
@@ -105,7 +103,6 @@ def robots_test(http, url, name, user_agent='*'):
     :param str url: URL to check
     :param name: Site name being checked
     :param str user_agent: User agent to check in :file:`robots.txt`
-
     """
     parsed = urlparse.urlparse(url, 'http')
     if parsed.scheme.startswith('http'):
@@ -137,7 +134,6 @@ def success(text):
     """Format a success message with colour, if possible.
 
     :param str text: Text to format
-
     """
     return _format_info(text, 'green')
 
@@ -146,7 +142,6 @@ def fail(text):
     """Format a failure message with colour, if possible.
 
     :param str text: Text to format
-
     """
     return _format_info(text, 'red')
 
@@ -155,7 +150,6 @@ def warn(text):
     """Format a warning message with colour, if possible.
 
     :param str text: Text to format
-
     """
     return _format_info(text, 'yellow')
 
@@ -171,7 +165,6 @@ class CupageEncoder(json.JSONEncoder):
         ``obj`` has no ``isoformat`` method.
 
         :param obj: Object to encode
-
         """
         try:
             return obj.isoformat()
@@ -186,7 +179,6 @@ def json_to_datetime(obj):
     :see: `json.JSONDecoder`
 
     :param obj: Object to decode
-
     """
     if 'checked' in obj:
         try:
@@ -207,7 +199,6 @@ def charset_from_headers(headers):
 
     :param httplib2.Response headers: Request headers
     :return: Defined encoding, or default to ISO-8859-1
-
     """
     match = re.search("charset=([^ ;]+)", headers.get('content-type', ""))
     if match:
