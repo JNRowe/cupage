@@ -33,15 +33,9 @@ import socket
 
 from operator import attrgetter
 
-try:  # For Python 3
-    from configparser import (ConfigParser, DuplicateSectionError,
-                              ParsingError)
-except ImportError:
-    from ConfigParser import SafeConfigParser as ConfigParser  # NOQA
-    from ConfigParser import (DuplicateSectionError, ParsingError)  # NOQA
-
 import argparse
 import aaargh
+import configobj
 
 import cupage
 
@@ -79,7 +73,7 @@ def load_sites(config, database, pages):
     except ValueError:
         print(utils.fail(_('Error reading database file')))
         return errno.ENOMSG
-    except ParsingError:
+    except TypeError:
         print(utils.fail(_('Error reading config file')))
         return errno.ENOENT
 
@@ -112,10 +106,9 @@ def load_sites(config, database, pages):
 @APP.cmd_arg('name', help=_('site name'))
 def add(verbose, config, site, url, match_type, match, frequency, select,
         selector, name):
-    conf = ConfigParser()
-    conf.readfp(compat.open(config))
+    conf = configobj.ConfigObj(config)
 
-    conf.add_section(name)
+    conf[name] = {}
     data = {
         'site': site,
         'url': url,
@@ -128,9 +121,9 @@ def add(verbose, config, site, url, match_type, match, frequency, select,
     # Don't store unused values
     for key, value in data.items():
         if value:
-            conf.set(name, key, value)
+            conf[name][key] = value
 
-    conf.write(compat.open(config, 'w'))
+    conf.write()
 
 
 @APP.cmd(help='check sites for updates')
@@ -214,19 +207,18 @@ def list_sites(verbose):
              help=_('config file to read page definitions from'))
 @APP.cmd_arg('pages', nargs='*', help=_('pages to remove'))
 def remove(verbose, config, pages):
-    conf = ConfigParser()
-    conf.readfp(compat.open(config))
+    conf = configobj.ConfigObj(config, file_error=True)
 
     if pages:
         for page in pages:
-            if not conf.has_section(page):
+            if page in conf.sections:
                 print(utils.fail(_('Invalid site argument %r') % page))
                 return False
     for page in pages:
         if verbose:
             print(_('Removing %s...') % page)
-        conf.remove_section(page)
-    conf.write(compat.open(config, 'w'))
+        del conf[page]
+    conf.write()
 
 
 def main():
@@ -246,6 +238,6 @@ def main():
     except socket.error as error:
         print(utils.fail(error.strerror or error.message))
         return errno.EADDRNOTAVAIL
-    except (DuplicateSectionError, IOError) as error:
+    except (configobj.DuplicateError, IOError) as error:
         print(utils.fail(error.message))
         return errno.ENOENT

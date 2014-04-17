@@ -1,5 +1,6 @@
 aaargh>=0.7
 blessings
+configobj>=5.0.0
 cssselect>=0.7.0
 httplib2>=0.7
 lxml>=3.0.0

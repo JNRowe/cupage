@@ -15,6 +15,7 @@ Requirements
 
 * aaargh_
 * blessings_
+* configobj_, v5.0.0 or newer
 * cssselect_, v0.7.0 or newer
 * httplib2_, v0.7 or newer
 * lxml_, v3.0.0 or newer
@@ -96,6 +97,7 @@ reproduce the problem, or even better a patch!
 .. _GPL v3: http://www.gnu.org/licenses/
 .. _aaargh: https://crate.io/packages/aaargh/
 .. _blessings: https://crate.io/packages/blessings/
+.. _configobj: https://crate.io/packages/configobj/
 .. _cssselect: https://crate.io/packages/cssselect/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _lxml: http://lxml.de/
