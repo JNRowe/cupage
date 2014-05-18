@@ -1,6 +1,6 @@
 #
 # coding=utf-8
-"""command_line- Command line interface for cupage"""
+"""command_line - Command line interface for cupage"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
