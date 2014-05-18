@@ -135,6 +135,17 @@ def cli(ctx, verbose):
 @click.argument('name')
 def add(config, site, url, match_type, match, frequency, select,
         selector, name):
+    """Add new site to config.
+
+    :param str config: Location of config file
+    :param str site: Site helper to match with
+    :param str match_type: Filename match pattern
+    :param str match: Regular expression to use when ``match_type`` is ``re``
+    :param str frequency: Update frequency
+    :param str select: Page content to check
+    :param str site: Type of selector to use
+    :param str name: Name for new entry
+    """
     conf = configobj.ConfigObj(config)
 
     conf[name] = {}
@@ -174,6 +185,19 @@ def add(config, site, url, match_type, match, frequency, select,
 @click.argument('pages', nargs=-1)
 @click.pass_obj
 def check(globs, config, database, cache, write, force, timeout, pages):
+    """Check sites for updates.
+
+    :param dict globs: Global options object
+    :param str config: Location of config file
+    :param str database: Location of database file
+    :param str cache: Location of cache directory
+    :param bool write: Whether to update cache/database
+    :param bool force: Force update regardless of ``frequency`` setting
+    :param datetime.timedelta frequency: Update frequency
+    :param int timeout: Network timeout in seconds
+    :type pages: ``list`` of ``str``
+    :param pages: Pages to check
+    """
     sites = load_sites(config, database, pages)
     if not isinstance(sites, cupage.Sites):
         raise IOError(_('Error processing config or database'))
@@ -212,6 +236,14 @@ def check(globs, config, database, cache, write, force, timeout, pages):
               help=_('Match sites using regular expression.'))
 @click.argument('pages', nargs=-1)
 def list_conf(config, database, match, pages):
+    """List site definitions in config file.
+
+    :param str config: Location of config file
+    :param str database: Location of database file
+    :param str match: Display sites matching the given regular expression
+    :type pages: ``list`` of ``str``
+    :param pages: Pages to check
+    """
     sites = load_sites(config, database, pages)
     for site in sorted(sites, key=attrgetter('name')):
         if not pages and not match:
@@ -225,6 +257,10 @@ def list_conf(config, database, match, pages):
 @cli.command(name='list-sites', help='List supported site values.')
 @click.pass_obj
 def list_sites(globs):
+    """List built-in site matcher definitions.
+
+    :param dict globs: Global options object
+    """
     if globs['verbose']:
         print(_('Supported site values and their non-standard values:'))
         print()
@@ -242,6 +278,13 @@ def list_sites(globs):
 @click.argument('pages', nargs=-1)
 @click.pass_obj
 def remove(globs, config, pages):
+    """Remove sites for config file.
+
+    :param dict globs: Global options object
+    :param str config: Location of config file
+    :type pages: ``list`` of ``str``
+    :param pages: Pages to check
+    """
     conf = configobj.ConfigObj(config, file_error=True)
 
     if pages:
