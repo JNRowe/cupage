@@ -40,7 +40,7 @@ import configobj
 import cupage
 
 from .i18n import _
-from . import (_version, compat, utils)
+from . import (_version, utils)
 
 
 #: Command line help string, for use with :mod:`argparse`
