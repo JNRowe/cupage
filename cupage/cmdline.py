@@ -241,3 +241,6 @@ def main():
     except (configobj.DuplicateError, IOError) as error:
         print(utils.fail(error.message))
         return errno.ENOENT
+    except ValueError as error:
+        print(utils.fail(error.message))
+        return errno.EPERM
