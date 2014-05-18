@@ -1,5 +1,5 @@
-aaargh>=0.7
 blessings
+click
 configobj>=5.0.0
 cssselect>=0.7.0
 httplib2>=0.7

@@ -13,8 +13,8 @@ Requirements
 
 ``cupage``'s dependencies outside of the standard library are:
 
-* aaargh_
 * blessings_
+* click_
 * configobj_, v5.0.0 or newer
 * cssselect_, v0.7.0 or newer
 * httplib2_, v0.7 or newer
@@ -95,8 +95,8 @@ If you've found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
 .. _GPL v3: http://www.gnu.org/licenses/
-.. _aaargh: https://crate.io/packages/aaargh/
 .. _blessings: https://crate.io/packages/blessings/
+.. _click: https://crate.io/packages/click/
 .. _configobj: https://crate.io/packages/configobj/
 .. _cssselect: https://crate.io/packages/cssselect/
 .. _httplib2: http://code.google.com/p/httplib2/
