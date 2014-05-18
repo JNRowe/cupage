@@ -374,7 +374,7 @@ class Site(object):
                 're_verbose': get_val('re_verbose', False),
                 'match': get_val('match', '').format(**options),
             }  # pylint: disable-msg=W0142,C0301
-            if options.has_key('robots'):
+            if 'robots' in options:
                 robots = options.as_bool('robots')
             else:
                 robots = True
@@ -392,7 +392,7 @@ class Site(object):
             if match_options['match_type'] == 're' \
                     and not match_options['match']:
                 raise ValueError('missing match option for %s' % name)
-            if options.has_key('robots'):
+            if 'robots' in options:
                 robots = options.as_bool('robots')
             else:
                 robots = True
