@@ -13,7 +13,7 @@ Options
 
    show program's version number and exit
 
-.. option:: -h, --help
+.. option:: --help
 
    show this help message and exit
 

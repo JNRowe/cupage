@@ -28,7 +28,7 @@ OPTIONS
 --version
     show program's version number and exit
 
--h, --help
+--help
     show this help message and exit
 
 -v, --verbose
