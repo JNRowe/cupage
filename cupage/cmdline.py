@@ -123,7 +123,7 @@ def cli(ctx, verbose):
               help=_('Site helper to use.'))
 @click.option('-u', '--url', help=_('Site url to check.'))
 @click.option('-t', '--match-type', default='tar',
-              type=click.Choice(['gem', 're', 'tar', 'zip']),
+              type=click.Choice(['re', 'tar', 'zip']),
               help=_('Pre-defined regular expression to use.'))
 @click.option('-m', '--match', metavar='regex',
               help=_('Regular expression to use with --match-type=re.'))

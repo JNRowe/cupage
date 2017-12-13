@@ -149,7 +149,6 @@ address.
 
 .. _GitHub: http://github.com
 .. _vim website: http://www.vim.org/
-.. _rubygems: http://rubyforge.org/projects/rubygems/
 .. _gzip: http://www.gnu.org/software/gzip/
 .. _bzip2: http://www.bzip.org/
 .. _xz: http://tukaani.org/xz/

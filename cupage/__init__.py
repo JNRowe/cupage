@@ -131,12 +131,6 @@ SITES = {
         'added': '0.1.0',
         'match': '({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
     },
-    'rubyforge': {
-        'url': 'http://rubyforge.org/frs/?group_id={group}',
-        'select': 'dd a',
-        'keys': {'group': 'Group identifier for file downloads', },
-        'added': '0.7.0',
-    },
     'savannah': {
         'url': 'http://download.savannah.gnu.org/releases/{name}/',
         'select': 'td a',
@@ -184,7 +178,7 @@ class Site(object):
         if options.get('match_type') == 're':
             self.match = re.compile(options['match'],
                                     flags=re.VERBOSE if re_verbose else 0)
-        elif options.get('match_type') in ('gem', 'tar', 'zip'):
+        elif options.get('match_type') in ('tar', 'zip'):
             self.match = self.package_re(self.name, options['match_type'],
                                          re_verbose)
         self.checked = checked
