@@ -130,6 +130,7 @@ SITES = {
         'select': 'a',
         'added': '0.1.0',
         'match': '({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
+        'transform': str.lower,
     },
     'savannah': {
         'url': 'http://download.savannah.gnu.org/releases/{name}/',
@@ -353,6 +354,8 @@ class Site(object):
                     if not key in options:
                         raise ValueError('%r is required for site=%s from %s'
                                          % (key, options['site'], name))
+            if 'transform' in site_opts:
+                name = site_opts['transform'](name)
             options['name'] = name  # For .format usage
 
             def get_val(name, default=None):
