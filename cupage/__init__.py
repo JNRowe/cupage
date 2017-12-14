@@ -138,7 +138,7 @@ SITES = {
         'added': '0.7.0',
     },
     'sourceforge': {
-        'url': 'http://sourceforge.net/api/file/index/project-name/{name}/rss',
+        'url': 'https://sourceforge.net/api/file/index/project-name/{name}/rss',
         'match_func': 'sourceforge',
         'added': '0.7.1',
     },
