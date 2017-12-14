@@ -110,7 +110,10 @@ SITES = {
         'robots': 'false',
     },
     'google code': {
-        'url': 'http://code.google.com/p/{name}/downloads/list',
+        'url': 'https://www.googleapis.com/storage/v1/b/google-code-archive/o'
+               '/v2%2Fcode.google.com%2F{name}%2Fdownloads-page-1.json'
+               '?alt=media',
+        'match_func': 'google_code',
         'select': 'td.id a',
         'added': '0.1.0',
         'deprecated': 'Uploads no longer supported, find another source',
@@ -284,6 +287,16 @@ class Site(object):
                 groups = match.groups()
                 matches.add(groups[0] if groups else match.group())
         return sorted(list(matches))
+
+    def find_google_code_matches(self, content, charset):
+        """Extract matches from Google Code content.
+
+        :param str content: Content to search
+        :param str charset: Character set for content
+        """
+        content = content.encode(charset)
+        doc = json.loads(content)
+        return sorted(tag['filename'] for tag in doc['downloads'])
 
     def find_github_matches(self, content, charset):
         """Extract matches from GitHub content.
