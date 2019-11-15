@@ -1,5 +1,5 @@
 #
-"""conf - Sphinx configuration information"""
+"""conf - Sphinx configuration information."""
 # Copyright © 2011-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,61 +18,88 @@
 
 import os
 import sys
-
 from contextlib import suppress
-from subprocess import (CalledProcessError, check_output)
+from subprocess import CalledProcessError, PIPE, run
 
-root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+root_dir = os.path.dirname(os.path.dirname(__file__))
 sys.path.insert(0, root_dir)
 
-import cupage
+import cupage  # NOQA: E402
+
+on_rtd = 'READTHEDOCS' in os.environ
+if not on_rtd:
+    import sphinx_rtd_theme
 
 extensions = \
-    [f'sphinx.ext.{ext}'for ext in ['autodoc', 'coverage', 'doctest',
-                                    'intersphinx', 'napoleon', 'viewcode']] \
-    + [f'sphinxcontrib.{ext}' for ext in ['blockdiag']]
+    [f'sphinx.ext.{ext}' for ext in ['autodoc', 'coverage', 'doctest',
+                                     'intersphinx', 'viewcode']] \
+    + [f'sphinxcontrib.{ext}' for ext in ['blockdiag', ]] \
+    + []  # type: List[str]
 
-# Only activate spelling, if it is installed.  It is not required in the
-# general case and we don’t have the granularity to describe this in a clean
-# way
-try:
-    from sphinxcontrib import spelling  # NOQA
-except ImportError:
-    pass
-else:
-    extensions.append('sphinxcontrib.spelling')
+if not on_rtd:
+    # Only activate spelling if it is installed.  It is not required in the
+    # general case and we don’t have the granularity to describe this in a
+    # clean way
+    try:
+        from sphinxcontrib import spelling  # NOQA: F401
+    except ImportError:
+        pass
+    else:
+        extensions.append('sphinxcontrib.spelling')
 
-master_doc = 'index'
 source_suffix = '.rst'
 
 project = 'cupage'
-copyright = cupage.__copyright__
+author = 'James Rowe'
+copyright = f'2009-2019  {author}'
 
-version = '.'.join(map(str, cupage._version.tuple[:2]))
 release = cupage._version.dotted
+version = release.rsplit('.', 1)[0]
+
+rst_prolog = """"""
+
+modindex_common_prefix = [
+    'cupage.',
+]
+
+# readthedocs.org handles this setup for their builds, but it is nice to see
+# approximately correct builds on the local system too
+if not on_rtd:
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path(), ]  \
+        # type: List[str]
 
 pygments_style = 'sphinx'
-html_theme_options = {
-    'externalrefs': True,
-}
 with suppress(CalledProcessError):
-    html_last_updated_fmt = check_output(['git', 'log',
-                                          "--pretty=format:'%ad [%h]'",
-                                          '--date=short', '-n1'],
-                                         encoding='ascii')
+    proc = run(
+        ['git', 'log', '--pretty=format:%ad [%h]', '--date=short', '-n1'],
+        stdout=PIPE)
+    html_last_updated_fmt = proc.stdout.decode()
 
-man_pages = [
-    ('cupage.1', 'cupage', 'cupage Documentation', ['James Rowe'], 1)
-]
+html_baseurl = 'https://cupage.readthedocs.io/'
+
+man_pages = [('cupage.1', 'cupage', 'cupage Documentation', [
+    'James Rowe',
+], 1)]  # type: Tuple[str, str, str, List[str], int]
 
 # Autodoc extension settings
 autoclass_content = 'init'
-autodoc_default_flags = ['members', ]
+autodoc_default_options = {
+    'members': None,
+}  # type: Dict[str, Optional[str]]
 
+# intersphinx extension settings
 intersphinx_mapping = {
-    'python': ('http://docs.python.org/3/', os.getenv('SPHINX_PYTHON_OBJECTS')),
-}
+    k: (v, os.getenv(f'SPHINX_{k.upper()}_OBJECTS'))
+    for k, v in {
+        'python': 'https://docs.python.org/3/',
+    }.items()
+}  # type: Dict[str, str]
 
+# spelling extension settings
+spelling_ignore_acronyms = False
+spelling_ignore_python_builtins = False
+spelling_ignore_importable_modules = False
 spelling_lang = 'en_GB'
 spelling_word_list_filename = 'wordlist.txt'
 
