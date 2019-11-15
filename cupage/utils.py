@@ -33,7 +33,8 @@ from click import style
 try:
     # httplib2 0.8 and above support setting certs via ca_certs_locater module,
     # making this dirty mess even dirtier
-    assert [int(i) for i in httplib2.__version__.split('.')] >= [0, 8]
+    if [int(i) for i in httplib2.__version__.split('.')] < [0, 8]:
+        raise ImportError('no ca_certs_locater support')
     import ca_certs_locater
 except (AssertionError, ImportError):
     _HTTPLIB2_BUNDLE = os.path.realpath(os.path.dirname(httplib2.CA_CERTS))
