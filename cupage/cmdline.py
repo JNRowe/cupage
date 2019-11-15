@@ -90,6 +90,8 @@ def load_sites(config, database, pages):
 def cli(ctx, verbose):
     """A tool to check for updates on web pages.
 
+    \f
+
     :param click.Context ctx: Current command context
     :param bool verbose: Whether to display verbose output
     """
@@ -119,6 +121,8 @@ def cli(ctx, verbose):
 def add(config, site, url, match_type, match, frequency, select,
         selector, name):
     """Add new site definition to config file.
+
+    \f
 
     :param str config: Location of config file
     :param str site: Site helper to match with
@@ -169,6 +173,8 @@ def add(config, site, url, match_type, match, frequency, select,
 @click.pass_obj
 def check(globs, config, database, cache, write, force, timeout, pages):
     """Check sites for updates.
+
+    \f
 
     :param dict globs: Global options object
     :param str config: Location of config file
@@ -221,6 +227,8 @@ def check(globs, config, database, cache, write, force, timeout, pages):
 def list_conf(config, database, match, pages):
     """List site definitions in config file.
 
+    \f
+
     :param str config: Location of config file
     :param str database: Location of database file
     :param str match: Display sites matching the given regular expression
@@ -242,6 +250,8 @@ def list_conf(config, database, match, pages):
 def list_sites(globs):
     """List built-in site matcher definitions.
 
+    \f
+
     :param dict globs: Global options object
     """
     if globs['verbose']:
@@ -262,6 +272,8 @@ def list_sites(globs):
 @click.pass_obj
 def remove(globs, config, pages):
     """Remove sites for config file.
+
+    \f
 
     :param dict globs: Global options object
     :param str config: Location of config file
