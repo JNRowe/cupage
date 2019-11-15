@@ -63,7 +63,7 @@ SITES = {
         'url': 'http://search.cpan.org/dist/{name}/',
         'select': 'td small a',
         'match_type': 're',
-        'match': '{name}-[\d\.]+.tar.gz',
+        'match': r'{name}-[\d\.]+.tar.gz',
         'added': '0.4.0',
     },
     'debian': {
@@ -111,7 +111,7 @@ SITES = {
         'url': 'https://pypi.python.org/simple/{name}/',
         'select': 'a',
         'added': '0.1.0',
-        'match': '({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
+        'match': r'({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
         'transform': str.lower,
     },
     'savannah': {
@@ -128,7 +128,7 @@ SITES = {
         'url': 'http://www.vim.org/scripts/script.php?script_id={script}',
         'select': 'td a',
         'match_type': 're',
-        'match': 'download_script.php\?src_id=([\d]+)',
+        'match': r'download_script.php\?src_id=([\d]+)',
         'keys': {'script': 'script id on the vim website', },
         'added': '0.3.0',
     },
