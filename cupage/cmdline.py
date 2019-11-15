@@ -297,11 +297,11 @@ def main():
     try:
         cli()
     except socket.error as error:
-        print(utils.fail(error.strerror or error.message))
+        print(utils.fail(error.strerror or str(error)))
         return errno.EADDRNOTAVAIL
     except (configobj.DuplicateError, IOError) as error:
-        print(utils.fail(error.message))
+        print(utils.fail(str(error)))
         return errno.ENOENT
     except ValueError as error:
-        print(utils.fail(error.message))
+        print(utils.fail(str(error)))
         return errno.EPERM

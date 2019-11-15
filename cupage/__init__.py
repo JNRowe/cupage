@@ -217,7 +217,7 @@ class Site:
             print(utils.fail(f'Domain name lookup failed for {self.name}'))
             return False
         except ssl.SSLError as error:
-            print(utils.fail(f'SSL error {self.name} ({error.message})'))
+            print(utils.fail(f'SSL error {self.name} ({error})'))
             return False
         except socket.timeout:
             print(utils.fail(f'Socket timed out on {self.name}'))
