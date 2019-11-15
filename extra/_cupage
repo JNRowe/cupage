@@ -1,0 +1,108 @@
+#compdef cupage cupage.py cupage.pyz
+# cupage - ZSH completion support for cupage
+# Copyright © 2019  James Rowe <jnrowe@gmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0+
+#
+# This file is part of cupage.
+#
+# cupage is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# cupage is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# cupage.  If not, see <http://www.gnu.org/licenses/>.
+
+# Most of this file is generated from cupage/cmdline.py, but feel free to
+# customise it!  If you make improvements, open a pull request against
+# ‘JNRowe/cupage’ with your super changes attached.
+
+(( $+functions[__list_sites] )) ||
+__list_sites() {
+    local tmp
+    tmp=(${(f)"$(python3 -c 'from cupage import SITES; print("\n".join(SITES.keys()))' 2>/dev/null)"})
+    if [ -z "${tmp}" ]; then
+        _message "No sites found!"
+    else
+        compadd ${tmp[@]}
+    fi
+}
+
+(( $+functions[__list_pages] )) ||
+__list_pages() {
+    local tmp
+    tmp=(${(f)"$(sed -n 's,^\[\(.*\)\],\1,p' ~/.cupage.conf 2>/dev/null)"})
+    if [ -z "${tmp}" ]; then
+        _message "No pages found!"
+    else
+        compadd ${tmp[@]}
+    fi
+}
+
+_arguments \
+    '--version[Show the version and exit.]' \
+    '--verbose[Produce verbose output.]' \
+    '--quiet[Output only matches and errors.]' \
+    '--help[Show this message and exit.]' \
+    ':cupage command:((
+        add\:"Add new site definition to config file."
+        check\:"Check sites for updates."
+        list\:"List site definitions in config file."
+        list-sites\:"List built-in site matcher definitions."
+        remove\:"Remove sites for config file."
+    ))' \
+    '*::subcmd:->subcmd' && return 0
+
+### DGEN_TAG: Generated from cupage/cmdline.py {{{
+case "$words[1]" in
+(add)
+    _arguments \
+        '--config=[Config file to read page definitions from.]:select config:_files' \
+        '--site=[Site helper to use.]:select helper:__list_sites' \
+        '--url=[Site url to check.]:URL:_urls' \
+        '--match-type=[Pre-defined regular expression to use.]:select match type:(re tar zip)' \
+        '--match=[Regular expression]:select regex: ' \
+        '--frequency=[Update check frequency.]:select frequency: ' \
+        '--select=[Content selector.]:select selector: ' \
+        '--selector=[Selector method to use.]:select method:(css xpath)' \
+        '--help[Show this message and exit.]' \
+        ':select name: '
+    ;;
+(check)
+    _arguments \
+        '--config=[Config file to read page definitions from.]:select config:_files' \
+        '--database=Database to store page data to.]:select database:_files' \
+        '--cache=[Directory to store page cache.]:select cache:_files -/' \
+        '--write[Whether to update cache and database.]' \
+        '--force[Ignore frequency checks.]' \
+        '--timeout=[Timeout for network operations.]:select timeout:({0..30})' \
+        '--help[Show this message and exit.]' \
+        ':select page:__list_pages'
+    ;;
+(list)
+    _arguments \
+        '--config=[Config file to read page definitions from.]:select config:_files' \
+        '--database=Database to store page data to.]:select database:_files' \
+        '--match=[Match sites using regular expression.]:select regex: ' \
+        '--help[Show this message and exit.]' \
+        ':select page:__list_pages'
+    ;;
+(list-sites)
+    _arguments \
+        '--help[Show this message and exit.]'
+    ;;
+(remove)
+    _arguments \
+        '--config=[Config file to read page definitions from.]:select config:_files' \
+        '--help[Show this message and exit.]' \
+        ':select page:__list_pages'
+    ;;
+(*)
+    ;;
+esac
+### DGEN_TAG: Generated from cupage/cmdline.py }}}

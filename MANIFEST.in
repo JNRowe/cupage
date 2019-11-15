@@ -2,6 +2,7 @@ include COPYING
 include *.rst
 include doc/conf.py
 include doc/wordlist.txt
+include extra/_cupage
 include extra/doap.rdf
 include extra/requirements*.txt
 include nose2.cfg
