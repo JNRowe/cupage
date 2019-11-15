@@ -1,5 +1,13 @@
 #
-"""cupage - a tool to check for updates on web pages"""
+"""cupage - a tool to check for updates on web pages.
+
+cupage checks web pages and displays changes from the last run that match
+a given criteria.  Its original purpose was to check web pages for new software
+releases, but it is easily configurable and can be used for other purposes.
+
+Thanks to the excellent lxml package you can use complex XPath and CSS
+selectors to match elements within a page, if you wish.
+"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -20,29 +28,7 @@ from . import _version
 
 __version__ = _version.dotted
 __date__ = _version.date
-__author__ = 'James Rowe <jnrowe@gmail.com>'
 __copyright__ = 'Copyright (C) 2009-2014  James Rowe'
-__license__ = 'GNU General Public License Version 3'
-__credits__ = ''
-__history__ = 'See Git repository at https://github.com/JNRowe/cupage'
-
-from email.utils import parseaddr
-
-__doc__ += """.
-
-cupage checks web pages and displays changes from the last run that match
-a given criteria.  Its original purpose was to check web pages for new software
-releases, but it is easily configurable and can be used for other purposes.
-
-Thanks to the excellent lxml package you can use complex XPath and CSS
-selectors to match elements within a page, if you wish.
-
-:version: %s
-:author: `%s <mailto:%s>`__
-:copyright: %s
-:status: WIP
-:license: %s
-""" % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import datetime
 import json
