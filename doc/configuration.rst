@@ -6,7 +6,7 @@ although you can specify a different location with the :option:`cupage list -f`
 command line option.
 
 The configuration file is a ``INI`` format file, with a section for each site
-definition.  The section header is the site's name which will be displayed in
+definition.  The section header is the site’s name which will be displayed in
 the update output, or used to select individual sites to check on the command
 line.  Each section consists of a section of ``name=value`` option pairs.
 

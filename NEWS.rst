@@ -87,7 +87,7 @@ User-visible changes
 * More complete documentation using the wonderful Sphinx_
 * Support for robots.txt_
 * Python v2.6 or a later release from the v2 branch is required, unfortunately
-  Python v3 isn't supported yet
+  Python v3 isn’t supported yet
 * httplib2_ and ConfigObj_ are now required
 
 .. _Sphinx: http://sphinx.pocoo.org/

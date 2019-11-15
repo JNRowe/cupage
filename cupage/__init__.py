@@ -148,7 +148,7 @@ class Site:
         :param str match_func: Function to use for retrieving matches
         :param dict options: Options for :attr:`match_func`
         :param int frequency: Site check frequency
-        :param bool robots: Whether to respect a host's :file:`robots.txt`
+        :param bool robots: Whether to respect a host’s :file:`robots.txt`
         :param datetime.datetime checked: Last checked date
         :param list matches: Previous matches
         """
@@ -299,7 +299,7 @@ class Site:
         :param str charset: Character set for content
         """
         # We use lxml.html here to sidestep part of the stupidity of RSS 2.0,
-        # if a usable format on sf comes along we'll switch to it.
+        # if a usable format on sf comes along we’ll switch to it.
         doc = html.fromstring(content)
         matches = set()
         for x in doc.cssselect('item link'):
@@ -400,7 +400,7 @@ class Sites(list):
     """``Site`` bundle wrapper."""
 
     def load(self, config_file, database=None):
-        """Read sites from a user's config file and database.
+        """Read sites from a user’s config file and database.
 
         :param str config_file: Config file to read
         :param str database: Database file to read
@@ -415,13 +415,13 @@ class Sites(list):
             data = json.load(open(database),
                              object_hook=utils.json_to_datetime)
         elif database:
-            logging.debug("Database file %r doesn't exist", database)
+            logging.debug('Database file %r doesn’t exist', database)
 
         for name, options in conf.items():
             self.append(Site.parse(name, options, data.get(name, {})))
 
     def save(self, database):
-        """Save ``Sites`` to the user's database.
+        """Save ``Sites`` to the user’s database.
 
         :param str database: Database file to write
         """

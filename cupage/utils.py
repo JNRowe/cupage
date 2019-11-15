@@ -83,7 +83,7 @@ def sort_packages(packages):
     :param list packages: Packages to sort
     """
     # Very ugly key function, but it handles the common case of varying
-    # component length just about 'Good Enough™'
+    # component length just about “Good Enough™”
     return sorted(packages,
                   key=lambda s: [i for i in s if i.isdigit() or i == '.'])
 
@@ -113,7 +113,7 @@ def robots_test(http, url, name, user_agent='*'):
         if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print(fail(f"Can't check {name}, blocked by robots.txt"))
+                print(fail(f'Can’t check {name}, blocked by robots.txt'))
                 return False
 
 

@@ -148,7 +148,7 @@ def add(config, site, url, match_type, match, frequency, select,
         'select': select,
         'selector': selector,
     }
-    # Don't store unused values
+    # Don’t store unused values
     for key, value in data.items():
         if value:
             conf[name][key] = value
@@ -202,7 +202,7 @@ def check(globs, config, database, cache, write, force, timeout, pages):
         if not pages or site.name in pages:
             if globs['verbose']:
                 print(site)
-                print(f'Checking {site.name}...')
+                print(f'Checking {site.name}…')
             matches = site.check(cache, timeout, force, not write)
             if matches:
                 if globs['verbose']:
@@ -284,7 +284,7 @@ def remove(globs, config, pages):
                 return False
     for page in pages:
         if globs['verbose']:
-            print(f'Removing {page}...')
+            print(f'Removing {page}…')
         del conf[page]
     conf.write()
 

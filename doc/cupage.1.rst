@@ -26,7 +26,7 @@ OPTIONS
 -------
 
 --version
-    show program's version number and exit
+    show program’s version number and exit
 
 --help
     show this help message and exit
@@ -90,7 +90,7 @@ Check sites for updates
     This can, and in fact *should* be, shared between all cupage uses.
 
 --no-write
-    don't update cache or database
+    don’t update cache or database
 
 --force
     ignore frequency checks
