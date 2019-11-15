@@ -45,7 +45,6 @@ import httplib2
 
 from lxml import html
 
-from .i18n import _
 from . import utils
 
 
@@ -199,7 +198,7 @@ class Site:
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print(utils.warn(_('%s is not due for check until %s')
+                print(utils.warn('%s is not due for check until %s'
                                  % (self.name, next_check)))
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
@@ -217,26 +216,24 @@ class Site:
             headers, content = http.request(self.url,
                                             headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print(utils.fail(_('Domain name lookup failed for %s')
-                             % self.name))
+            print(utils.fail('Domain name lookup failed for %s' % self.name))
             return False
         except ssl.SSLError as error:
-            print(utils.fail(_('SSL error %s (%s)') % (self.name,
-                                                       error.message)))
+            print(utils.fail('SSL error %s (%s)' % (self.name, error.message)))
             return False
         except socket.timeout:
-            print(utils.fail(_('Socket timed out on %s') % self.name))
+            print(utils.fail('Socket timed out on %s' % self.name))
             return False
 
         charset = utils.charset_from_headers(headers)
 
         if not headers.get('content-location', self.url) == self.url:
-            print(utils.warn(_('%s moved to %s')
-                             % (self.name, headers['content-location'])))
+            print(utils.warn('%s moved to %s' % (self.name,
+                                                 headers['content-location'])))
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print(utils.fail(_('%s returned %r')
+            print(utils.fail('%s returned %r'
                              % (self.name, httplib.responses[headers.status])))
             return False
 

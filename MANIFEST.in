@@ -6,9 +6,6 @@ include extra/doap.rdf
 include extra/requirements*.txt
 include nose2.cfg
 include cupage.py
-include cupage/locale/cupage.pot
-include cupage/locale/*/LC_MESSAGES/*.mo
-include cupage/locale/*/LC_MESSAGES/*.po
 
 include tests/*.py
 
