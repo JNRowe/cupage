@@ -26,11 +26,8 @@ from contextlib import suppress
 from urllib import robotparser
 import urllib.parse as urlparse
 
-import blessings
 import httplib2
-
-
-T = blessings.Terminal()
+from click import style
 
 
 try:
@@ -118,8 +115,8 @@ def robots_test(http, url, name, user_agent='*'):
 
 
 def _format_info(text, colour):
-    return ' '.join([getattr(T, f'bold_white_on_{colour}')('*'),
-                     getattr(T, f'bright_{colour}')(text)])
+    return ' '.join([style('*', bg=colour, bold=True),
+                     style(text, fg=colour, bold=True)])
 
 
 def success(text):
