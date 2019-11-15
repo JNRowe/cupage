@@ -5,5 +5,4 @@ dist/
 *.py[co]
 
 .coverage
-.noseids
 MANIFEST

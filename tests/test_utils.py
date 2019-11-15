@@ -18,41 +18,40 @@
 
 import datetime
 
-from expecter import expect
-from nose2.tools import params
+from pytest import mark, raises
 
 from cupage.utils import (charset_from_headers, parse_timedelta, sort_packages)
 
 
-@params(
+@mark.parametrize('string, dt', [
     ('3h', datetime.timedelta(0, 10800)),
     ('1d', datetime.timedelta(1)),
     ('1 d', datetime.timedelta(1)),
     ('0.5 y', datetime.timedelta(182, 43200)),
     ('0.5 Y', datetime.timedelta(182, 43200)),
-)
+])
 def test_parse_timedelta(string, dt):
-    expect(parse_timedelta(string)) == dt
+    assert parse_timedelta(string) == dt
 
 
 def test_parse_invalid_timedelta():
-    with expect.raises(ValueError, "Invalid 'frequency' value"):
+    with raises(ValueError, match="Invalid 'frequency' value"):
         parse_timedelta('1 k')
 
 
-@params(
+@mark.parametrize('input, ordered', [
     (['pkg-0.1.tar.gz', 'pkg-0.2.1.tar.gz', 'pkg-0.2.tar.gz'],
      ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']),
     (['v0.1.0', 'v0.11.0', 'v0.1.2'], ['v0.1.0', 'v0.1.2', 'v0.11.0']),
-)
+])
 def test_sort_packages(input, ordered):
-    expect(sort_packages(input)) == ordered
+    assert sort_packages(input) == ordered
 
 
-@params(
+@mark.parametrize('headers, charset', [
     ({}, 'iso-8859-1'),
     ({'content-type': 'text/html; charset=utf-8'}, 'utf-8'),
     ({'content-type': 'text/html; charset=ISO-8859-1'}, 'ISO-8859-1'),
-)
+])
 def test_charset_header(headers, charset):
-    expect(charset_from_headers(headers)) == charset
+    assert charset_from_headers(headers) == charset
