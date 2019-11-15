@@ -20,6 +20,7 @@
 import os
 import sys
 
+from contextlib import suppress
 from subprocess import (CalledProcessError, check_output)
 
 root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -55,13 +56,11 @@ pygments_style = 'sphinx'
 html_theme_options = {
     'externalrefs': True,
 }
-try:
+with suppress(CalledProcessError):
     html_last_updated_fmt = check_output(['git', 'log',
                                           "--pretty=format:'%ad [%h]'",
                                           '--date=short', '-n1'],
                                          encoding='ascii')
-except CalledProcessError:
-    pass
 
 man_pages = [
     ('cupage.1', 'cupage', 'cupage Documentation', ['James Rowe'], 1)

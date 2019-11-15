@@ -23,6 +23,7 @@ import os
 import re
 import socket
 import sys
+from contextlib import suppress
 from urllib import robotparser
 import urllib.parse as urlparse
 
@@ -160,10 +161,8 @@ class CupageEncoder(json.JSONEncoder):
 
         :param obj: Object to encode
         """
-        try:
+        with suppress(TypeError):
             return obj.isoformat()
-        except TypeError:
-            pass
         return json.JSONEncoder.default(self, obj)
 
 
