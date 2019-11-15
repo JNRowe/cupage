@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 """cupage - a tool to check for updates on web pages"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
