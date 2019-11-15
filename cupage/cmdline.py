@@ -17,13 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# This has to be here, as cupage uses 2.6 features.
-import sys
-if sys.version_info[:2] < (2, 6):
-    print('Python v2.6, or later, is *required* for cupage!')
-    sys.exit(1)
-
-
 import atexit
 import errno
 import logging

@@ -53,12 +53,7 @@ import re
 import socket
 import ssl
 import tempfile
-
-try:
-    # For Python 3
-    import http.client as httplib
-except ImportError:
-    import httplib  # NOQA
+import http.client as httplib
 
 import configobj
 import httplib2
@@ -66,7 +61,7 @@ import httplib2
 from lxml import html
 
 from .i18n import _
-from . import (compat, utils)
+from . import utils
 
 
 #: User agent to use for HTTP requests
@@ -156,8 +151,7 @@ SITES = {
 }
 
 
-@compat.mangle_repr_type
-class Site(object):
+class Site:
 
     """Simple object for representing a web site."""
 
@@ -421,7 +415,6 @@ class Site(object):
         return {'matches': self.matches, 'checked': self.checked}
 
 
-@compat.mangle_repr_type
 class Sites(list):
 
     """``Site`` bundle wrapper."""

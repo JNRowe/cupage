@@ -23,14 +23,8 @@ import os
 import re
 import socket
 import sys
-
-try:
-    # For Python 3
-    from urllib import robotparser
-    import urllib.parse as urlparse
-except ImportError:
-    import robotparser  # NOQA
-    import urlparse  # NOQA
+from urllib import robotparser
+import urllib.parse as urlparse
 
 import blessings
 import httplib2

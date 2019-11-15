@@ -45,7 +45,7 @@ else:
 master_doc = 'index'
 source_suffix = '.rst'
 
-project = u'cupage'
+project = 'cupage'
 copyright = cupage.__copyright__
 
 version = '.'.join(map(str, cupage._version.tuple[:2]))
@@ -58,12 +58,13 @@ html_theme_options = {
 try:
     html_last_updated_fmt = check_output(['git', 'log',
                                           "--pretty=format:'%ad [%h]'",
-                                          '--date=short', '-n1'])
+                                          '--date=short', '-n1'],
+                                         encoding='ascii')
 except CalledProcessError:
     pass
 
 man_pages = [
-    ('cupage.1', 'cupage', u'cupage Documentation', [u'James Rowe'], 1)
+    ('cupage.1', 'cupage', 'cupage Documentation', ['James Rowe'], 1)
 ]
 
 # Autodoc extension settings
@@ -71,7 +72,7 @@ autoclass_content = 'init'
 autodoc_default_flags = ['members', ]
 
 intersphinx_mapping = {
-    'python': ('http://docs.python.org/', os.getenv('SPHINX_PYTHON_OBJECTS')),
+    'python': ('http://docs.python.org/3/', os.getenv('SPHINX_PYTHON_OBJECTS')),
 }
 
 spelling_lang = 'en_GB'
