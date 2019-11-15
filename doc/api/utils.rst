@@ -37,6 +37,6 @@ Output formatting
 '''''''''''''''''
 
     >>> success('well done!')
-    u'\x1b[38;5;10mwell done!\x1b[m\x1b(B'
+    '\x1b[38;5;10mwell done!\x1b[m\x1b(B'
     >>> fail('unlucky!')
-    u'\x1b[38;5;9munlucky!\x1b[m\x1b(B'
+    '\x1b[38;5;9munlucky!\x1b[m\x1b(B'

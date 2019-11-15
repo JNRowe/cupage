@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """command_line - Command line interface for cupage"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
@@ -17,13 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# This has to be here, as cupage uses 2.6 features.
-import sys
-if sys.version_info[:2] < (2, 6):
-    print('Python v2.6, or later, is *required* for cupage!')
-    sys.exit(1)
-
-
 import atexit
 import errno
 import logging
@@ -38,7 +30,6 @@ import configobj
 
 import cupage
 
-from .i18n import _
 from . import (_version, utils)
 
 
@@ -58,13 +49,13 @@ class FrequencyParamType(click.ParamType):
         try:
             utils.parse_timedelta(value)
         except ValueError:
-            self.fail(_('Invalid frequency value'))
+            self.fail('Invalid frequency value')
         return value
 
 
 def load_sites(config, database, pages):
     if database is None:
-        database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
+        database = '{}{}db'.format(os.path.splitext(config)[0], os.path.extsep)
 
     sites = cupage.Sites()
     try:
@@ -73,32 +64,31 @@ def load_sites(config, database, pages):
         print(utils.fail(e.message))
         return errno.EIO
     except ValueError:
-        print(utils.fail(_('Error reading database file')))
+        print(utils.fail('Error reading database file'))
         return errno.ENOMSG
     except TypeError:
-        print(utils.fail(_('Error reading config file')))
+        print(utils.fail('Error reading config file'))
         return errno.ENOENT
 
     # Check all named pages exist in config
     site_names = list(map(attrgetter('name'), sites))
     for page in pages:
         if page not in site_names:
-            raise ValueError(_('Invalid site argument %r') % page)
+            raise ValueError(f'Invalid site argument {page!r}')
 
     return sites
 
 
-@click.group(help=_('A tool to check for updates on web pages'),
-             epilog=_('Please report bugs to '
-                      'https://github.com/JNRowe/cupage/issues'))
+@click.group(epilog='Please report bugs to '
+                    'https://github.com/JNRowe/cupage/issues')
 @click.version_option(_version.dotted)
 @click.option('-v', '--verbose', flag_value=True,
-              help=_('Produce verbose output.'))
+              help='Produce verbose output.')
 @click.option('-q', '--quiet', 'verbose', flag_value=False,
-              help=_('Output only matches and errors.'))
+              help='Output only matches and errors.')
 @click.pass_context
 def cli(ctx, verbose):
-    """Main command entry point.
+    """A tool to check for updates on web pages.
 
     :param click.Context ctx: Current command context
     :param bool verbose: Whether to display verbose output
@@ -108,27 +98,27 @@ def cli(ctx, verbose):
     }
 
 
-@cli.command(help=_('Add definition to config file.'))
+@cli.command()
 @click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
-              help=_('Config file to read page definitions from.'))
+              help='Config file to read page definitions from.')
 @click.option('-s', '--site', type=click.Choice(cupage.SITES.keys()),
-              help=_('Site helper to use.'))
-@click.option('-u', '--url', help=_('Site url to check.'))
+              help='Site helper to use.')
+@click.option('-u', '--url', help='Site url to check.')
 @click.option('-t', '--match-type', default='tar',
               type=click.Choice(['re', 'tar', 'zip']),
-              help=_('Pre-defined regular expression to use.'))
+              help='Pre-defined regular expression to use.')
 @click.option('-m', '--match', metavar='regex',
-              help=_('Regular expression to use with --match-type=re.'))
+              help='Regular expression to use with --match-type=re.')
 @click.option('-q', '--frequency', type=FrequencyParamType(),
-              help=_('Update check frequency.'))
-@click.option('-x', '--select', help=_('Content selector.'))
+              help='Update check frequency.')
+@click.option('-x', '--select', help='Content selector.')
 @click.option('--selector', default='css', type=click.Choice(['css', 'xpath']),
-              help=_('Selector method to use.'))
+              help='Selector method to use.')
 @click.argument('name')
 def add(config, site, url, match_type, match, frequency, select,
         selector, name):
-    """Add new site to config.
+    """Add new site definition to config file.
 
     :param str config: Location of config file
     :param str site: Site helper to match with
@@ -151,7 +141,7 @@ def add(config, site, url, match_type, match, frequency, select,
         'select': select,
         'selector': selector,
     }
-    # Don't store unused values
+    # Don’t store unused values
     for key, value in data.items():
         if value:
             conf[name][key] = value
@@ -159,22 +149,22 @@ def add(config, site, url, match_type, match, frequency, select,
     conf.write()
 
 
-@cli.command(help=_('Check sites for updates.'))
+@cli.command()
 @click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
-              help=_('Config file to read page definitions from.'))
+              help='Config file to read page definitions from.')
 @click.option('-d', '--database',
               type=click.Path(dir_okay=False, writable=True),
-              help=_('Database to store page data to(default based on '
-                     '--config value.)'))
+              help='Database to store page data to(default based on '
+                   '--config value.)')
 @click.option('-c', '--cache', type=click.Path(file_okay=False, writable=True),
               default=os.path.expanduser('~/.cupage/'),
-              help=_('Directory to store page cache.'))
+              help='Directory to store page cache.')
 @click.option('--write/--no-write', default=True,
-              help=_("Whether to update cache and database."))
-@click.option('--force/--no-force', help=_('Ignore frequency checks.'))
+              help="Whether to update cache and database.")
+@click.option('--force/--no-force', help='Ignore frequency checks.')
 @click.option('-t', '--timeout', type=click.INT, metavar='30', default=30,
-              help=_('Timeout for network operations.'))
+              help='Timeout for network operations.')
 @click.argument('pages', nargs=-1)
 @click.pass_obj
 def check(globs, config, database, cache, write, force, timeout, pages):
@@ -193,40 +183,40 @@ def check(globs, config, database, cache, write, force, timeout, pages):
     """
     sites = load_sites(config, database, pages)
     if not isinstance(sites, cupage.Sites):
-        raise IOError(_('Error processing config or database'))
+        raise IOError('Error processing config or database')
 
     if write:
         if database is None:
-            database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
+            database = '{}{}db'.format(os.path.splitext(config)[0],
+                                       os.path.extsep)
         atexit.register(sites.save, database)
 
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
             if globs['verbose']:
                 print(site)
-                print(_('Checking %s...') % site.name)
+                print(f'Checking {site.name}…')
             matches = site.check(cache, timeout, force, not write)
             if matches:
                 if globs['verbose']:
-                    print(_('%s has new matches') % site.name)
+                    print(f'{site.name} has new matches')
                 for match in utils.sort_packages(matches):
                     print(utils.success(match))
             else:
                 if globs['verbose']:
-                    print(_('%s has no new matches') % site.name)
+                    print(f'{site.name} has no new matches')
 
 
-@cli.command(name='list',
-             help=_('List definitions from config file.'))
+@cli.command(name='list')
 @click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
-              help=_('Config file to read page definitions from.'))
+              help='Config file to read page definitions from.')
 @click.option('-d', '--database',
               type=click.Path(dir_okay=False, writable=True),
-              help=_('Database to store page data to(default based on '
-                     '--config value.)'))
+              help='Database to store page data to(default based on '
+                   '--config value.)')
 @click.option('-m', '--match', type=re.compile,
-              help=_('Match sites using regular expression.'))
+              help='Match sites using regular expression.')
 @click.argument('pages', nargs=-1)
 def list_conf(config, database, match, pages):
     """List site definitions in config file.
@@ -247,7 +237,7 @@ def list_conf(config, database, match, pages):
             print(site)
 
 
-@cli.command(name='list-sites', help='List supported site values.')
+@cli.command(name='list-sites')
 @click.pass_obj
 def list_sites(globs):
     """List built-in site matcher definitions.
@@ -255,19 +245,19 @@ def list_sites(globs):
     :param dict globs: Global options object
     """
     if globs['verbose']:
-        print(_('Supported site values and their non-standard values:'))
+        print('Supported site values and their non-standard values:')
         print()
     for site, values in sorted(cupage.SITES.items()):
-        print('- %s (v%s)' % (site, values['added']))
+        print(f'- {site} (v{values["added"]})')
         if 'keys' in values:
             for item in values['keys'].items():
-                print('  * %s - %s' % item)
+                print(f'  * {item[0]} - {item[1]}')
 
 
-@cli.command(help=_('Remove site from config.'))
+@cli.command()
 @click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
-              help=_('Config file to read page definitions from.'))
+              help='Config file to read page definitions from.')
 @click.argument('pages', nargs=-1)
 @click.pass_obj
 def remove(globs, config, pages):
@@ -283,11 +273,11 @@ def remove(globs, config, pages):
     if pages:
         for page in pages:
             if page in conf.sections:
-                print(utils.fail(_('Invalid site argument %r') % page))
+                print(utils.fail(f'Invalid site argument {page!r}'))
                 return False
     for page in pages:
         if globs['verbose']:
-            print(_('Removing %s...') % page)
+            print(f'Removing {page}…')
         del conf[page]
     conf.write()
 
@@ -300,11 +290,11 @@ def main():
     try:
         cli()
     except socket.error as error:
-        print(utils.fail(error.strerror or error.message))
+        print(utils.fail(error.strerror or str(error)))
         return errno.EADDRNOTAVAIL
     except (configobj.DuplicateError, IOError) as error:
-        print(utils.fail(error.message))
+        print(utils.fail(str(error)))
         return errno.ENOENT
     except ValueError as error:
-        print(utils.fail(error.message))
+        print(utils.fail(str(error)))
         return errno.EPERM

@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """utils - Utility functions for cupage"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
@@ -23,19 +22,12 @@ import os
 import re
 import socket
 import sys
-
-try:
-    # For Python 3
-    from urllib import robotparser
-    import urllib.parse as urlparse
-except ImportError:
-    import robotparser  # NOQA
-    import urlparse  # NOQA
+from contextlib import suppress
+from urllib import robotparser
+import urllib.parse as urlparse
 
 import blessings
 import httplib2
-
-from .i18n import _
 
 
 T = blessings.Terminal()
@@ -91,7 +83,7 @@ def sort_packages(packages):
     :param list packages: Packages to sort
     """
     # Very ugly key function, but it handles the common case of varying
-    # component length just about 'Good Enough™'
+    # component length just about “Good Enough™”
     return sorted(packages,
                   key=lambda s: [i for i in s if i.isdigit() or i == '.'])
 
@@ -106,28 +98,28 @@ def robots_test(http, url, name, user_agent='*'):
     """
     parsed = urlparse.urlparse(url, 'http')
     if parsed.scheme.startswith('http'):
-        robots_url = '%(scheme)s://%(netloc)s/robots.txt' \
-            % parsed._asdict()
+        robots_url = '{[scheme]}://{[netloc]}/robots.txt'.format(
+            parsed._asdict())
         robots = robotparser.RobotFileParser(robots_url)
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print(fail(_('Domain name lookup failed for %s') % name))
+            print(fail(f'Domain name lookup failed for {name}'))
             return False
         except socket.timeout:
-            print(fail(_('Socket timed out on %s') % name))
+            print(fail(f'Socket timed out on {name}'))
             return False
         # Ignore errors 4xx errors for robots.txt
         if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print(fail(_("Can't check %s, blocked by robots.txt") % name))
+                print(fail(f'Can’t check {name}, blocked by robots.txt'))
                 return False
 
 
 def _format_info(text, colour):
-    return '%s %s' % (getattr(T, 'bold_white_on_%s' % colour)('*'),
-                      getattr(T, 'bright_%s' % colour)(text))
+    return ' '.join([getattr(T, f'bold_white_on_{colour}')('*'),
+                     getattr(T, f'bright_{colour}')(text)])
 
 
 def success(text):
@@ -166,10 +158,8 @@ class CupageEncoder(json.JSONEncoder):
 
         :param obj: Object to encode
         """
-        try:
+        with suppress(TypeError):
             return obj.isoformat()
-        except TypeError:
-            pass
         return json.JSONEncoder.default(self, obj)
 
 

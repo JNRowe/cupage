@@ -1,6 +1,13 @@
 #
-# coding=utf-8
-"""cupage - a tool to check for updates on web pages"""
+"""cupage - a tool to check for updates on web pages.
+
+cupage checks web pages and displays changes from the last run that match
+a given criteria.  Its original purpose was to check web pages for new software
+releases, but it is easily configurable and can be used for other purposes.
+
+Thanks to the excellent lxml package you can use complex XPath and CSS
+selectors to match elements within a page, if you wish.
+"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -21,29 +28,7 @@ from . import _version
 
 __version__ = _version.dotted
 __date__ = _version.date
-__author__ = 'James Rowe <jnrowe@gmail.com>'
 __copyright__ = 'Copyright (C) 2009-2014  James Rowe'
-__license__ = 'GNU General Public License Version 3'
-__credits__ = ''
-__history__ = 'See Git repository at https://github.com/JNRowe/cupage'
-
-from email.utils import parseaddr
-
-__doc__ += """.
-
-cupage checks web pages and displays changes from the last run that match
-a given criteria.  Its original purpose was to check web pages for new software
-releases, but it is easily configurable and can be used for other purposes.
-
-Thanks to the excellent lxml package you can use complex XPath and CSS
-selectors to match elements within a page, if you wish.
-
-:version: %s
-:author: `%s <mailto:%s>`__
-:copyright: %s
-:status: WIP
-:license: %s
-""" % ((__version__, ) + parseaddr(__author__) + (__copyright__, __license__))
 
 import datetime
 import json
@@ -53,24 +38,18 @@ import re
 import socket
 import ssl
 import tempfile
-
-try:
-    # For Python 3
-    import http.client as httplib
-except ImportError:
-    import httplib  # NOQA
+import http.client as httplib
 
 import configobj
 import httplib2
 
 from lxml import html
 
-from .i18n import _
-from . import (compat, utils)
+from . import utils
 
 
 #: User agent to use for HTTP requests
-USER_AGENT = 'cupage/%s (https://github.com/JNRowe/cupage/)' % __version__
+USER_AGENT = f'cupage/{__version__} (https://github.com/JNRowe/cupage/)'
 
 #: Site specific configuration data
 SITES = {
@@ -156,8 +135,7 @@ SITES = {
 }
 
 
-@compat.mangle_repr_type
-class Site(object):
+class Site:
 
     """Simple object for representing a web site."""
 
@@ -170,7 +148,7 @@ class Site(object):
         :param str match_func: Function to use for retrieving matches
         :param dict options: Options for :attr:`match_func`
         :param int frequency: Site check frequency
-        :param bool robots: Whether to respect a host's :file:`robots.txt`
+        :param bool robots: Whether to respect a host’s :file:`robots.txt`
         :param datetime.datetime checked: Last checked date
         :param list matches: Previous matches
         """
@@ -191,17 +169,15 @@ class Site(object):
         self.matches = matches if matches else []
 
     def __repr__(self):
-        return '%r(%r, %r, ...)' % (self.__class__.__name__, self.name,
-                                    self.url)
+        return f'{self.__class__.__name__!r}({self.name!r}, {self.url!r}, ...)'
 
     def __str__(self):
         """Pretty printed ``Site`` string."""
-        ret = ['%s @ %s using %s matcher' % (self.name, self.url,
-                                             self.match_func), ]
+        ret = [f'{self.name} @ {self.url} using {self.match_func} matcher', ]
         if self.checked:
-            ret.append(' last checked %s' % self.checked)
+            ret.append(f' last checked {self.checked}')
         if self.frequency:
-            ret.append(' with a check frequency of %s' % self.frequency)
+            ret.append(f' with a check frequency of {self.frequency}')
         if self.matches:
             ret.append('\n    ')
             ret.append(', '.join(utils.sort_packages(self.matches)))
@@ -220,8 +196,8 @@ class Site(object):
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print(utils.warn(_('%s is not due for check until %s')
-                                 % (self.name, next_check)))
+                print(utils.warn(
+                    f'{self.name} is not due for check until {next_check}'))
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
                              ca_certs=utils.CA_CERTS)
@@ -238,31 +214,29 @@ class Site(object):
             headers, content = http.request(self.url,
                                             headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print(utils.fail(_('Domain name lookup failed for %s')
-                             % self.name))
+            print(utils.fail(f'Domain name lookup failed for {self.name}'))
             return False
         except ssl.SSLError as error:
-            print(utils.fail(_('SSL error %s (%s)') % (self.name,
-                                                       error.message)))
+            print(utils.fail(f'SSL error {self.name} ({error})'))
             return False
         except socket.timeout:
-            print(utils.fail(_('Socket timed out on %s') % self.name))
+            print(utils.fail(f'Socket timed out on {self.name}'))
             return False
 
         charset = utils.charset_from_headers(headers)
 
         if not headers.get('content-location', self.url) == self.url:
-            print(utils.warn(_('%s moved to %s')
-                             % (self.name, headers['content-location'])))
+            print(utils.warn(
+                f'{self.name} moved to {headers["content-location"]}'))
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print(utils.fail(_('%s returned %r')
-                             % (self.name, httplib.responses[headers.status])))
+            print(utils.fail(
+                '{self}.name returned {httplib.responses[headers.status]!r}'))
             return False
 
-        matches = getattr(self, 'find_%s_matches' % self.match_func)(content,
-                                                                     charset)
+        matches = getattr(self, f'find_{self.match_func}_matches')(content,
+                                                                   charset)
         new_matches = [s for s in matches if not s in self.matches]
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
@@ -325,7 +299,7 @@ class Site(object):
         :param str charset: Character set for content
         """
         # We use lxml.html here to sidestep part of the stupidity of RSS 2.0,
-        # if a usable format on sf comes along we'll switch to it.
+        # if a usable format on sf comes along we’ll switch to it.
         doc = html.fromstring(content)
         matches = set()
         for x in doc.cssselect('item link'):
@@ -343,7 +317,7 @@ class Site(object):
         """
         if ext == 'tar':
             ext = 'tar.(?:bz2|gz|xz)'
-        match = r'%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s' % (name, ext)
+        match = rf'{name}-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.{ext}'
         return re.compile(match, flags=re.VERBOSE if verbose else 0)
 
     @staticmethod
@@ -358,15 +332,15 @@ class Site(object):
             try:
                 site_opts = SITES[options['site']]
             except KeyError:
-                raise ValueError('Invalid site option for %s' % name)
+                raise ValueError(f'Invalid site option for {name}')
             if 'deprecated' in site_opts:
-                print("%s: %s - %s" % (name, options['site'],
-                                       site_opts['deprecated']))
+                print(f'{name}: {options["site"]} - {site_opts["deprecated"]}')
             if 'keys' in site_opts:
                 for key in site_opts['keys']:
                     if not key in options:
-                        raise ValueError('%r is required for site=%s from %s'
-                                         % (key, options['site'], name))
+                        raise ValueError(
+                            f'{key!r} is required for site={options["site"]} '
+                            f'from {name}')
             if 'transform' in site_opts:
                 name = site_opts['transform'](name)
             options['name'] = name  # For .format usage
@@ -398,16 +372,16 @@ class Site(object):
                 'match': options.get('match'),
             }
             if not match_options['select']:
-                raise ValueError('missing select option for %s' % name)
+                raise ValueError(f'missing select option for {name}')
             if match_options['match_type'] == 're' \
                     and not match_options['match']:
-                raise ValueError('missing match option for %s' % name)
+                raise ValueError(f'missing match option for {name}')
             if 'robots' in options:
                 robots = options.as_bool('robots')
             else:
                 robots = True
         else:
-            raise ValueError('site or url not specified for %s' % name)
+            raise ValueError(f'site or url not specified for {name}')
         frequency = options.get('frequency')
         if frequency:
             frequency = utils.parse_timedelta(frequency)
@@ -421,13 +395,12 @@ class Site(object):
         return {'matches': self.matches, 'checked': self.checked}
 
 
-@compat.mangle_repr_type
 class Sites(list):
 
     """``Site`` bundle wrapper."""
 
     def load(self, config_file, database=None):
-        """Read sites from a user's config file and database.
+        """Read sites from a user’s config file and database.
 
         :param str config_file: Config file to read
         :param str database: Database file to read
@@ -442,13 +415,13 @@ class Sites(list):
             data = json.load(open(database),
                              object_hook=utils.json_to_datetime)
         elif database:
-            logging.debug("Database file %r doesn't exist", database)
+            logging.debug('Database file %r doesn’t exist', database)
 
         for name, options in conf.items():
             self.append(Site.parse(name, options, data.get(name, {})))
 
     def save(self, database):
-        """Save ``Sites`` to the user's database.
+        """Save ``Sites`` to the user’s database.
 
         :param str database: Database file to write
         """

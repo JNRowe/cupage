@@ -11,7 +11,7 @@ Options
 
 .. option:: --version
 
-   show program's version number and exit
+   show program’s version number and exit
 
 .. option:: --help
 
@@ -90,7 +90,7 @@ Commands
 
 .. option:: --no-write
 
-   don't update cache or database
+   don’t update cache or database
 
 .. option:: --force
 

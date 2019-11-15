@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """conf - Sphinx configuration information"""
 # Copyright © 2011-2014  James Rowe <jnrowe@gmail.com>
 #
@@ -20,6 +19,7 @@
 import os
 import sys
 
+from contextlib import suppress
 from subprocess import (CalledProcessError, check_output)
 
 root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -28,12 +28,12 @@ sys.path.insert(0, root_dir)
 import cupage
 
 extensions = \
-    ['sphinx.ext.%s' % ext for ext in ['autodoc', 'coverage', 'doctest',
-                                       'intersphinx', 'viewcode']] \
-    + ['sphinxcontrib.%s' % ext for ext in ['blockdiag']]
+    [f'sphinx.ext.{ext}'for ext in ['autodoc', 'coverage', 'doctest',
+                                    'intersphinx', 'viewcode']] \
+    + [f'sphinxcontrib.{ext}' for ext in ['blockdiag']]
 
 # Only activate spelling, if it is installed.  It is not required in the
-# general case and we don't have the granularity to describe this in a clean
+# general case and we don’t have the granularity to describe this in a clean
 # way
 try:
     from sphinxcontrib import spelling  # NOQA
@@ -45,7 +45,7 @@ else:
 master_doc = 'index'
 source_suffix = '.rst'
 
-project = u'cupage'
+project = 'cupage'
 copyright = cupage.__copyright__
 
 version = '.'.join(map(str, cupage._version.tuple[:2]))
@@ -55,15 +55,14 @@ pygments_style = 'sphinx'
 html_theme_options = {
     'externalrefs': True,
 }
-try:
+with suppress(CalledProcessError):
     html_last_updated_fmt = check_output(['git', 'log',
                                           "--pretty=format:'%ad [%h]'",
-                                          '--date=short', '-n1'])
-except CalledProcessError:
-    pass
+                                          '--date=short', '-n1'],
+                                         encoding='ascii')
 
 man_pages = [
-    ('cupage.1', 'cupage', u'cupage Documentation', [u'James Rowe'], 1)
+    ('cupage.1', 'cupage', 'cupage Documentation', ['James Rowe'], 1)
 ]
 
 # Autodoc extension settings
@@ -71,7 +70,7 @@ autoclass_content = 'init'
 autodoc_default_flags = ['members', ]
 
 intersphinx_mapping = {
-    'python': ('http://docs.python.org/', os.getenv('SPHINX_PYTHON_OBJECTS')),
+    'python': ('http://docs.python.org/3/', os.getenv('SPHINX_PYTHON_OBJECTS')),
 }
 
 spelling_lang = 'en_GB'

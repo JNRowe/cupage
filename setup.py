@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# coding=utf-8
 """setup.py - Build and installation support"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
@@ -30,7 +29,7 @@ _version = imp.load_module('_version', ver_file, ver_file.name,
 
 def parse_requires(file):
     deps = []
-    req_file = open('extra/%s' % file)
+    req_file = open(f'extra/{file}')
     entries = map(lambda s: s.split('#')[0].strip(), req_file.readlines())
     for dep in entries:
         if not dep or dep.startswith('#'):
@@ -70,13 +69,11 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.1',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3 :: Only',
         'Topic :: Internet',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Indexing/Search',
