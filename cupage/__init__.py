@@ -206,6 +206,15 @@ class Site:
         if no_write:
             http.cache.set = lambda x, y: True
 
+        if cache and not os.path.exists(f'{cache}/CACHEDIR.TAG'):
+            with open(f'{cache}/CACHEDIR.TAG', 'w') as f:
+                f.writelines([
+                    'Signature: 8a477f597d28d172789f06886806bc55\n',
+                    '# This file is a cache directory tag created by cupage.\n',
+                    '# For information about cache directory tags, see:\n',
+                    '#   http://www.brynosaurus.com/cachedir/\n',
+                ])
+
         if self.robots and not os.getenv('CUPAGE_IGNORE_ROBOTS_TXT'):
             if not utils.robots_test(http, self.url, self.name, USER_AGENT):
                 return False
