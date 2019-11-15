@@ -9,8 +9,6 @@ Command line
   `cupage`, and can be skipped if you are simply using the tool from the command
   line.
 
-.. autodata:: USAGE
-
 .. autofunction:: main
 
 .. autofunction:: add

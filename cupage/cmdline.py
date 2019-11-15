@@ -42,13 +42,6 @@ from .i18n import _
 from . import (_version, utils)
 
 
-#: Command line help string, for use with :mod:`argparse`
-# Pull the first paragraph from the docstring
-USAGE = cupage.__doc__[:cupage.__doc__.find('\n\n', 100)].splitlines()[2:]
-# Replace script name with optparse's substitution var, and rebuild string
-USAGE = '\n'.join(USAGE).replace('cupage', '%(prog)s')
-
-
 class FrequencyParamType(click.ParamType):
     """Frequency parameter handler."""
     name = 'frequency'
