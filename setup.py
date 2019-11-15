@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 """setup.py - Build and installation support"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
