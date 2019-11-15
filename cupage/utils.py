@@ -98,28 +98,28 @@ def robots_test(http, url, name, user_agent='*'):
     """
     parsed = urlparse.urlparse(url, 'http')
     if parsed.scheme.startswith('http'):
-        robots_url = '%(scheme)s://%(netloc)s/robots.txt' \
-            % parsed._asdict()
+        robots_url = '{[scheme]}://{[netloc]}/robots.txt'.format(
+            parsed._asdict())
         robots = robotparser.RobotFileParser(robots_url)
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print(fail('Domain name lookup failed for %s' % name))
+            print(fail(f'Domain name lookup failed for {name}'))
             return False
         except socket.timeout:
-            print(fail('Socket timed out on %s' % name))
+            print(fail(f'Socket timed out on {name}'))
             return False
         # Ignore errors 4xx errors for robots.txt
         if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print(fail("Can't check %s, blocked by robots.txt" % name))
+                print(fail(f"Can't check {name}, blocked by robots.txt"))
                 return False
 
 
 def _format_info(text, colour):
-    return '%s %s' % (getattr(T, 'bold_white_on_%s' % colour)('*'),
-                      getattr(T, 'bright_%s' % colour)(text))
+    return ' '.join([getattr(T, f'bold_white_on_{colour}')('*'),
+                     getattr(T, f'bright_{colour}')(text)])
 
 
 def success(text):

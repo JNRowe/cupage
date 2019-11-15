@@ -49,7 +49,7 @@ from . import utils
 
 
 #: User agent to use for HTTP requests
-USER_AGENT = 'cupage/%s (https://github.com/JNRowe/cupage/)' % __version__
+USER_AGENT = f'cupage/{__version__} (https://github.com/JNRowe/cupage/)'
 
 #: Site specific configuration data
 SITES = {
@@ -169,17 +169,15 @@ class Site:
         self.matches = matches if matches else []
 
     def __repr__(self):
-        return '%r(%r, %r, ...)' % (self.__class__.__name__, self.name,
-                                    self.url)
+        return f'{self.__class__.__name__!r}({self.name!r}, {self.url!r}, ...)'
 
     def __str__(self):
         """Pretty printed ``Site`` string."""
-        ret = ['%s @ %s using %s matcher' % (self.name, self.url,
-                                             self.match_func), ]
+        ret = [f'{self.name} @ {self.url} using {self.match_func} matcher', ]
         if self.checked:
-            ret.append(' last checked %s' % self.checked)
+            ret.append(f' last checked {self.checked}')
         if self.frequency:
-            ret.append(' with a check frequency of %s' % self.frequency)
+            ret.append(f' with a check frequency of {self.frequency}')
         if self.matches:
             ret.append('\n    ')
             ret.append(', '.join(utils.sort_packages(self.matches)))
@@ -198,8 +196,8 @@ class Site:
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print(utils.warn('%s is not due for check until %s'
-                                 % (self.name, next_check)))
+                print(utils.warn(
+                    f'{self.name} is not due for check until {next_check}'))
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
                              ca_certs=utils.CA_CERTS)
@@ -216,29 +214,29 @@ class Site:
             headers, content = http.request(self.url,
                                             headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print(utils.fail('Domain name lookup failed for %s' % self.name))
+            print(utils.fail(f'Domain name lookup failed for {self.name}'))
             return False
         except ssl.SSLError as error:
-            print(utils.fail('SSL error %s (%s)' % (self.name, error.message)))
+            print(utils.fail(f'SSL error {self.name} ({error.message})'))
             return False
         except socket.timeout:
-            print(utils.fail('Socket timed out on %s' % self.name))
+            print(utils.fail(f'Socket timed out on {self.name}'))
             return False
 
         charset = utils.charset_from_headers(headers)
 
         if not headers.get('content-location', self.url) == self.url:
-            print(utils.warn('%s moved to %s' % (self.name,
-                                                 headers['content-location'])))
+            print(utils.warn(
+                f'{self.name} moved to {headers["content-location"]}'))
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print(utils.fail('%s returned %r'
-                             % (self.name, httplib.responses[headers.status])))
+            print(utils.fail(
+                '{self}.name returned {httplib.responses[headers.status]!r}'))
             return False
 
-        matches = getattr(self, 'find_%s_matches' % self.match_func)(content,
-                                                                     charset)
+        matches = getattr(self, f'find_{self.match_func}_matches')(content,
+                                                                   charset)
         new_matches = [s for s in matches if not s in self.matches]
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
@@ -319,7 +317,7 @@ class Site:
         """
         if ext == 'tar':
             ext = 'tar.(?:bz2|gz|xz)'
-        match = r'%s-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.%s' % (name, ext)
+        match = rf'{name}-[\d\.]+(?:[_-](?:pre|rc)[\d]+)?\.{ext}'
         return re.compile(match, flags=re.VERBOSE if verbose else 0)
 
     @staticmethod
@@ -334,15 +332,15 @@ class Site:
             try:
                 site_opts = SITES[options['site']]
             except KeyError:
-                raise ValueError('Invalid site option for %s' % name)
+                raise ValueError(f'Invalid site option for {name}')
             if 'deprecated' in site_opts:
-                print("%s: %s - %s" % (name, options['site'],
-                                       site_opts['deprecated']))
+                print(f'{name}: {options["site"]} - {site_opts["deprecated"]}')
             if 'keys' in site_opts:
                 for key in site_opts['keys']:
                     if not key in options:
-                        raise ValueError('%r is required for site=%s from %s'
-                                         % (key, options['site'], name))
+                        raise ValueError(
+                            f'{key!r} is required for site={options["site"]} '
+                            f'from {name}')
             if 'transform' in site_opts:
                 name = site_opts['transform'](name)
             options['name'] = name  # For .format usage
@@ -374,16 +372,16 @@ class Site:
                 'match': options.get('match'),
             }
             if not match_options['select']:
-                raise ValueError('missing select option for %s' % name)
+                raise ValueError(f'missing select option for {name}')
             if match_options['match_type'] == 're' \
                     and not match_options['match']:
-                raise ValueError('missing match option for %s' % name)
+                raise ValueError(f'missing match option for {name}')
             if 'robots' in options:
                 robots = options.as_bool('robots')
             else:
                 robots = True
         else:
-            raise ValueError('site or url not specified for %s' % name)
+            raise ValueError(f'site or url not specified for {name}')
         frequency = options.get('frequency')
         if frequency:
             frequency = utils.parse_timedelta(frequency)

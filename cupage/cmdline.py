@@ -62,7 +62,7 @@ class FrequencyParamType(click.ParamType):
 
 def load_sites(config, database, pages):
     if database is None:
-        database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
+        database = '{}{}db'.format(os.path.splitext(config)[0], os.path.extsep)
 
     sites = cupage.Sites()
     try:
@@ -81,7 +81,7 @@ def load_sites(config, database, pages):
     site_names = list(map(attrgetter('name'), sites))
     for page in pages:
         if page not in site_names:
-            raise ValueError('Invalid site argument %r' % page)
+            raise ValueError(f'Invalid site argument {page!r}')
 
     return sites
 
@@ -194,23 +194,24 @@ def check(globs, config, database, cache, write, force, timeout, pages):
 
     if write:
         if database is None:
-            database = '%s%sdb' % (os.path.splitext(config)[0], os.path.extsep)
+            database = '{}{}db'.format(os.path.splitext(config)[0],
+                                       os.path.extsep)
         atexit.register(sites.save, database)
 
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
             if globs['verbose']:
                 print(site)
-                print('Checking %s...' % site.name)
+                print(f'Checking {site.name}...')
             matches = site.check(cache, timeout, force, not write)
             if matches:
                 if globs['verbose']:
-                    print('%s has new matches' % site.name)
+                    print(f'{site.name} has new matches')
                 for match in utils.sort_packages(matches):
                     print(utils.success(match))
             else:
                 if globs['verbose']:
-                    print('%s has no new matches' % site.name)
+                    print(f'{site.name} has no new matches')
 
 
 @cli.command(name='list')
@@ -254,10 +255,10 @@ def list_sites(globs):
         print('Supported site values and their non-standard values:')
         print()
     for site, values in sorted(cupage.SITES.items()):
-        print('- %s (v%s)' % (site, values['added']))
+        print(f'- {site} (v{values["added"]})')
         if 'keys' in values:
             for item in values['keys'].items():
-                print('  * %s - %s' % item)
+                print(f'  * {item[0]} - {item[1]}')
 
 
 @cli.command()
@@ -279,11 +280,11 @@ def remove(globs, config, pages):
     if pages:
         for page in pages:
             if page in conf.sections:
-                print(utils.fail('Invalid site argument %r' % page))
+                print(utils.fail(f'Invalid site argument {page!r}'))
                 return False
     for page in pages:
         if globs['verbose']:
-            print('Removing %s...' % page)
+            print(f'Removing {page}...')
         del conf[page]
     conf.write()
 
