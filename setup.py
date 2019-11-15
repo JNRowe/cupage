@@ -1,5 +1,5 @@
-#! /usr/bin/env python
-"""setup.py - Build and installation support"""
+#! /usr/bin/env python3
+"""setup.py - Setuptools tasks and config for cupage."""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,73 +16,48 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import imp
+from typing import List
 
 from setuptools import setup
-
-# Hack to import _version file without importing cupage/__init__.py, its
-# purpose is to allow import without requiring dependencies at this point.
-ver_file = open('cupage/_version.py')
-_version = imp.load_module('_version', ver_file, ver_file.name,
-                           ('.py', ver_file.mode, imp.PY_SOURCE))
+from setuptools.command.test import test
 
 
-def parse_requires(file):
+class PytestTest(test):
+    def finalize_options(self):
+        test.finalize_options(self)
+        self.test_args = [
+            'tests/',
+        ]
+        self.test_suite = True
+
+    def run_tests(self):
+        from sys import exit
+        from pytest import main
+        exit(main(self.test_args))
+
+
+def parse_requires(file: str) -> List[str]:
     deps = []
-    req_file = open(f'extra/{file}')
-    entries = map(lambda s: s.split('#')[0].strip(), req_file.readlines())
+    with open(f'extra/{file}') as req_file:
+        entries = [s.split('#')[0].strip() for s in req_file.readlines()]
     for dep in entries:
         if not dep or dep.startswith('#'):
             continue
-        dep = dep
-        if dep.startswith('-r '):
+        elif dep.startswith('-r '):
             deps.extend(parse_requires(dep.split()[1]))
-        else:
-            deps.append(dep)
+            continue
+        deps.append(dep)
     return deps
 
-install_requires = parse_requires('requirements.txt')
 
-setup(
-    name='cupage',
-    version=_version.dotted,
-    description='A tool to check for updates on web pages',
-    long_description=open('README.rst').read(),
-    author='James Rowe',
-    author_email='jnrowe@gmail.com',
-    url='https://github.com/JNRowe/cupage',
-    license='GPL-3',
-    keywords='admin update web',
-    packages=['cupage', ],
-    entry_points={'console_scripts': ['cupage = cupage.cmdline:main', ]},
-    install_requires=install_requires,
-    zip_safe=False,
-    tests_require=['nose2', 'expecter'],
-    classifiers=[
-        'Development Status :: 4 - Beta',
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'Intended Audience :: End Users/Desktop',
-        'Intended Audience :: Other Audience',
-        'Intended Audience :: System Administrators',
-        'License :: OSI Approved :: GNU General Public License (GPL)',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3 :: Only',
-        'Topic :: Internet',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: Indexing/Search',
-        'Topic :: Internet :: WWW/HTTP :: Site Management',
-        'Topic :: Internet :: WWW/HTTP :: Site Management :: Link Checking',
-        'Topic :: Other/Nonlisted Topic',
-        'Topic :: Text Processing',
-        'Topic :: Text Processing :: Markup :: HTML',
-        'Topic :: Text Processing :: Markup :: XML',
-        'Topic :: Utilities',
-    ],
-)
+# Note: We can't use setuptool’s requirements support as it only a list value,
+# and doesn’t support pip’s inclusion mechanism
+install_requires = parse_requires('requirements.txt')
+tests_require = parse_requires('requirements-test.txt')
+
+if __name__ == '__main__':
+    setup(
+        install_requires=install_requires,
+        tests_require=tests_require,
+        cmdclass={'test': PytestTest},
+    )
