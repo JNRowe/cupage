@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """test_utils - Tests for cupage utils"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #

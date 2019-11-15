@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """conf - Sphinx configuration information"""
 # Copyright © 2011-2014  James Rowe <jnrowe@gmail.com>
 #

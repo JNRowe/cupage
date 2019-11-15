@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """test___init__ - Tests for cupage package"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #

@@ -1,5 +1,4 @@
 #
-# coding=utf-8
 """command_line - Command line interface for cupage"""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
