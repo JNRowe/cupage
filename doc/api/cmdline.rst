@@ -16,15 +16,3 @@ Command line
 .. autofunction:: list_conf
 .. autofunction:: list_sites
 .. autofunction:: remove
-
-Examples
---------
-
-.. testsetup::
-
-    from cupage import process_command_line
-
-Parse command line options
-''''''''''''''''''''''''''
-
-    >>> options, args = process_command_line()
