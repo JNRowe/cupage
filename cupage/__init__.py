@@ -43,6 +43,7 @@ import http.client as httplib
 import configobj
 import httplib2
 
+from jnrbase import colourise
 from lxml import html
 
 from . import utils
@@ -199,8 +200,8 @@ class Site:
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print(utils.warn(
-                    f'{self.name} is not due for check until {next_check}'))
+                colourise.pwarn(
+                    f'{self.name} is not due for check until {next_check}')
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
                              ca_certs=utils.CA_CERTS)
@@ -226,25 +227,25 @@ class Site:
             headers, content = http.request(self.url,
                                             headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print(utils.fail(f'Domain name lookup failed for {self.name}'))
+            colourise.pfail(f'Domain name lookup failed for {self.name}')
             return False
         except ssl.SSLError as error:
-            print(utils.fail(f'SSL error {self.name} ({error})'))
+            colourise.pfail(f'SSL error {self.name} ({error})')
             return False
         except socket.timeout:
-            print(utils.fail(f'Socket timed out on {self.name}'))
+            colourise.pfail(f'Socket timed out on {self.name}')
             return False
 
         charset = utils.charset_from_headers(headers)
 
         if not headers.get('content-location', self.url) == self.url:
-            print(utils.warn(
-                f'{self.name} moved to {headers["content-location"]}'))
+            colourise.pwarn(
+                f'{self.name} moved to {headers["content-location"]}')
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print(utils.fail(
-                '{self}.name returned {httplib.responses[headers.status]!r}'))
+            colourise.pfail(
+                '{self}.name returned {httplib.responses[headers.status]!r}')
             return False
 
         matches = getattr(self, f'find_{self.match_func}_matches')(content,

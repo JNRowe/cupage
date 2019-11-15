@@ -27,7 +27,7 @@ from urllib import robotparser
 import urllib.parse as urlparse
 
 import httplib2
-from click import style
+from jnrbase import colourise
 
 
 try:
@@ -105,49 +105,17 @@ def robots_test(http, url, name, user_agent='*'):
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print(fail(f'Domain name lookup failed for {name}'))
+            colourise.pfail(f'Domain name lookup failed for {name}')
             return False
         except socket.timeout:
-            print(fail(f'Socket timed out on {name}'))
+            colourise.pfail(f'Socket timed out on {name}')
             return False
         # Ignore errors 4xx errors for robots.txt
         if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print(fail(f'Can’t check {name}, blocked by robots.txt'))
+                colourise.pfail(f'Can’t check {name}, blocked by robots.txt')
                 return False
-
-
-def _format_info(text, colour):
-    return ' '.join([style('*', bg=colour, bold=True),
-                     style(text, fg=colour, bold=True)])
-
-
-def success(text):
-    """Format a success message with colour, if possible.
-
-    Args:
-        text (str): Text to format
-    """
-    return _format_info(text, 'green')
-
-
-def fail(text):
-    """Format a failure message with colour, if possible.
-
-    Args:
-        text (str): Text to format
-    """
-    return _format_info(text, 'red')
-
-
-def warn(text):
-    """Format a warning message with colour, if possible.
-
-    Args:
-        text (str): Text to format
-    """
-    return _format_info(text, 'yellow')
 
 
 class CupageEncoder(json.JSONEncoder):

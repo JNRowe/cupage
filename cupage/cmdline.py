@@ -29,6 +29,7 @@ import click
 import configobj
 
 from jnrbase.attrdict import ROAttrDict
+from jnrbase import colourise
 
 import cupage
 
@@ -77,13 +78,13 @@ def load_sites(config, database, pages):
     try:
         sites.load(config, database)
     except IOError as e:
-        print(utils.fail(e.message))
+        colourise.pfail(e.message)
         return errno.EIO
     except ValueError:
-        print(utils.fail('Error reading database file'))
+        colourise.pfail('Error reading database file')
         return errno.ENOMSG
     except TypeError:
-        print(utils.fail('Error reading config file'))
+        colourise.pfail('Error reading config file')
         return errno.ENOENT
 
     # Check all named pages exist in config
@@ -223,7 +224,7 @@ def check(globs, config, database, cache, write, force, timeout, pages):
                 if globs.verbose:
                     print(f'{site.name} has new matches')
                 for match in utils.sort_packages(matches):
-                    print(utils.success(match))
+                    colourise.psuccess(match)
             else:
                 if globs.verbose:
                     print(f'{site.name} has no new matches')
@@ -302,7 +303,7 @@ def remove(globs, config, pages):
     if pages:
         for page in pages:
             if page in conf.sections:
-                print(utils.fail(f'Invalid site argument {page!r}'))
+                colourise.pfail(f'Invalid site argument {page!r}')
                 return False
     for page in pages:
         if globs.verbose:
@@ -319,11 +320,11 @@ def main():
     try:
         cli()
     except socket.error as error:
-        print(utils.fail(error.strerror or str(error)))
+        colourise.pfail(error.strerror or str(error))
         return errno.EADDRNOTAVAIL
     except (configobj.DuplicateError, IOError) as error:
-        print(utils.fail(str(error)))
+        colourise.pfail(str(error))
         return errno.ENOENT
     except ValueError as error:
-        print(utils.fail(str(error)))
+        colourise.pfail(str(error))
         return errno.EPERM
