@@ -102,46 +102,6 @@ def robots_test(http, url, name, user_agent='*'):
                 return False
 
 
-class CupageEncoder(json.JSONEncoder):
-
-    """Custom JSON encoding for supporting ``datetime`` objects."""
-
-    def default(self, obj):
-        """Handle ``datetime`` objects when encoding as JSON.
-
-        This simply falls through to :meth:`~json.JSONEncoder.default` if
-        ``obj`` has no ``isoformat`` method.
-
-        Args:
-            obj: Object to encode
-        """
-        with suppress(TypeError):
-            return obj.isoformat()
-        return json.JSONEncoder.default(self, obj)
-
-
-def json_to_datetime(obj):
-    """Parse ``checked`` datetimes from ``cupage`` databases.
-
-    :see: `json.JSONDecoder`
-
-    Args:
-        obj: Object to decode
-    """
-    if 'checked' in obj:
-        try:
-            result = datetime.datetime.strptime(obj['checked'],
-                                                '%Y-%m-%dT%H:%M:%S.%f')
-        except TypeError:
-            try:
-                # <0.7 compatibility
-                result = datetime.datetime.fromtimestamp(float(obj['checked']))
-            except TypeError:
-                result = None
-        obj['checked'] = result
-    return obj
-
-
 def charset_from_headers(headers):
     """Parse charset from headers.
 

@@ -44,7 +44,7 @@ import configobj
 import httplib2
 
 from jnrbase.human_time import parse_timedelta
-from jnrbase import colourise
+from jnrbase import colourise, json_datetime
 from lxml import html
 
 from . import utils
@@ -434,8 +434,7 @@ class Sites(list):
 
         data = {}
         if database and os.path.exists(database):
-            data = json.load(open(database),
-                             object_hook=utils.json_to_datetime)
+            data = json_datetime.load(open(database))
         elif database:
             logging.debug('Database file %r doesn’t exist', database)
 
@@ -455,5 +454,5 @@ class Sites(list):
         directory, filename = os.path.split(database)
         temp = tempfile.NamedTemporaryFile(prefix='.', dir=directory,
                                            delete=False)
-        json.dump(data, temp, indent=4, cls=utils.CupageEncoder)
+        json_datetime.dump(data, temp)
         os.rename(temp.name, database)

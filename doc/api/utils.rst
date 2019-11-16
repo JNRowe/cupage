@@ -9,10 +9,6 @@ Utilities
   `cupage`, and can be skipped if you are simply using the tool from the command
   line.
 
-.. autoclass:: CupageEncoder
-
-.. autofunction:: json_to_datetime
-
 .. autofunction:: sort_packages
 
 .. autofunction:: robots_test
