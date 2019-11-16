@@ -16,29 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import datetime
+from pytest import mark
 
-from pytest import mark, raises
-
-from cupage.utils import (charset_from_headers, parse_timedelta, sort_packages)
-
-
-@mark.parametrize('string, dt', [
-    ('3h', datetime.timedelta(0, 10800)),
-    ('1d', datetime.timedelta(1)),
-    ('1 d', datetime.timedelta(1)),
-    ('0.5 y', datetime.timedelta(182, 43200)),
-    ('0.5 Y', datetime.timedelta(182, 43200)),
-])
-def test_parse_timedelta(string, dt):
-    """Test timedelta parsing functionality."""
-    assert parse_timedelta(string) == dt
-
-
-def test_parse_invalid_timedelta():
-    """Test timedelta parsing error handling."""
-    with raises(ValueError, match="Invalid 'frequency' value"):
-        parse_timedelta('1 k')
+from cupage.utils import (charset_from_headers, sort_packages)
 
 
 @mark.parametrize('input, ordered', [

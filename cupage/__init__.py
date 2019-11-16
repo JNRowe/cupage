@@ -43,6 +43,7 @@ import http.client as httplib
 import configobj
 import httplib2
 
+from jnrbase.human_time import parse_timedelta
 from jnrbase import colourise
 from lxml import html
 
@@ -404,7 +405,7 @@ class Site:
             raise ValueError(f'site or url not specified for {name}')
         frequency = options.get('frequency')
         if frequency:
-            frequency = utils.parse_timedelta(frequency)
+            frequency = parse_timedelta(frequency)
         site = Site(name, url, match_func, match_options, frequency, robots,
                     data.get('checked'), data.get('matches'))
         return site

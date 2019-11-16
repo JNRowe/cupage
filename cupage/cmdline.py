@@ -29,6 +29,7 @@ import click
 import configobj
 
 from jnrbase.attrdict import ROAttrDict
+from jnrbase.human_time import parse_timedelta
 from jnrbase import colourise
 
 import cupage
@@ -54,7 +55,7 @@ class FrequencyParamType(click.ParamType):
             str: String suitable for frequency checker
         """
         try:
-            utils.parse_timedelta(value)
+            parse_timedelta(value)
         except ValueError:
             self.fail('Invalid frequency value')
         return value

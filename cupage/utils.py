@@ -60,22 +60,6 @@ else:
     CA_CERTS = ca_certs_locater.get()
 
 
-def parse_timedelta(delta):
-    """Parse human readable frequency.
-
-    Args:
-        delta (str): Frequency to parse
-    """
-    match = re.match(r'^(\d+(?:|\.\d+)) *([hdwmy])$', delta, re.IGNORECASE)
-    if not match:
-        raise ValueError("Invalid 'frequency' value")
-    value, units = match.groups()
-    units = 'hdwmy'.index(units.lower())
-    # hours per hour/day/week/month/year
-    multiplier = (1, 24, 168, 672, 8760)
-    return datetime.timedelta(hours=float(value) * multiplier[units])
-
-
 def sort_packages(packages):
     """Order package list according to version number.
 

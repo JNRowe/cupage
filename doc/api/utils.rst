@@ -13,8 +13,6 @@ Utilities
 
 .. autofunction:: json_to_datetime
 
-.. autofunction:: parse_timedelta
-
 .. autofunction:: sort_packages
 
 .. autofunction:: robots_test
