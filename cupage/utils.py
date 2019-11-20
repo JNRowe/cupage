@@ -18,13 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import datetime
-import json
 import os
 import re
 import socket
 import sys
-from contextlib import suppress
 from urllib import robotparser
 import urllib.parse as urlparse
 
@@ -42,7 +39,6 @@ except (AssertionError, ImportError):
     SYSTEM_CERTS = \
         not _HTTPLIB2_BUNDLE.startswith(os.path.dirname(httplib2.__file__))
     CA_CERTS = None
-    CURL_CERTS = False
     if not SYSTEM_CERTS and sys.platform.startswith('linux'):
         for cert_file in [
                 '/etc/ssl/certs/ca-certificates.crt',
@@ -58,7 +54,6 @@ except (AssertionError, ImportError):
             SYSTEM_CERTS = True
     elif os.path.exists(os.getenv('CURL_CA_BUNDLE', '')):
         CA_CERTS = os.getenv('CURL_CA_BUNDLE')
-        CURL_CERTS = True
 else:
     CA_CERTS = ca_certs_locater.get()
 

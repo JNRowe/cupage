@@ -230,7 +230,7 @@ class Site:
         # hillbilly monkeypatch to allow us to still read the cache, but make
         # writing a NOP
         if no_write:
-            http.cache.set = lambda x, y: True
+            http.cache.set = lambda *_: True
 
         if cache and not os.path.exists(f'{cache}/CACHEDIR.TAG'):
             with open(f'{cache}/CACHEDIR.TAG', 'w') as f:
@@ -470,7 +470,7 @@ class Sites(list):
         for site in self:
             data[site.name] = site.state
 
-        directory, filename = os.path.split(database)
+        directory, _ = os.path.split(database)
         temp = tempfile.NamedTemporaryFile(prefix='.',
                                            dir=directory,
                                            delete=False)
