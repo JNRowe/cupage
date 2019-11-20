@@ -273,7 +273,7 @@ class Site:
 
         matches = getattr(self, f'find_{self.match_func}_matches')(content,
                                                                    charset)
-        new_matches = [s for s in matches if not s in self.matches]
+        new_matches = [s for s in matches if s not in self.matches]
         self.matches = matches
         self.checked = datetime.datetime.utcnow()
         return new_matches
@@ -380,7 +380,7 @@ class Site:
                 echo(f'{name}: {options["site"]} - {site_opts["deprecated"]}')
             if 'keys' in site_opts:
                 for key in site_opts['keys']:
-                    if not key in options:
+                    if key not in options:
                         raise ValueError(
                             f'{key!r} is required for site={options["site"]} '
                             f'from {name}')
