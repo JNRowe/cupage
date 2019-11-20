@@ -1,5 +1,5 @@
 #
-"""test_utils - Tests for cupage utils"""
+"""test_utils - Tests for cupage utils."""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify

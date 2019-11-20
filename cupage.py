@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""cupage - a tool to check for updates on web pages"""
+"""cupage - a tool to check for updates on web pages."""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify

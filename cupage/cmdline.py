@@ -1,5 +1,5 @@
 #
-"""command_line - Command line interface for cupage"""
+"""command_line - Command line interface for cupage."""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,9 @@ from . import (_version, utils)
 
 
 class FrequencyParamType(click.ParamType):
+
     """Frequency parameter handler."""
+
     name = 'frequency'
 
     def convert(self, value, param, ctx):

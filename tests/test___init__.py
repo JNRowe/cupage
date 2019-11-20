@@ -1,5 +1,5 @@
 #
-"""test___init__ - Tests for cupage package"""
+"""test___init__ - Tests for cupage package."""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
