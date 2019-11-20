@@ -34,7 +34,7 @@ extensions = \
     [f'sphinx.ext.{ext}' for ext in ['autodoc', 'coverage', 'doctest',
                                      'intersphinx', 'viewcode']] \
     + [f'sphinxcontrib.{ext}' for ext in ['blockdiag', ]] \
-    + []  # type: List[str]
+    + ['sphinx_click.ext', ]  # type: List[str]
 
 if not on_rtd:
     # Only activate spelling if it is installed.  It is not required in the
