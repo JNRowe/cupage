@@ -13,6 +13,6 @@ want to convince me that your style is better.
 * All new classes and functions should be accompanied by new tests, and Sphinx_
   ``autodoc``-compatible descriptions.
 
-.. _PEP 8: http://www.python.org/dev/peps/pep-0008/
-.. _PEP 257: http://www.python.org/dev/peps/pep-0257/
-.. _Sphinx: http://sphinx.pocoo.org/
+.. _PEP 8: https://www.python.org/dev/peps/pep-0008/
+.. _PEP 257: https://www.python.org/dev/peps/pep-0257/
+.. _Sphinx: https://sphinx.pocoo.org/

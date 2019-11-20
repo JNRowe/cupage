@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:rdfs="https://www.w3.org/2000/01/rdf-schema#"
     xmlns:foaf="http://xmlns.com/foaf/0.1/"
     xmlns="http://usefulinc.com/ns/doap#">
     <name>cupage</name>
@@ -15,24 +15,24 @@
         new software releases, but it is easily configurable and can be used for
         other purposes.
     </description>
- 
+
     <homepage rdf:resource="https://github.com/JNRowe/cupage" />
-    <bug-database rdf:resource="http://github.com/JNRowe/cupage/issues" />
+    <bug-database rdf:resource="https://github.com/JNRowe/cupage/issues" />
     <repository>
         <GitRepository>
-            <location rdf:resource="git://github.com/JNRowe/cupage.git" />
+            <location rdf:resource="https://github.com/JNRowe/cupage.git" />
             <browse rdf:resource="https://github.com/JNRowe/cupage" />
         </GitRepository>
     </repository>
     <created>2014-02-07</created>
-    <license rdf:resource="http://spdx.org/licenses/GPL-3.0+" />
+    <license rdf:resource="https://spdx.org/licenses/GPL-3.0-or-later" />
     <programming-language>Python</programming-language>
-   
+
     <maintainer>
         <foaf:Person>
             <foaf:name>James Rowe</foaf:name>
             <mbox rdf:resource="mailto:jnrowe@gmail.com" />
-            <rdfs:homepage rdf:resource="http://jnrowe.github.io" />
+            <rdfs:homepage rdf:resource="https://jnrowe.github.io" />
         </foaf:Person>
     </maintainer>
 </Project>

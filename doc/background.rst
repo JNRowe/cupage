@@ -80,6 +80,6 @@ An example database file could be:
 
 .. _atom: http://www.atomenabled.org/
 .. _freshmeat: http://freshmeat.net/
-.. _Pickle: http://docs.python.org/library/pickle.html
-.. _Python: http://www.python.org/
-.. _json: http://docs.python.org/library/json.html
+.. _Pickle: https://docs.python.org/3/library/pickle.html
+.. _Python: https://www.python.org/
+.. _json: https://docs.python.org/3/library/json.html

@@ -2,7 +2,7 @@ CUPage - Check for Updated Pages
 ================================
 
 .. image:: https://secure.travis-ci.org/JNRowe/cupage.png?branch=master
-   :target: http://travis-ci.org/JNRowe/cupage
+   :target: https://travis-ci.org/JNRowe/cupage
 
 ``cupage`` is a tool to check for updates on web pages.
 
@@ -93,13 +93,13 @@ file an issue_ or drop me a mail_.
 If you've found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
-.. _GPL v3: http://www.gnu.org/licenses/
+.. _GPL v3: https://www.gnu.org/licenses/
 .. _click: https://crate.io/packages/click/
 .. _configobj: https://crate.io/packages/configobj/
 .. _cssselect: https://crate.io/packages/cssselect/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _lxml: http://lxml.de/
-.. _Python: http://www.python.org/
+.. _Python: https://www.python.org/
 .. _issue: https://github.com/JNRowe/cupage/issues
 .. _nose2: https://crate.io/packages/nose2/
 .. _mail: jnrowe@gmail.com

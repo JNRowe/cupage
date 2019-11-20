@@ -18,7 +18,7 @@ User-visible changes
 * ``xz`` archives are now matched by default with the tar matcher
 * configobj_ is no longer required
 
-.. _aaargh: http://pypi.python.org/pypi/aaargh/
+.. _aaargh: https://pypi.python.org/pypi/aaargh/
 
 0.7.0 - 2012-02-03
 ------------------
@@ -31,8 +31,8 @@ User-visible changes
 * Now requires blessings_
 * Fixes for people using distribute_ to install
 
-.. _blessings: http://pypi.python.org/pypi/blessings/
-.. _distribute: http://pypi.python.org/pypi/distribute
+.. _blessings: https://pypi.python.org/pypi/blessings/
+.. _distribute: https://pypi.python.org/pypi/distribute
 
 0.6.0 - 2011-07-17
 ------------------
@@ -53,7 +53,7 @@ User-visible changes
 
 * Updated Debian_ matcher to search for bzip2_ compressed files
 
-.. _Debian: http://debian.org/
+.. _Debian: https://debian.org/
 .. _bzip2: http://www.bzip.org/
 
 0.5.4 - 2011-01-03
@@ -72,7 +72,7 @@ User-visible changes
 * Now uses termcolor_ for coloured output
 * Updated GitHub_ URLs, to remove spurious warnings
 
-.. _termcolor: http://pypi.python.org/pypi/termcolor/
+.. _termcolor: https://pypi.python.org/pypi/termcolor/
 .. _GitHub: https://github.com/
 
 0.5.1 - 2010-06-16
@@ -90,10 +90,10 @@ User-visible changes
   Python v3 isn’t supported yet
 * httplib2_ and ConfigObj_ are now required
 
-.. _Sphinx: http://sphinx.pocoo.org/
+.. _Sphinx: https://sphinx.pocoo.org/
 .. _robots.txt: http://www.robotstxt.org/
 .. _httplib2: http://code.google.com/p/httplib2/
-.. _ConfigObj: http://pypi.python.org/pypi/configobj
+.. _ConfigObj: https://pypi.python.org/pypi/configobj
 
 0.4.0 - 2010-01-22
 ------------------
@@ -116,7 +116,7 @@ User-visible changes
 * Switched to JSON_ as database format
 * Better handling of HTTP errors
 
-.. _termstyle: http://github.com/gfxmonk/termstyle
+.. _termstyle: https://github.com/gfxmonk/termstyle
 .. _JSON: http://www.json.org/
 
 0.1.0 - 2009-09-18

@@ -36,5 +36,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. _Python: http://www.python.org
-.. _GPL v3: http://www.gnu.org/licenses/
+.. _Python: https://www.python.org
+.. _GPL v3: https://www.gnu.org/licenses/

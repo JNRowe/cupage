@@ -75,7 +75,7 @@ With the above configuration file the site named **spill** will be checked at
 CSS selector **p a** will be scanned for tarballs.  The site named **rails**
 will be checked using the **vim-script** site matcher, which requires only
 a **script** value to check for updates in the scripts section of
-**http://www.vim.org**.
+**https://www.vim.org**.
 
 Various site matchers are available, see the output of ``cupage.py
 --list-sites``.
@@ -93,7 +93,7 @@ Written by `James Rowe <mailto:jnrowe@gmail.com>`__
 RESOURCES
 ---------
 
-Home page: http://github.com/JNRowe/cupage
+Home page: https://github.com/JNRowe/cupage
 
 COPYING
 -------

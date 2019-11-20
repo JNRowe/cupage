@@ -147,13 +147,13 @@ used, it must be a valid :abbr:`FTP (File Transfer Protocol)`/:abbr:`HTTP
 (HyperText Transfer Protocol)`/:abbr:`HTTPS (HyperText Transfer Protocol)`
 address.
 
-.. _GitHub: http://github.com
-.. _vim website: http://www.vim.org/
-.. _gzip: http://www.gnu.org/software/gzip/
+.. _GitHub: https://github.com
+.. _vim website: https://www.vim.org/
+.. _gzip: https://www.gnu.org/software/gzip/
 .. _bzip2: http://www.bzip.org/
 .. _xz: http://tukaani.org/xz/
-.. _tar: http://www.gnu.org/software/tar/
+.. _tar: https://www.gnu.org/software/tar/
 .. _zip: http://www.info-zip.org/
-.. _CSS selectors: http://www.w3.org/TR/2001/CR-css3-selectors-20011113/
-.. _XPath: http://www.w3.org/TR/xpath
-.. _re: http://docs.python.org/library/re.html
+.. _CSS selectors: https://www.w3.org/TR/2001/CR-css3-selectors-20011113/
+.. _XPath: https://www.w3.org/TR/xpath
+.. _re: https://docs.python.org/3/library/re.html
