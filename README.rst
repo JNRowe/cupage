@@ -94,12 +94,12 @@ If you've found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
 .. _GPL v3: https://www.gnu.org/licenses/
-.. _click: https://crate.io/packages/click/
-.. _configobj: https://crate.io/packages/configobj/
-.. _cssselect: https://crate.io/packages/cssselect/
+.. _click: https://pypi.python.org/pypi/click/
+.. _configobj: https://pypi.python.org/pypi/configobj/
+.. _cssselect: https://pypi.python.org/pypi/cssselect/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _lxml: http://lxml.de/
 .. _Python: https://www.python.org/
 .. _issue: https://github.com/JNRowe/cupage/issues
-.. _nose2: https://crate.io/packages/nose2/
+.. _nose2: https://pypi.python.org/pypi/nose2/
 .. _mail: jnrowe@gmail.com
