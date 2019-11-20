@@ -45,6 +45,7 @@ import http.client as httplib
 import configobj
 import httplib2
 
+from click import echo
 from jnrbase.human_time import parse_timedelta
 from jnrbase import colourise, json_datetime
 from lxml import html
@@ -376,7 +377,7 @@ class Site:
             except KeyError:
                 raise ValueError(f'Invalid site option for {name}')
             if 'deprecated' in site_opts:
-                print(f'{name}: {options["site"]} - {site_opts["deprecated"]}')
+                echo(f'{name}: {options["site"]} - {site_opts["deprecated"]}')
             if 'keys' in site_opts:
                 for key in site_opts['keys']:
                     if not key in options:

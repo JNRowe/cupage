@@ -246,17 +246,17 @@ def check(globs, config, database, cache, write, force, timeout, pages):
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
             if globs.verbose:
-                print(site)
-                print(f'Checking {site.name}…')
+                click.echo(site)
+                click.echo(f'Checking {site.name}…')
             matches = site.check(cache, timeout, force, not write)
             if matches:
                 if globs.verbose:
-                    print(f'{site.name} has new matches')
+                    click.echo(f'{site.name} has new matches')
                 for match in utils.sort_packages(matches):
                     colourise.psuccess(match)
             else:
                 if globs.verbose:
-                    print(f'{site.name} has no new matches')
+                    click.echo(f'{site.name} has no new matches')
 
 
 @cli.command(name='list')
@@ -289,11 +289,11 @@ def list_conf(config, database, match, pages):
     sites = load_sites(config, database, pages)
     for site in sorted(sites, key=attrgetter('name')):
         if not pages and not match:
-            print(site)
+            click.echo(site)
         elif pages and site.name in pages:
-            print(site)
+            click.echo(site)
         elif match and match.search(site.name):
-            print(site)
+            click.echo(site)
 
 
 @cli.command(name='list-sites')
@@ -307,13 +307,13 @@ def list_sites(globs):
         globs (AttrDict): Global options object
     """
     if globs.verbose:
-        print('Supported site values and their non-standard values:')
-        print()
+        click.echo('Supported site values and their non-standard values:')
+        click.echo()
     for site, values in sorted(cupage.SITES.items()):
-        print(f'- {site} (v{values["added"]})')
+        click.echo(f'- {site} (v{values["added"]})')
         if 'keys' in values:
             for item in values['keys'].items():
-                print(f'  * {item[0]} - {item[1]}')
+                click.echo(f'  * {item[0]} - {item[1]}')
 
 
 @cli.command()
@@ -343,7 +343,7 @@ def remove(globs, config, pages):
                 return False
     for page in pages:
         if globs.verbose:
-            print(f'Removing {page}…')
+            click.echo(f'Removing {page}…')
         del conf[page]
     conf.write()
 
