@@ -1,5 +1,5 @@
 #
-"""test___init__ - Tests for cupage package"""
+"""test___init__ - Tests for cupage package."""
 # Copyright © 2009-2014  James Rowe <jnrowe@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ from cupage import Site
      'test_long-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.gem'),
 ])
 def test_package_re(name, ext, pkgs, pattern):
+    """Test file matching functionality."""
     c = Site.package_re(name, ext)
     for pkg in pkgs:
         assert re.match(c, pkg).group() == pkg

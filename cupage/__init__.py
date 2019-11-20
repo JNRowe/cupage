@@ -170,6 +170,7 @@ class Site:
         self.matches = matches if matches else []
 
     def __repr__(self):
+        """String representation for use in REPL."""
         return f'{self.__class__.__name__!r}({self.name!r}, {self.url!r}, ...)'
 
     def __str__(self):

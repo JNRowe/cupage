@@ -40,87 +40,20 @@ OPTIONS
 COMMANDS
 --------
 
-``add``
-'''''''
+.. click:: cupage.cmdline:add
+   :prog: cupage add
 
-Add definition to config file
+.. click:: cupage.cmdline:check
+   :prog: cupage check
 
--f <file>, --config <file>
-    configuration file to read
+.. click:: cupage.cmdline:list_conf
+   :prog: cupage list
 
--s <site>, --site <site>
-    site helper to use
+.. click:: cupage.cmdline:list_sites
+   :prog: cupage list-sites
 
--u <url>, --url <url>
-    site url to check
-
--t <type>, --match-type <type>
-    pre-defined regular expression to use
-
--m <regex>, --match <regex>
-    regular expression to use with --match-type=re
-
--q <frequency>, --frequency <frequency>
-    update check frequency
-
--x <selector>, --select <selector>
-    content selector
-
---selector <type>
-    selector method to use
-
-``check``
-'''''''''
-
-Check sites for updates
-
--f <file>, --config <file>
-    configuration file to read
-
--d <file>, --database <file>
-    database to store page data to.  Default based on :option:`cupage check -f`
-    value, for example ``--config my_conf`` will result in a default setting of
-    ``--database my_conf.db``.
-
-    See :ref:`database-label` for details of the database format.
-
--c <dir>, --cache <dir>
-    directory to store page cache
-
-    This can, and in fact *should* be, shared between all cupage uses.
-
---no-write
-    don’t update cache or database
-
---force
-    ignore frequency checks
-
--t <n>, --timeout=<n>
-    timeout for network operations
-
-``list``
-''''''''
-
-List definitions from config file
-
--f <file>, --config <file>
-    configuration file to read
-
--m <regex>, --match <regex>
-    match sites using regular expression
-
-``list-sites``
-''''''''''''''
-
-List supported site values
-
-``remove``
-''''''''''
-
-Remove site from config
-
--f <file>, --config <file>
-    configuration file to read
+.. click:: cupage.cmdline:remove
+   :prog: cupage remove
 
 CONFIGURATION FILE
 ------------------
