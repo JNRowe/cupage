@@ -40,11 +40,13 @@ class FrequencyParamType(click.ParamType):
     def convert(self, value, param, ctx):
         """Check given frequency is valid.
 
-        :param str value: Value given to flag
-        :param click.Argument param: Parameter being processed
-        :param click.Context ctx: Current command context
-        :rtype: :obj:`str`
-        :return: String suitable for frequency checker
+        Args:
+            value (str): Value given to flag
+            param (click.Argument): Parameter being processed
+            ctx (click.Context): Current command context
+
+        Returns:
+            str: String suitable for frequency checker
         """
         try:
             utils.parse_timedelta(value)
@@ -92,8 +94,9 @@ def cli(ctx, verbose):
 
     \f
 
-    :param click.Context ctx: Current command context
-    :param bool verbose: Whether to display verbose output
+    Args:
+        ctx (click.Context): Current command context
+        verbose (bool): Whether to display verbose output
     """
     ctx.obj = {
         'verbose': verbose,
@@ -124,14 +127,15 @@ def add(config, site, url, match_type, match, frequency, select,
 
     \f
 
-    :param str config: Location of config file
-    :param str site: Site helper to match with
-    :param str match_type: Filename match pattern
-    :param str match: Regular expression to use when ``match_type`` is ``re``
-    :param str frequency: Update frequency
-    :param str select: Page content to check
-    :param str site: Type of selector to use
-    :param str name: Name for new entry
+    Args:
+        config (str): Location of config file
+        site (str): Site helper to match with
+        match_type (str): Filename match pattern
+        match (str): Regular expression to use when ``match_type`` is ``re``
+        frequency (str): Update frequency
+        select (str): Page content to check
+        site (str): Type of selector to use
+        name (str): Name for new entry
     """
     conf = configobj.ConfigObj(config)
 
@@ -176,16 +180,16 @@ def check(globs, config, database, cache, write, force, timeout, pages):
 
     \f
 
-    :param dict globs: Global options object
-    :param str config: Location of config file
-    :param str database: Location of database file
-    :param str cache: Location of cache directory
-    :param bool write: Whether to update cache/database
-    :param bool force: Force update regardless of ``frequency`` setting
-    :param datetime.timedelta frequency: Update frequency
-    :param int timeout: Network timeout in seconds
-    :type pages: ``list`` of ``str``
-    :param pages: Pages to check
+    Args:
+        globs (dict): Global options object
+        config (str): Location of config file
+        database (str): Location of database file
+        cache (str): Location of cache directory
+        write (bool): Whether to update cache/database
+        force (bool): Force update regardless of ``frequency`` setting
+        frequency (datetime.timedelta): Update frequency
+        timeout (int): Network timeout in seconds
+        pages (list of str): Pages to check
     """
     sites = load_sites(config, database, pages)
     if not isinstance(sites, cupage.Sites):
@@ -229,11 +233,11 @@ def list_conf(config, database, match, pages):
 
     \f
 
-    :param str config: Location of config file
-    :param str database: Location of database file
-    :param str match: Display sites matching the given regular expression
-    :type pages: ``list`` of ``str``
-    :param pages: Pages to check
+    Args:
+        config (str): Location of config file
+        database (str): Location of database file
+        match (str): Display sites matching the given regular expression
+        pages (list of str): Pages to check
     """
     sites = load_sites(config, database, pages)
     for site in sorted(sites, key=attrgetter('name')):
@@ -252,7 +256,8 @@ def list_sites(globs):
 
     \f
 
-    :param dict globs: Global options object
+    Args:
+        globs (dict): Global options object
     """
     if globs['verbose']:
         print('Supported site values and their non-standard values:')
@@ -275,10 +280,10 @@ def remove(globs, config, pages):
 
     \f
 
-    :param dict globs: Global options object
-    :param str config: Location of config file
-    :type pages: ``list`` of ``str``
-    :param pages: Pages to check
+    Args:
+        globs (dict): Global options object
+        config (str): Location of config file
+        pages (list of str): Pages to check
     """
     conf = configobj.ConfigObj(config, file_error=True)
 

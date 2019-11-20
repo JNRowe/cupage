@@ -63,7 +63,8 @@ else:
 def parse_timedelta(delta):
     """Parse human readable frequency.
 
-    :param str delta: Frequency to parse
+    Args:
+        delta (str): Frequency to parse
     """
     match = re.match(r'^(\d+(?:|\.\d+)) *([hdwmy])$', delta, re.IGNORECASE)
     if not match:
@@ -78,7 +79,8 @@ def parse_timedelta(delta):
 def sort_packages(packages):
     """Order package list according to version number.
 
-    :param list packages: Packages to sort
+    Args:
+        packages (list): Packages to sort
     """
     # Very ugly key function, but it handles the common case of varying
     # component length just about “Good Enough™”
@@ -89,10 +91,11 @@ def sort_packages(packages):
 def robots_test(http, url, name, user_agent='*'):
     """Check whether a given URL is blocked by ``robots.txt``.
 
-    :param http: :class:`httplib2.Http` object to use for requests
-    :param str url: URL to check
-    :param name: Site name being checked
-    :param str user_agent: User agent to check in :file:`robots.txt`
+    Args:
+        http (httplib2.Http): Object to use for requests
+        url (str): URL to check
+        name (str): Site name being checked
+        user_agent (str): User agent to check in :file:`robots.txt`
     """
     parsed = urlparse.urlparse(url, 'http')
     if parsed.scheme.startswith('http'):
@@ -123,7 +126,8 @@ def _format_info(text, colour):
 def success(text):
     """Format a success message with colour, if possible.
 
-    :param str text: Text to format
+    Args:
+        text (str): Text to format
     """
     return _format_info(text, 'green')
 
@@ -131,7 +135,8 @@ def success(text):
 def fail(text):
     """Format a failure message with colour, if possible.
 
-    :param str text: Text to format
+    Args:
+        text (str): Text to format
     """
     return _format_info(text, 'red')
 
@@ -139,7 +144,8 @@ def fail(text):
 def warn(text):
     """Format a warning message with colour, if possible.
 
-    :param str text: Text to format
+    Args:
+        text (str): Text to format
     """
     return _format_info(text, 'yellow')
 
@@ -154,7 +160,8 @@ class CupageEncoder(json.JSONEncoder):
         This simply falls through to :meth:`~json.JSONEncoder.default` if
         ``obj`` has no ``isoformat`` method.
 
-        :param obj: Object to encode
+        Args:
+            obj: Object to encode
         """
         with suppress(TypeError):
             return obj.isoformat()
@@ -166,7 +173,8 @@ def json_to_datetime(obj):
 
     :see: `json.JSONDecoder`
 
-    :param obj: Object to decode
+    Args:
+        obj: Object to decode
     """
     if 'checked' in obj:
         try:
@@ -185,8 +193,11 @@ def json_to_datetime(obj):
 def charset_from_headers(headers):
     """Parse charset from headers.
 
-    :param httplib2.Response headers: Request headers
-    :return: Defined encoding, or default to ISO-8859-1
+    Args:
+        headers (httplib2.Response): Request headers
+
+    Returns:
+        Defined encoding, or default to ISO-8859-1
     """
     match = re.search("charset=([^ ;]+)", headers.get('content-type', ""))
     if match:
