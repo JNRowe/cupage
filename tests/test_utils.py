@@ -22,8 +22,8 @@ from cupage.utils import (charset_from_headers, sort_packages)
 
 
 @mark.parametrize('input, ordered', [
-    (['pkg-0.1.tar.gz', 'pkg-0.2.1.tar.gz', 'pkg-0.2.tar.gz'],
-     ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']),
+    (['pkg-0.1.tar.gz', 'pkg-0.2.1.tar.gz', 'pkg-0.2.tar.gz'
+      ], ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']),
     (['v0.1.0', 'v0.11.0', 'v0.1.2'], ['v0.1.0', 'v0.1.2', 'v0.11.0']),
 ])
 def test_sort_packages(input, ordered):
@@ -33,8 +33,12 @@ def test_sort_packages(input, ordered):
 
 @mark.parametrize('headers, charset', [
     ({}, 'iso-8859-1'),
-    ({'content-type': 'text/html; charset=utf-8'}, 'utf-8'),
-    ({'content-type': 'text/html; charset=ISO-8859-1'}, 'ISO-8859-1'),
+    ({
+        'content-type': 'text/html; charset=utf-8'
+    }, 'utf-8'),
+    ({
+        'content-type': 'text/html; charset=ISO-8859-1'
+    }, 'ISO-8859-1'),
 ])
 def test_charset_header(headers, charset):
     """Test character set header functionality."""

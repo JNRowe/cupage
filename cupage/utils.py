@@ -29,7 +29,6 @@ import urllib.parse as urlparse
 import httplib2
 from jnrbase import colourise
 
-
 try:
     # httplib2 0.8 and above support setting certs via ca_certs_locater module,
     # making this dirty mess even dirtier
@@ -43,8 +42,10 @@ except (AssertionError, ImportError):
     CA_CERTS = None
     CURL_CERTS = False
     if not SYSTEM_CERTS and sys.platform.startswith('linux'):
-        for cert_file in ['/etc/ssl/certs/ca-certificates.crt',
-                          '/etc/pki/tls/certs/ca-bundle.crt']:
+        for cert_file in [
+                '/etc/ssl/certs/ca-certificates.crt',
+                '/etc/pki/tls/certs/ca-bundle.crt'
+        ]:
             if os.path.exists(cert_file):
                 CA_CERTS = cert_file
                 SYSTEM_CERTS = True

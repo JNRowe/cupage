@@ -20,5 +20,4 @@ import sys
 
 from cupage import cmdline
 
-
 sys.exit(cmdline.main())

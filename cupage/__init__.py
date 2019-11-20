@@ -49,7 +49,6 @@ from lxml import html
 
 from . import utils
 
-
 #: User agent to use for HTTP requests
 USER_AGENT = f'cupage/{__version__} (https://github.com/JNRowe/cupage/)'
 
@@ -59,7 +58,9 @@ SITES = {
         'url': 'https://bitbucket.org/{user}/{name}/downloads',
         'select': 'td.name a.execute',
         'added': '0.7.0',
-        'keys': {'user': 'bitbucket user name', },
+        'keys': {
+            'user': 'bitbucket user name',
+        },
     },
     'cpan': {
         'url': 'http://search.cpan.org/dist/{name}/',
@@ -86,18 +87,25 @@ SITES = {
     'github': {
         'url': 'https://api.github.com/repos/{user}/{name}/tags',
         'match_func': 'github',
-        'keys': {'user': 'GitHub user name', },
+        'keys': {
+            'user': 'GitHub user name',
+        },
         'added': '0.3.1',
         'robots': 'false',
     },
     'google code': {
-        'url': 'https://www.googleapis.com/storage/v1/b/google-code-archive/o'
-               '/v2%2Fcode.google.com%2F{name}%2Fdownloads-page-1.json'
-               '?alt=media',
-        'match_func': 'google_code',
-        'select': 'td.id a',
-        'added': '0.1.0',
-        'deprecated': 'Uploads no longer supported, find another source',
+        'url':
+        'https://www.googleapis.com/storage/v1/b/google-code-archive/o'
+        '/v2%2Fcode.google.com%2F{name}%2Fdownloads-page-1.json'
+        '?alt=media',
+        'match_func':
+        'google_code',
+        'select':
+        'td.id a',
+        'added':
+        '0.1.0',
+        'deprecated':
+        'Uploads no longer supported, find another source',
     },
     'hackage': {
         'url': 'http://hackage.haskell.org/package/{name}',
@@ -122,7 +130,8 @@ SITES = {
         'added': '0.7.0',
     },
     'sourceforge': {
-        'url': 'https://sourceforge.net/api/file/index/project-name/{name}/rss',
+        'url':
+        'https://sourceforge.net/api/file/index/project-name/{name}/rss',
         'match_func': 'sourceforge',
         'added': '0.7.1',
     },
@@ -131,18 +140,25 @@ SITES = {
         'select': 'td a',
         'match_type': 're',
         'match': r'download_script.php\?src_id=([\d]+)',
-        'keys': {'script': 'script id on the vim website', },
+        'keys': {
+            'script': 'script id on the vim website',
+        },
         'added': '0.3.0',
     },
 }
 
 
 class Site:
-
     """Simple object for representing a web site."""
-
-    def __init__(self, name, url, match_func='default', options=None,
-                 frequency=None, robots=True, checked=None, matches=None):
+    def __init__(self,
+                 name,
+                 url,
+                 match_func='default',
+                 options=None,
+                 frequency=None,
+                 robots=True,
+                 checked=None,
+                 matches=None):
         """Initialise a new ``Site`` object.
 
         Args:
@@ -177,7 +193,9 @@ class Site:
 
     def __str__(self):
         """Pretty printed ``Site`` string."""
-        ret = [f'{self.name} @ {self.url} using {self.match_func} matcher', ]
+        ret = [
+            f'{self.name} @ {self.url} using {self.match_func} matcher',
+        ]
         if self.checked:
             ret.append(f' last checked {self.checked}')
         if self.frequency:
@@ -204,7 +222,8 @@ class Site:
                 colourise.pwarn(
                     f'{self.name} is not due for check until {next_check}')
                 return
-        http = httplib2.Http(cache=cache, timeout=timeout,
+        http = httplib2.Http(cache=cache,
+                             timeout=timeout,
                              ca_certs=utils.CA_CERTS)
         # hillbilly monkeypatch to allow us to still read the cache, but make
         # writing a NOP
@@ -417,9 +436,7 @@ class Site:
 
 
 class Sites(list):
-
     """``Site`` bundle wrapper."""
-
     def load(self, config_file, database=None):
         """Read sites from a user’s config file and database.
 
@@ -452,7 +469,8 @@ class Sites(list):
             data[site.name] = site.state
 
         directory, filename = os.path.split(database)
-        temp = tempfile.NamedTemporaryFile(prefix='.', dir=directory,
+        temp = tempfile.NamedTemporaryFile(prefix='.',
+                                           dir=directory,
                                            delete=False)
         json_datetime.dump(data, temp)
         os.rename(temp.name, database)

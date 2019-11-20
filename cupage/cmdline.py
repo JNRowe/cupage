@@ -38,7 +38,6 @@ from . import (_version, utils)
 
 
 class FrequencyParamType(click.ParamType):
-
     """Frequency parameter handler."""
 
     name = 'frequency'
@@ -98,11 +97,16 @@ def load_sites(config, database, pages):
 
 
 @click.group(epilog='Please report bugs to '
-                    'https://github.com/JNRowe/cupage/issues')
+             'https://github.com/JNRowe/cupage/issues')
 @click.version_option(_version.dotted)
-@click.option('-v', '--verbose', flag_value=True,
+@click.option('-v',
+              '--verbose',
+              flag_value=True,
               help='Produce verbose output.')
-@click.option('-q', '--quiet', 'verbose', flag_value=False,
+@click.option('-q',
+              '--quiet',
+              'verbose',
+              flag_value=False,
               help='Output only matches and errors.')
 @click.pass_context
 def cli(ctx, verbose):
@@ -118,25 +122,37 @@ def cli(ctx, verbose):
 
 
 @cli.command()
-@click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
+@click.option('-f',
+              '--config',
+              type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
               help='Config file to read page definitions from.')
-@click.option('-s', '--site', type=click.Choice(cupage.SITES.keys()),
+@click.option('-s',
+              '--site',
+              type=click.Choice(cupage.SITES.keys()),
               help='Site helper to use.')
 @click.option('-u', '--url', help='Site url to check.')
-@click.option('-t', '--match-type', default='tar',
+@click.option('-t',
+              '--match-type',
+              default='tar',
               type=click.Choice(['re', 'tar', 'zip']),
               help='Pre-defined regular expression to use.')
-@click.option('-m', '--match', metavar='regex',
+@click.option('-m',
+              '--match',
+              metavar='regex',
               help='Regular expression to use with --match-type=re.')
-@click.option('-q', '--frequency', type=FrequencyParamType(),
+@click.option('-q',
+              '--frequency',
+              type=FrequencyParamType(),
               help='Update check frequency.')
 @click.option('-x', '--select', help='Content selector.')
-@click.option('--selector', default='css', type=click.Choice(['css', 'xpath']),
+@click.option('--selector',
+              default='css',
+              type=click.Choice(['css', 'xpath']),
               help='Selector method to use.')
 @click.argument('name')
-def add(config, site, url, match_type, match, frequency, select,
-        selector, name):
+def add(config, site, url, match_type, match, frequency, select, selector,
+        name):
     """Add new site definition to config file.
 
     \f
@@ -172,20 +188,30 @@ def add(config, site, url, match_type, match, frequency, select,
 
 
 @cli.command()
-@click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
+@click.option('-f',
+              '--config',
+              type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
               help='Config file to read page definitions from.')
-@click.option('-d', '--database',
+@click.option('-d',
+              '--database',
               type=click.Path(dir_okay=False, writable=True),
               help='Database to store page data to(default based on '
-                   '--config value.)')
-@click.option('-c', '--cache', type=click.Path(file_okay=False, writable=True),
+              '--config value.)')
+@click.option('-c',
+              '--cache',
+              type=click.Path(file_okay=False, writable=True),
               default=os.path.expanduser('~/.cupage/'),
               help='Directory to store page cache.')
-@click.option('--write/--no-write', default=True,
+@click.option('--write/--no-write',
+              default=True,
               help="Whether to update cache and database.")
 @click.option('--force/--no-force', help='Ignore frequency checks.')
-@click.option('-t', '--timeout', type=click.INT, metavar='30', default=30,
+@click.option('-t',
+              '--timeout',
+              type=click.INT,
+              metavar='30',
+              default=30,
               help='Timeout for network operations.')
 @click.argument('pages', nargs=-1)
 @click.pass_obj
@@ -211,8 +237,8 @@ def check(globs, config, database, cache, write, force, timeout, pages):
 
     if write:
         if database is None:
-            database = '{}{}db'.format(os.path.splitext(config)[0],
-                                       os.path.extsep)
+            database = '{}{}db'.format(
+                os.path.splitext(config)[0], os.path.extsep)
         atexit.register(sites.save, database)
 
     for site in sorted(sites, key=attrgetter('name')):
@@ -232,14 +258,19 @@ def check(globs, config, database, cache, write, force, timeout, pages):
 
 
 @cli.command(name='list')
-@click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
+@click.option('-f',
+              '--config',
+              type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
               help='Config file to read page definitions from.')
-@click.option('-d', '--database',
+@click.option('-d',
+              '--database',
               type=click.Path(dir_okay=False, writable=True),
               help='Database to store page data to(default based on '
-                   '--config value.)')
-@click.option('-m', '--match', type=re.compile,
+              '--config value.)')
+@click.option('-m',
+              '--match',
+              type=re.compile,
               help='Match sites using regular expression.')
 @click.argument('pages', nargs=-1)
 def list_conf(config, database, match, pages):
@@ -284,7 +315,9 @@ def list_sites(globs):
 
 
 @cli.command()
-@click.option('-f', '--config', type=click.Path(exists=True, dir_okay=False),
+@click.option('-f',
+              '--config',
+              type=click.Path(exists=True, dir_okay=False),
               default=os.path.expanduser('~/.cupage.conf'),
               help='Config file to read page definitions from.')
 @click.argument('pages', nargs=-1)
