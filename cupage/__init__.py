@@ -43,6 +43,8 @@ import http.client as httplib
 import configobj
 import httplib2
 
+from jnrbase.human_time import parse_timedelta
+from jnrbase import colourise, json_datetime
 from lxml import html
 
 from . import utils
@@ -199,8 +201,8 @@ class Site:
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
             if datetime.datetime.utcnow() < next_check:
-                print(utils.warn(
-                    f'{self.name} is not due for check until {next_check}'))
+                colourise.pwarn(
+                    f'{self.name} is not due for check until {next_check}')
                 return
         http = httplib2.Http(cache=cache, timeout=timeout,
                              ca_certs=utils.CA_CERTS)
@@ -226,25 +228,25 @@ class Site:
             headers, content = http.request(self.url,
                                             headers={'User-Agent': USER_AGENT})
         except httplib2.ServerNotFoundError:
-            print(utils.fail(f'Domain name lookup failed for {self.name}'))
+            colourise.pfail(f'Domain name lookup failed for {self.name}')
             return False
         except ssl.SSLError as error:
-            print(utils.fail(f'SSL error {self.name} ({error})'))
+            colourise.pfail(f'SSL error {self.name} ({error})')
             return False
         except socket.timeout:
-            print(utils.fail(f'Socket timed out on {self.name}'))
+            colourise.pfail(f'Socket timed out on {self.name}')
             return False
 
         charset = utils.charset_from_headers(headers)
 
         if not headers.get('content-location', self.url) == self.url:
-            print(utils.warn(
-                f'{self.name} moved to {headers["content-location"]}'))
+            colourise.pwarn(
+                f'{self.name} moved to {headers["content-location"]}')
         if headers.status == httplib.NOT_MODIFIED:
             return
         elif headers.status in (httplib.FORBIDDEN, httplib.NOT_FOUND):
-            print(utils.fail(
-                '{self}.name returned {httplib.responses[headers.status]!r}'))
+            colourise.pfail(
+                '{self}.name returned {httplib.responses[headers.status]!r}')
             return False
 
         matches = getattr(self, f'find_{self.match_func}_matches')(content,
@@ -403,7 +405,7 @@ class Site:
             raise ValueError(f'site or url not specified for {name}')
         frequency = options.get('frequency')
         if frequency:
-            frequency = utils.parse_timedelta(frequency)
+            frequency = parse_timedelta(frequency)
         site = Site(name, url, match_func, match_options, frequency, robots,
                     data.get('checked'), data.get('matches'))
         return site
@@ -432,8 +434,7 @@ class Sites(list):
 
         data = {}
         if database and os.path.exists(database):
-            data = json.load(open(database),
-                             object_hook=utils.json_to_datetime)
+            data = json_datetime.load(open(database))
         elif database:
             logging.debug('Database file %r doesn’t exist', database)
 
@@ -453,5 +454,5 @@ class Sites(list):
         directory, filename = os.path.split(database)
         temp = tempfile.NamedTemporaryFile(prefix='.', dir=directory,
                                            delete=False)
-        json.dump(data, temp, indent=4, cls=utils.CupageEncoder)
+        json_datetime.dump(data, temp)
         os.rename(temp.name, database)

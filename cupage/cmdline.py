@@ -28,6 +28,10 @@ from operator import attrgetter
 import click
 import configobj
 
+from jnrbase.attrdict import ROAttrDict
+from jnrbase.human_time import parse_timedelta
+from jnrbase import colourise
+
 import cupage
 
 from . import (_version, utils)
@@ -51,7 +55,7 @@ class FrequencyParamType(click.ParamType):
             str: String suitable for frequency checker
         """
         try:
-            utils.parse_timedelta(value)
+            parse_timedelta(value)
         except ValueError:
             self.fail('Invalid frequency value')
         return value
@@ -75,13 +79,13 @@ def load_sites(config, database, pages):
     try:
         sites.load(config, database)
     except IOError as e:
-        print(utils.fail(e.message))
+        colourise.pfail(e.message)
         return errno.EIO
     except ValueError:
-        print(utils.fail('Error reading database file'))
+        colourise.pfail('Error reading database file')
         return errno.ENOMSG
     except TypeError:
-        print(utils.fail('Error reading config file'))
+        colourise.pfail('Error reading config file')
         return errno.ENOENT
 
     # Check all named pages exist in config
@@ -110,9 +114,7 @@ def cli(ctx, verbose):
         ctx (click.Context): Current command context
         verbose (bool): Whether to display verbose output
     """
-    ctx.obj = {
-        'verbose': verbose,
-    }
+    ctx.obj = ROAttrDict(verbose=verbose)
 
 
 @cli.command()
@@ -193,7 +195,7 @@ def check(globs, config, database, cache, write, force, timeout, pages):
     \f
 
     Args:
-        globs (dict): Global options object
+        globs (AttrDict): Global options object
         config (str): Location of config file
         database (str): Location of database file
         cache (str): Location of cache directory
@@ -215,17 +217,17 @@ def check(globs, config, database, cache, write, force, timeout, pages):
 
     for site in sorted(sites, key=attrgetter('name')):
         if not pages or site.name in pages:
-            if globs['verbose']:
+            if globs.verbose:
                 print(site)
                 print(f'Checking {site.name}…')
             matches = site.check(cache, timeout, force, not write)
             if matches:
-                if globs['verbose']:
+                if globs.verbose:
                     print(f'{site.name} has new matches')
                 for match in utils.sort_packages(matches):
-                    print(utils.success(match))
+                    colourise.psuccess(match)
             else:
-                if globs['verbose']:
+                if globs.verbose:
                     print(f'{site.name} has no new matches')
 
 
@@ -269,9 +271,9 @@ def list_sites(globs):
     \f
 
     Args:
-        globs (dict): Global options object
+        globs (AttrDict): Global options object
     """
-    if globs['verbose']:
+    if globs.verbose:
         print('Supported site values and their non-standard values:')
         print()
     for site, values in sorted(cupage.SITES.items()):
@@ -293,7 +295,7 @@ def remove(globs, config, pages):
     \f
 
     Args:
-        globs (dict): Global options object
+        globs (AttrDict): Global options object
         config (str): Location of config file
         pages (list of str): Pages to check
     """
@@ -302,10 +304,10 @@ def remove(globs, config, pages):
     if pages:
         for page in pages:
             if page in conf.sections:
-                print(utils.fail(f'Invalid site argument {page!r}'))
+                colourise.pfail(f'Invalid site argument {page!r}')
                 return False
     for page in pages:
-        if globs['verbose']:
+        if globs.verbose:
             print(f'Removing {page}…')
         del conf[page]
     conf.write()
@@ -319,11 +321,11 @@ def main():
     try:
         cli()
     except socket.error as error:
-        print(utils.fail(error.strerror or str(error)))
+        colourise.pfail(error.strerror or str(error))
         return errno.EADDRNOTAVAIL
     except (configobj.DuplicateError, IOError) as error:
-        print(utils.fail(str(error)))
+        colourise.pfail(str(error))
         return errno.ENOENT
     except ValueError as error:
-        print(utils.fail(str(error)))
+        colourise.pfail(str(error))
         return errno.EPERM

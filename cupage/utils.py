@@ -27,7 +27,7 @@ from urllib import robotparser
 import urllib.parse as urlparse
 
 import httplib2
-from click import style
+from jnrbase import colourise
 
 
 try:
@@ -60,22 +60,6 @@ else:
     CA_CERTS = ca_certs_locater.get()
 
 
-def parse_timedelta(delta):
-    """Parse human readable frequency.
-
-    Args:
-        delta (str): Frequency to parse
-    """
-    match = re.match(r'^(\d+(?:|\.\d+)) *([hdwmy])$', delta, re.IGNORECASE)
-    if not match:
-        raise ValueError("Invalid 'frequency' value")
-    value, units = match.groups()
-    units = 'hdwmy'.index(units.lower())
-    # hours per hour/day/week/month/year
-    multiplier = (1, 24, 168, 672, 8760)
-    return datetime.timedelta(hours=float(value) * multiplier[units])
-
-
 def sort_packages(packages):
     """Order package list according to version number.
 
@@ -105,89 +89,17 @@ def robots_test(http, url, name, user_agent='*'):
         try:
             headers, content = http.request(robots_url)
         except httplib2.ServerNotFoundError:
-            print(fail(f'Domain name lookup failed for {name}'))
+            colourise.pfail(f'Domain name lookup failed for {name}')
             return False
         except socket.timeout:
-            print(fail(f'Socket timed out on {name}'))
+            colourise.pfail(f'Socket timed out on {name}')
             return False
         # Ignore errors 4xx errors for robots.txt
         if not str(headers.status).startswith('4'):
             robots.parse(content.splitlines())
             if not robots.can_fetch(user_agent, url):
-                print(fail(f'Can’t check {name}, blocked by robots.txt'))
+                colourise.pfail(f'Can’t check {name}, blocked by robots.txt')
                 return False
-
-
-def _format_info(text, colour):
-    return ' '.join([style('*', bg=colour, bold=True),
-                     style(text, fg=colour, bold=True)])
-
-
-def success(text):
-    """Format a success message with colour, if possible.
-
-    Args:
-        text (str): Text to format
-    """
-    return _format_info(text, 'green')
-
-
-def fail(text):
-    """Format a failure message with colour, if possible.
-
-    Args:
-        text (str): Text to format
-    """
-    return _format_info(text, 'red')
-
-
-def warn(text):
-    """Format a warning message with colour, if possible.
-
-    Args:
-        text (str): Text to format
-    """
-    return _format_info(text, 'yellow')
-
-
-class CupageEncoder(json.JSONEncoder):
-
-    """Custom JSON encoding for supporting ``datetime`` objects."""
-
-    def default(self, obj):
-        """Handle ``datetime`` objects when encoding as JSON.
-
-        This simply falls through to :meth:`~json.JSONEncoder.default` if
-        ``obj`` has no ``isoformat`` method.
-
-        Args:
-            obj: Object to encode
-        """
-        with suppress(TypeError):
-            return obj.isoformat()
-        return json.JSONEncoder.default(self, obj)
-
-
-def json_to_datetime(obj):
-    """Parse ``checked`` datetimes from ``cupage`` databases.
-
-    :see: `json.JSONDecoder`
-
-    Args:
-        obj: Object to decode
-    """
-    if 'checked' in obj:
-        try:
-            result = datetime.datetime.strptime(obj['checked'],
-                                                '%Y-%m-%dT%H:%M:%S.%f')
-        except TypeError:
-            try:
-                # <0.7 compatibility
-                result = datetime.datetime.fromtimestamp(float(obj['checked']))
-            except TypeError:
-                result = None
-        obj['checked'] = result
-    return obj
 
 
 def charset_from_headers(headers):
