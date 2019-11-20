@@ -20,6 +20,9 @@ Note:  This section is *required*.
 Environment Information
 -----------------------
 
+.. Note::
+   The simplest way to complete this section is to run `cupage bug-data`.
+
 * OS:
 * `cupage` version:
 * `python` version:

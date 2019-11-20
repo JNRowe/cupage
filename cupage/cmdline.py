@@ -189,6 +189,29 @@ def add(config, site, url, match_type, match, frequency, select, selector,
     conf.write()
 
 
+@cli.command(hidden=True)
+def bug_data():
+    """Produce data for cupage bug reports."""
+    import sys
+    from importlib import import_module
+
+    click.echo(f'* OS: {sys.platform}')
+    click.echo(f'* `cupage` version: {_version.dotted}')
+    click.echo('* `python` version: {}'.format(sys.version.replace('\n', '|')))
+    click.echo()
+
+    for m in ['click', 'configobj', 'cssselect', 'httplib2', 'jnrbase',
+              'lxml']:
+        if m not in sys.modules:  # pragma: no cover
+            try:
+                import_module(m)
+            except ModuleNotFoundError:
+                continue
+        ver = getattr(sys.modules[m], '__version__', '*Unknown version*')
+        link = utils.term_link(f'https://pypi.org/project/{m}/', f'`{m}`')
+        click.echo(f'* {link}: {ver}')
+
+
 @cli.command()
 @click.option('-f',
               '--config',

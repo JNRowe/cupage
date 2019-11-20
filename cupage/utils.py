@@ -100,6 +100,23 @@ def robots_test(http, url, name, user_agent='*'):
                 return False
 
 
+def term_link(__target, name=None):
+    """Generate a terminal hyperlink.
+
+    See https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda.
+
+    Args:
+        __target (str): Hyperlink target
+        name (str): Target name
+
+    Returns:
+        str: Formatted hyperlink for terminal output
+    """
+    if not name:
+        name = os.path.basename(__target)
+    return f'\033]8;;{__target}\007{name}\033]8;;\007'
+
+
 def charset_from_headers(headers):
     """Parse charset from headers.
 
