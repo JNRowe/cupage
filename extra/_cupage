@@ -2,7 +2,7 @@
 # cupage - ZSH completion support for cupage
 # Copyright © 2019  James Rowe <jnrowe@gmail.com>
 #
-# SPDX-License-Identifier: GPL-3.0+
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 # This file is part of cupage.
 #
