@@ -34,6 +34,7 @@ from cupage import Site
      'test_long-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.gem'),
 ])
 def test_package_re(name, ext, pkgs, pattern):
+    """Test file matching functionality."""
     c = Site.package_re(name, ext)
     for pkg in pkgs:
         assert re.match(c, pkg).group() == pkg

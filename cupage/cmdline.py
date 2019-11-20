@@ -58,6 +58,16 @@ class FrequencyParamType(click.ParamType):
 
 
 def load_sites(config, database, pages):
+    """Load site data.
+
+    Args:
+        config (str): Location of config file
+        database (str): Location of database file
+        pages (list of str): Pages to check
+
+    Returns:
+        Sites: Imported site data
+    """
     if database is None:
         database = '{}{}db'.format(os.path.splitext(config)[0], os.path.extsep)
 
