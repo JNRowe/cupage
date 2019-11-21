@@ -1,6 +1,7 @@
 -r requirements.txt
 
 sphinx>=2.0
+sphinx-autodoc-typehints>=1.6.0
 sphinx-click>=2.3.0
 sphinx_rtd_theme>=0.4.3
 sphinxcontrib-blockdiag>=1.0.2
