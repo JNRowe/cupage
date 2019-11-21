@@ -41,6 +41,7 @@ import socket
 import ssl
 import tempfile
 import http.client as httplib
+from typing import Dict, List, Optional, Union
 
 import configobj
 import httplib2
@@ -154,25 +155,25 @@ SITES = {
 class Site:
     """Simple object for representing a web site."""
     def __init__(self,
-                 name,
-                 url,
-                 match_func='default',
-                 options=None,
-                 frequency=None,
-                 robots=True,
-                 checked=None,
-                 matches=None):
+                 name: str,
+                 url: str,
+                 match_func: str = 'default',
+                 options: Dict[str, str] = None,
+                 frequency: Optional[int] = None,
+                 robots: bool = True,
+                 checked: Optional[datetime.datetime] = None,
+                 matches: List[str] = None) -> None:
         """Initialise a new ``Site`` object.
 
         Args:
-            name (str): Site name
-            url (str): URL for site
-            match_func (str): Function to use for retrieving matches
-            options (dict): Options for :attr:`match_func`
-            frequency (int): Site check frequency
-            robots (bool): Whether to respect a host’s :file:`robots.txt`
-            checked (datetime.datetime): Last checked date
-            matches (list): Previous matches
+            name: Site name
+            url: URL for site
+            match_func: Function to use for retrieving matches
+            options: Options for :attr:`match_func`
+            frequency: Site check frequency
+            robots: Whether to respect a host’s :file:`robots.txt`
+            checked: Last checked date
+            matches: Previous matches
         """
         self.name = name
         self.url = url
@@ -190,11 +191,11 @@ class Site:
         self.robots = robots
         self.matches = matches if matches else []
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """String representation for use in REPL."""
         return f'{self.__class__.__name__!r}({self.name!r}, {self.url!r}, ...)'
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Pretty printed ``Site`` string."""
         ret = [
             f'{self.name} @ {self.url} using {self.match_func} matcher',
@@ -210,14 +211,18 @@ class Site:
             ret.append('\n    No matches')
         return ''.join(ret)
 
-    def check(self, cache=None, timeout=None, force=False, no_write=False):
+    def check(self,
+              cache: Optional[str] = None,
+              timeout: Optional[int] = None,
+              force: bool = False,
+              no_write: bool = False) -> List[str]:
         """Check site for updates.
 
         Args:
-            cache (str): :class:`httplib2.Http` cache location
-            timeout (int): Timeout value for :class:`httplib2.Http`
-            force (bool): Ignore configured check frequency
-            no_write (bool): Do not write to cache, useful for testing
+            cache: :class:`httplib2.Http` cache location
+            timeout: Timeout value for :class:`httplib2.Http`
+            force: Ignore configured check frequency
+            no_write: Do not write to cache, useful for testing
         """
         if not force and self.frequency and self.checked:
             next_check = self.checked + self.frequency
@@ -278,12 +283,12 @@ class Site:
         self.checked = datetime.datetime.utcnow()
         return new_matches
 
-    def find_default_matches(self, content, charset):
+    def find_default_matches(self, content: str, charset: str) -> List[str]:
         """Extract matches from content.
 
         Args:
-            content (str): Content to search
-            charset (str): Character set for content
+            content: Content to search
+            charset: Character set for content
         """
         doc = html.fromstring(content)
         if self.options['selector'] == 'css':
@@ -299,45 +304,47 @@ class Site:
                 matches.add(groups[0] if groups else match.group())
         return sorted(list(matches))
 
-    def find_google_code_matches(self, content, charset):
+    def find_google_code_matches(self, content: str,
+                                 charset: str) -> List[str]:
         """Extract matches from Google Code content.
 
         Args:
-            content (str): Content to search
-            charset (str): Character set for content
+            content: Content to search
+            charset: Character set for content
         """
         content = content.encode(charset)
         doc = json.loads(content)
         return sorted(tag['filename'] for tag in doc['downloads'])
 
-    def find_github_matches(self, content, charset):
+    def find_github_matches(self, content: str, charset: str) -> List[str]:
         """Extract matches from GitHub content.
 
         Args:
-            content (str): Content to search
-            charset (str): Character set for content
+            content: Content to search
+            charset: Character set for content
         """
         content = content.encode(charset)
         doc = json.loads(content)
         return sorted(tag['name'] for tag in doc)
 
-    def find_hackage_matches(self, content, charset):
+    def find_hackage_matches(self, content: str, charset: str) -> List[str]:
         """Extract matches from hackage content.
 
         Args:
-            content (str): Content to search
-            charset (str): Character set for content
+            content: Content to search
+            charset: Character set for content
         """
         doc = html.fromstring(content)
         data = doc.cssselect('table tr')[0][1]
         return sorted(x.text for x in data.getchildren())
 
-    def find_sourceforge_matches(self, content, charset):
+    def find_sourceforge_matches(self, content: str,
+                                 charset: str) -> List[str]:
         """Extract matches from sourceforge content.
 
         Args:
-            content (str): Content to search
-            charset (str): Character set for content
+            content: Content to search
+            charset: Character set for content
         """
         # We use lxml.html here to sidestep part of the stupidity of RSS 2.0,
         # if a usable format on sf comes along we’ll switch to it.
@@ -349,13 +356,13 @@ class Site:
         return sorted(list(matches))
 
     @staticmethod
-    def package_re(name, ext, verbose=False):
+    def package_re(name: str, ext: str, verbose: bool = False) -> re.Pattern:
         """Generate a compiled ``re`` for the package.
 
         Args:
-            name (str): File name to check for
-            ext (str): File extension to check
-            verbose (bool): Whether to enable :data:`re.VERBOSE`
+            name: File name to check for
+            ext: File extension to check
+            verbose: Whether to enable :data:`re.VERBOSE`
         """
         if ext == 'tar':
             ext = 'tar.(?:bz2|gz|xz)'
@@ -363,13 +370,14 @@ class Site:
         return re.compile(match, flags=re.VERBOSE if verbose else 0)
 
     @staticmethod
-    def parse(name, options, data):
+    def parse(name: str, options: configobj.ConfigObj,
+              data: Dict[str, str]) -> 'Site':
         """Parse data generated by ``Sites.loader``.
 
         Args:
-            name (str): Site name from config file
-            options (configobj.ConfigObj): Site options from config file
-            data (dict): Stored data from database file
+            name: Site name from config file
+            options: Site options from config file
+            data: Stored data from database file
         """
         if 'site' in options:
             try:
@@ -433,19 +441,19 @@ class Site:
         return site
 
     @property
-    def state(self):
+    def state(self) -> Dict[str, Union[List[str], datetime.datetime]]:
         """Return ``Site`` state for database storage."""
         return {'matches': self.matches, 'checked': self.checked}
 
 
 class Sites(list):
     """``Site`` bundle wrapper."""
-    def load(self, config_file, database=None):
+    def load(self, config_file: str, database: Optional[str] = None) -> None:
         """Read sites from a user’s config file and database.
 
         Args:
-            config_file (str): Config file to read
-            database (str): Database file to read
+            config_file: Config file to read
+            database: Database file to read
         """
         conf = configobj.ConfigObj(config_file, file_error=True)
         if not conf.sections:
@@ -461,11 +469,11 @@ class Sites(list):
         for name, options in conf.items():
             self.append(Site.parse(name, options, data.get(name, {})))
 
-    def save(self, database):
+    def save(self, database: str) -> None:
         """Save ``Sites`` to the user’s database.
 
         Args:
-            database (str): Database file to write
+            database: Database file to write
         """
         data = {}
         for site in self:
