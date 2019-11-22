@@ -59,6 +59,8 @@ release = cupage._version.dotted
 version = release.rsplit('.', 1)[0]
 
 rst_epilog = """
+.. |CSS| replace:: :abbr:`CSS (Cascading Style Sheets)`
+.. |JSON| replace:: :abbr:`JSON (JavaScript Object Notation)`
 .. |PyPI| replace:: :abbr:`PyPI (Python Package Index)`
 .. |modref| replace:: :mod:`cupage`
 """

@@ -18,7 +18,7 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-:mod:`cupage` checks web pages and displays changes from the last run that match
+|modref| checks web pages and displays changes from the last run that match
 a given criteria.  Its original purpose was to check web pages for new software
 releases, but it is easily configurable and can be used for other purposes.
 
@@ -26,16 +26,16 @@ OPTIONS
 -------
 
 --version
-    show program’s version number and exit
-
---help
-    show this help message and exit
+    Show the version and exit.
 
 -v, --verbose
-    produce verbose output
+    Produce verbose output.
 
 -q, --quiet
-    output only matches and errors
+    Output only matches and errors.
+
+--help
+    Show this message and exit.
 
 COMMANDS
 --------

@@ -5,13 +5,13 @@ I had been looking for a better way to help me keep on top of software releases
 for the projects I'm interested in, be that either personally or for things we
 use at work.
 
-Some projects have Atom_ feeds, some have mailing lists just for release
-updates, some post updates on sites like freshmeat_ and some have no useful
-update watching mechanism at all.  Tracking all these resources is annoying and
+Some projects have Atom_ feeds, some have mailing lists for release updates,
+some post updates on sites like freshmeat_ and some have no useful update
+watching mechanism at all.  Tracking all these resources is annoying and
 a simple unified solution would be much more workable.
 
-:mod:`cupage` is that solution, at least for my purposes.  Maybe it could be for
-you too!
+|modref| is that solution, at least for my purposes.  Maybe it could be for you
+too!
 
 .. _database-label:
 
@@ -21,8 +21,8 @@ Database
 With a local, unified tool we would instantly gain easy access to the updates
 database for use from other tools and applications.
 
-:abbr:`JSON (JavaScript Object Notation)` was chosen as it is simple to read and
-write, especially so from Python_ using the json_ module [#]_.
+|JSON| was chosen as it is simple to read and write, especially so from Python_
+using the json_ module [#]_.
 
 The database is a simple serialisation of the :class:`cupage.Sites` object.  The
 :class:`cupage.Sites` object is a container for :class:`cupage.Site` objects.
@@ -47,7 +47,7 @@ check time stamp and the current matches.
 :program:`cupage` runs.
 
 ``checked`` is the offset in seconds from the Unix epoch that the site was last
-checked.  It is normally a float, but may be ``null``.
+checked.  It is normally a float, but may be ``null`` prior to the first update.
 
 An example database file could be:
 
@@ -74,9 +74,8 @@ An example database file could be:
     }
 
 .. [#] Pickle_ was used in versions prior to 0.3.0.  The switch was made as
-   Pickle_ provided no benefits over :abbr:`JSON (JavaScript Object Notation)`,
-   and some significant drawbacks including the lack of support for reading it
-   from other languages.
+   Pickle_ provided no benefits over |JSON|, and some significant drawbacks
+   including the lack of support for reading it from other languages.
 
 .. _atom: http://www.atomenabled.org/
 .. _freshmeat: http://freshmeat.net/
