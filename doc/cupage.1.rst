@@ -93,7 +93,9 @@ Written by `James Rowe <mailto:jnrowe@gmail.com>`__
 RESOURCES
 ---------
 
-Home page: https://github.com/JNRowe/cupage
+Full documentation: https://cupage.readthedocs.io/
+
+Issue tracker: https://github.com/JNRowe/cupage/issues/
 
 COPYING
 -------

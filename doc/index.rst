@@ -3,6 +3,9 @@
 ``cupage``
 ==========
 
+:Git repository:  https://github.com/JNRowe/cupage/
+:Issue tracker:  https://github.com/JNRowe/cupage/issues/
+:Contributors:  https://github.com/JNRowe/cupage/contributors/
 
 |modref| checks web pages and displays changes from the last run that match
 a given criteria.  Its original purpose was to check web pages for new software
