@@ -27,6 +27,7 @@ Contents:
    api/index
    alternatives
    release
+   NEWS
    appendix
 
 Indices and tables
