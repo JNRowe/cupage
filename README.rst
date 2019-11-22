@@ -13,11 +13,11 @@ Requirements
 
 ``cupage``’s dependencies outside of the standard library are:
 
-* click_
-* configobj_, v5.0.0 or newer
-* cssselect_, v0.7.0 or newer
-* httplib2_, v0.7 or newer
-* lxml_, v3.0.0 or newer
+* click_ ≥ 7.0
+* configobj_ ≥ 5.0.0
+* cssselect_ ≥ 0.7.0
+* httplib2_ ≥ 0.7
+* lxml_ ≥ 3.0.0
 
 It should work with any version of Python_ 3.6 or newer.  If ``cupage`` doesn’t
 work with the version of Python you have installed, file an issue_ and I'll
