@@ -34,7 +34,7 @@ if not on_rtd:
 
 extensions = \
     [f'sphinx.ext.{ext}' for ext in ['autodoc', 'coverage', 'doctest',
-                                     'intersphinx', 'viewcode']] \
+                                     'intersphinx', 'napoleon', 'viewcode']] \
     + [f'sphinxcontrib.{ext}' for ext in ['blockdiag', ]] \
     + ['sphinx_click.ext', ]  # type: List[str]
 
