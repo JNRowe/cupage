@@ -90,7 +90,7 @@ def load_sites(config, database, pages):
         return errno.ENOENT
 
     # Check all named pages exist in config
-    site_names = list(map(attrgetter('name'), sites))
+    site_names = [s['name'] for s in sites]
     for page in pages:
         if page not in site_names:
             raise ValueError(f'Invalid site argument {page!r}')
