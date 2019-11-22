@@ -230,7 +230,7 @@ def bug_data():
               help='Directory to store page cache.')
 @click.option('--write/--no-write',
               default=True,
-              help="Whether to update cache and database.")
+              help='Whether to update cache and database.')
 @click.option('--force/--no-force', help='Ignore frequency checks.')
 @click.option('-t',
               '--timeout',

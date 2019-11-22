@@ -126,9 +126,9 @@ def charset_from_headers(headers):
     Returns:
         Defined encoding, or default to ISO-8859-1
     """
-    match = re.search("charset=([^ ;]+)", headers.get('content-type', ""))
+    match = re.search('charset=([^ ;]+)', headers.get('content-type', ''))
     if match:
         charset = match.groups()[0]
     else:
-        charset = "iso-8859-1"
+        charset = 'iso-8859-1'
     return charset
