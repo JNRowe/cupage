@@ -26,10 +26,10 @@ endeavour to fix it.
 The module has been tested on many UNIX-like systems, including Linux and OS X,
 but it should work fine on other systems too.
 
-To run the tests you'll need nose2_.  Once you have nose2_ installed you can run
-the tests with the following commands::
+To run the tests you’ll need pytest_.  Once you have pytest_ installed you can
+run the tests with the following commands::
 
-    $ nose2 -v tests
+    $ pytest tests
 
 Example
 -------
@@ -101,5 +101,5 @@ reproduce the problem, or even better a patch!
 .. _lxml: http://lxml.de/
 .. _Python: https://www.python.org/
 .. _issue: https://github.com/JNRowe/cupage/issues
-.. _nose2: https://pypi.python.org/pypi/nose2/
+.. _pytest: https://pypi.python.org/pypi/pytest/
 .. _mail: jnrowe@gmail.com

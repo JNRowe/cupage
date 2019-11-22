@@ -12,9 +12,10 @@ Release HOWTO
 Test
 ----
 
-In the general case tests can be run via ``nose2``::
+Tests can be run via pytest_::
 
-    $ nose2 -vv tests
+    $ pip install -r extra/requirements-test.txt
+    $ pytest -v tests
 
 When preparing a release it is important to check that :mod:`cupage` works with
 all currently supported Python versions, and that the documentation is correct.
@@ -45,3 +46,5 @@ Fetch the uploaded tarballs, and check for errors.
 
 You should also perform test installations from PyPI, to check the experience
 :mod:`cupage` users will have.
+
+.. _pytest: http://pytest.org/
