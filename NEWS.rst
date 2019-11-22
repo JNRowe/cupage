@@ -1,6 +1,8 @@
 User-visible changes
 ====================
 
+.. See doc/upgrading.rst for a more explantory discussion of major changes
+
 .. contents::
    :local:
 

@@ -27,6 +27,7 @@ Contents:
    api/index
    alternatives
    release
+   upgrading
    NEWS
    appendix
 
