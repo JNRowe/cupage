@@ -128,6 +128,12 @@ SITES = {
         'match': r'({name}-[0-9\.]+\.tar\.gz)(?:#.*)',
         'transform': str.lower,
     },
+    'rubygems': {
+        'url': 'https://rubygems.org/api/v1/versions/{name}.json',
+        'match_func': 'rubygems',
+        'added': '0.9.0',
+        'robots': 'false',
+    },
     'savannah': {
         'url': 'http://download.savannah.gnu.org/releases/{name}/',
         'select': 'td a',
@@ -337,6 +343,17 @@ class Site:
         doc = html.fromstring(content)
         data = doc.cssselect('table tr')[0][1]
         return sorted(x.text for x in data.getchildren())
+
+    def find_rubygems_matches(self, content: str, charset: str) -> List[str]:
+        """Extract matches from rubygems content.
+
+        Args:
+            content: Content to search
+            charset: Character set for content
+        """
+        content = content.encode(charset)
+        data = json.loads(content)
+        return sorted(rel['number'] for rel in data)
 
     def find_sourceforge_matches(self, content: str,
                                  charset: str) -> List[str]:
