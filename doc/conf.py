@@ -58,7 +58,10 @@ copyright = f'2009-2019  {author}'
 release = cupage._version.dotted
 version = release.rsplit('.', 1)[0]
 
-rst_prolog = """"""
+rst_epilog = """
+.. |PyPI| replace:: :abbr:`PyPI (Python Package Index)`
+.. |modref| replace:: :mod:`cupage`
+"""
 
 modindex_common_prefix = [
     'cupage.',
