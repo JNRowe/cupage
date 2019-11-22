@@ -20,7 +20,7 @@ Requirements
 * lxml_ ≥ 3.0.0
 
 It should work with any version of Python_ 3.6 or newer.  If ``cupage`` doesn’t
-work with the version of Python you have installed, file an issue_ and I'll
+work with the version of Python you have installed, file an issue_ and I’ll
 endeavour to fix it.
 
 The module has been tested on many UNIX-like systems, including Linux and OS X,
@@ -64,7 +64,7 @@ following is an example configuration file::
 Contributors
 ------------
 
-I'd like to thank the following people who have contributed to ``cupage``.
+I’d like to thank the following people who have contributed to ``cupage``.
 
 Patches
 '''''''
@@ -81,8 +81,8 @@ Ideas
 
 * <Your name here?>
 
-If I've forgotten to include your name I wholeheartedly apologise.  Just drop me
-a mail_ and I'll update the list!
+If I’ve forgotten to include your name I wholeheartedly apologise.  Just drop
+me a mail_ or open an issue_, and I’ll update the list!
 
 Bugs
 ----
@@ -90,7 +90,7 @@ Bugs
 If you find any problems, bugs or just have a question about this package either
 file an issue_ or drop me a mail_.
 
-If you've found a bug please attempt to include a minimal testcase so I can
+If you’ve found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
 .. _GPL v3: https://www.gnu.org/licenses/
