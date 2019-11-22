@@ -58,6 +58,10 @@ copyright = f'2009-2019  {author}'
 release = cupage._version.dotted
 version = release.rsplit('.', 1)[0]
 
+modindex_common_prefix = [
+    'cupage.',
+]
+
 rst_epilog = """
 .. |CSS| replace:: :abbr:`CSS (Cascading Style Sheets)`
 .. |JSON| replace:: :abbr:`JSON (JavaScript Object Notation)`
@@ -99,6 +103,8 @@ autodoc_default_options = {
 intersphinx_mapping = {
     k: (v, os.getenv(f'SPHINX_{k.upper()}_OBJECTS'))
     for k, v in {
+        'click': 'https://click.palletsprojects.com/en/7.x/',
+        'jnrbase': 'https://jnrbase.readthedocs.io/en/latest/',
         'python': 'https://docs.python.org/3/',
     }.items()
 }  # type: Dict[str, str]
