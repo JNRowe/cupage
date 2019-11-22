@@ -100,6 +100,6 @@ reproduce the problem, or even better a patch!
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _lxml: http://lxml.de/
 .. _Python: https://www.python.org/
-.. _issue: https://github.com/JNRowe/cupage/issues
+.. _issue: https://github.com/JNRowe/cupage/issues/
 .. _pytest: https://pypi.python.org/pypi/pytest/
 .. _mail: jnrowe@gmail.com
