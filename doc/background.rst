@@ -16,7 +16,7 @@ too!
 .. _database-label:
 
 Database
-''''''''
+~~~~~~~~
 
 With a local, unified tool we would instantly gain easy access to the updates
 database for use from other tools and applications.
