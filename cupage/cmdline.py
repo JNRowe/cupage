@@ -25,11 +25,11 @@ import os
 import re
 import socket
 
+from configparser import ConfigParser, DuplicateSectionError, ParsingError
 from operator import attrgetter
 from typing import List
 
 import click
-import configobj
 
 from jnrbase.attrdict import ROAttrDict
 from jnrbase.human_time import parse_timedelta
@@ -87,7 +87,7 @@ def load_sites(config: str, database: str, pages: List[str]) -> cupage.Sites:
     except ValueError:
         colourise.pfail('Error reading database file')
         return errno.ENOMSG
-    except TypeError:
+    except ParsingError:
         colourise.pfail('Error reading config file')
         return errno.ENOENT
 
@@ -171,9 +171,11 @@ def add(config: str, site: str, url: str, match_type: str, match: str,
         site: Type of selector to use
         name: Name for new entry
     """
-    conf = configobj.ConfigObj(config)
+    conf = ConfigParser()
+    with click.open_file(config) as f:
+        conf.read_file(f)
 
-    conf[name] = {}
+    conf.add_section(name)
     data = {
         'site': site,
         'url': url,
@@ -186,9 +188,10 @@ def add(config: str, site: str, url: str, match_type: str, match: str,
     # Don’t store unused values
     for key, value in data.items():
         if value:
-            conf[name][key] = value
+            conf.set(name, key, value)
 
-    conf.write()
+    with click.open_file(config, 'w') as f:
+        conf.write(f)
 
 
 @cli.command(hidden=True)
@@ -202,8 +205,7 @@ def bug_data():
     click.echo('* `python` version: {}'.format(sys.version.replace('\n', '|')))
     click.echo()
 
-    for m in ['click', 'configobj', 'cssselect', 'httplib2', 'jnrbase',
-              'lxml']:
+    for m in ['click', 'cssselect', 'httplib2', 'jnrbase', 'lxml']:
         if m not in sys.modules:  # pragma: no cover
             try:
                 import_module(m)
@@ -360,18 +362,22 @@ def remove(globs: ROAttrDict, config: str, pages: List[str]):
         config: Location of config file
         pages: Pages to check
     """
-    conf = configobj.ConfigObj(config, file_error=True)
+    conf = ConfigParser()
+    with click.open_file(config) as f:
+        conf.read_file(f)
 
     if pages:
         for page in pages:
-            if page in conf.sections:
+            if not conf.has_section(page):
                 colourise.pfail(f'Invalid site argument {page!r}')
                 return False
     for page in pages:
         if globs.verbose:
             click.echo(f'Removing {page}…')
-        del conf[page]
-    conf.write()
+        conf.remove_section(page)
+
+    with click.open_file(config, 'w') as f:
+        conf.write(f)
 
 
 def main() -> int:
@@ -384,7 +390,7 @@ def main() -> int:
     except socket.error as error:
         colourise.pfail(error.strerror or str(error))
         return errno.EADDRNOTAVAIL
-    except (configobj.DuplicateError, IOError) as error:
+    except (DuplicateSectionError, IOError) as error:
         colourise.pfail(str(error))
         return errno.ENOENT
     except ValueError as error:
