@@ -189,7 +189,7 @@ class Site:
         if options.get('match_type') == 're':
             self.match = re.compile(options['match'],
                                     flags=re.VERBOSE if re_verbose else 0)
-        elif options.get('match_type') in ('tar', 'zip'):
+        elif options.get('match_type') in ('gem', 'tar', 'zip'):
             self.match = self.package_re(self.name, options['match_type'],
                                          re_verbose)
         self.checked = checked
