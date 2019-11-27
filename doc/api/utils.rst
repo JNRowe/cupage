@@ -11,8 +11,14 @@ Utilities
 
 .. autofunction:: sort_packages
 
+HTTP utilities
+~~~~~~~~~~~~~~
+
 .. autofunction:: robots_test
 
-.. autofunction:: term_link
-
 .. autofunction:: charset_from_headers
+
+Output utilities
+~~~~~~~~~~~~~~~~
+
+.. autofunction:: term_link
