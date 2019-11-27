@@ -30,7 +30,7 @@ from . import _version
 
 __version__ = _version.dotted
 __date__ = _version.date
-__copyright__ = 'Copyright (C) 2009-2014  James Rowe'
+__copyright__ = 'Copyright © 2009-2014  James Rowe'
 
 import datetime
 import json
