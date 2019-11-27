@@ -23,6 +23,7 @@ Contents:
    configuration
    usage
    cupage manpage <cupage.1>
+   envvars
    faq
    api/index
    alternatives

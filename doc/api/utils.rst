@@ -22,3 +22,20 @@ Output utilities
 ~~~~~~~~~~~~~~~~
 
 .. autofunction:: term_link
+
+Development tools
+~~~~~~~~~~~~~~~~~
+
+.. autofunction:: maybe_profile
+
+Examples
+--------
+
+Development tools
+~~~~~~~~~~~~~~~~~
+
+.. doctest::
+   :options: +SKIP
+
+    >>> with maybe_profile():
+    ...     time.sleep(10)

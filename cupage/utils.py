@@ -22,7 +22,8 @@ import os
 import re
 import socket
 import sys
-from typing import Optional, List
+from contextlib import contextmanager
+from typing import ContextManager, Optional, List
 from urllib import robotparser
 import urllib.parse as urlparse
 
@@ -136,3 +137,26 @@ def charset_from_headers(headers: httplib2.Response) -> str:
     else:
         charset = 'iso-8859-1'
     return charset
+
+
+def maybe_profile() -> ContextManager:  # pragma: no cover
+    """Profile the wrapped code block.
+
+    When :envvar:`CUPAGE_PROFILE` is set execute the enclosed block under
+    bprofile_.  The envvar’s value should be the name of the output file to
+    generate.
+
+    When :envvar:`CUPAGE_PROFILE` is unset, this is just a no-op.
+
+    .. _bprofile: https://pypi.org/project/bprofile/
+    """
+    profile = os.getenv('CUPAGE_PROFILE')
+    if profile:
+        from bprofile import BProfile
+        profiler = BProfile(profile)
+    else:
+        @contextmanager
+        def noop():
+            yield
+        profiler = noop()
+    return profiler

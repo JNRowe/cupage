@@ -380,7 +380,8 @@ def main() -> int:
                         datefmt='%Y-%m-%dT%H:%M:%S%z')
 
     try:
-        cli()
+        with utils.maybe_profile():
+            cli()
     except socket.error as error:
         colourise.pfail(error.strerror or str(error))
         return errno.EADDRNOTAVAIL
