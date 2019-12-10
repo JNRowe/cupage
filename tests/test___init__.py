@@ -19,6 +19,7 @@
 #
 
 import re
+from typing import List
 
 from pytest import mark
 
@@ -35,7 +36,7 @@ from cupage import Site
         'test_long-0.1.2.gem',
     ], 'test_long-[\\d\\.]+(?:[_-](?:pre|rc)[\\d]+)?\\.gem'),
 ])
-def test_package_re(name, ext, pkgs, pattern):
+def test_package_re(name: str, ext: str, pkgs: List[str], pattern: str):
     """Test file matching functionality."""
     c = Site.package_re(name, ext)
     for pkg in pkgs:

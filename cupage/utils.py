@@ -22,6 +22,7 @@ import os
 import re
 import socket
 import sys
+from typing import Optional, List
 from urllib import robotparser
 import urllib.parse as urlparse
 
@@ -58,11 +59,11 @@ else:
     CA_CERTS = ca_certs_locater.get()
 
 
-def sort_packages(packages):
+def sort_packages(packages: List[str]):
     """Order package list according to version number.
 
     Args:
-        packages (list): Packages to sort
+        packages: Packages to sort
     """
     # Very ugly key function, but it handles the common case of varying
     # component length just about “Good Enough™”
@@ -70,14 +71,17 @@ def sort_packages(packages):
                   key=lambda s: [i for i in s if i.isdigit() or i == '.'])
 
 
-def robots_test(http, url, name, user_agent='*'):
+def robots_test(http: httplib2.Http,
+                url: str,
+                name: str,
+                user_agent: str = '*') -> bool:
     """Check whether a given URL is blocked by ``robots.txt``.
 
     Args:
-        http (httplib2.Http): Object to use for requests
-        url (str): URL to check
-        name (str): Site name being checked
-        user_agent (str): User agent to check in :file:`robots.txt`
+        http: Object to use for requests
+        url: URL to check
+        name: Site name being checked
+        user_agent: User agent to check in :file:`robots.txt`
     """
     parsed = urlparse.urlparse(url, 'http')
     if parsed.scheme.startswith('http'):
@@ -100,14 +104,14 @@ def robots_test(http, url, name, user_agent='*'):
                 return False
 
 
-def term_link(__target, name=None):
+def term_link(__target: str, name: Optional[str] = None):
     """Generate a terminal hyperlink.
 
     See https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda.
 
     Args:
-        __target (str): Hyperlink target
-        name (str): Target name
+        __target: Hyperlink target
+        name: Target name
 
     Returns:
         str: Formatted hyperlink for terminal output
@@ -117,11 +121,11 @@ def term_link(__target, name=None):
     return f'\033]8;;{__target}\007{name}\033]8;;\007'
 
 
-def charset_from_headers(headers):
+def charset_from_headers(headers: httplib2.Response) -> str:
     """Parse charset from headers.
 
     Args:
-        headers (httplib2.Response): Request headers
+        headers: Request headers
 
     Returns:
         Defined encoding, or default to ISO-8859-1

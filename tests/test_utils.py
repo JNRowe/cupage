@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from typing import Dict, List
+
 from pytest import mark
 
 from cupage.utils import (charset_from_headers, sort_packages)
@@ -28,7 +30,7 @@ from cupage.utils import (charset_from_headers, sort_packages)
       ], ['pkg-0.1.tar.gz', 'pkg-0.2.tar.gz', 'pkg-0.2.1.tar.gz']),
     (['v0.1.0', 'v0.11.0', 'v0.1.2'], ['v0.1.0', 'v0.1.2', 'v0.11.0']),
 ])
-def test_sort_packages(input, ordered):
+def test_sort_packages(input: List[str], ordered: List[str]):
     """Test package sorting functionality."""
     assert sort_packages(input) == ordered
 
@@ -42,6 +44,6 @@ def test_sort_packages(input, ordered):
         'content-type': 'text/html; charset=ISO-8859-1'
     }, 'ISO-8859-1'),
 ])
-def test_charset_header(headers, charset):
+def test_charset_header(headers: Dict[str, str], charset: str):
     """Test character set header functionality."""
     assert charset_from_headers(headers) == charset

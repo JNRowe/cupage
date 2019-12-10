@@ -26,6 +26,7 @@ import re
 import socket
 
 from operator import attrgetter
+from typing import List
 
 import click
 import configobj
@@ -44,16 +45,17 @@ class FrequencyParamType(click.ParamType):
 
     name = 'frequency'
 
-    def convert(self, value, param, ctx):
+    def convert(self, value: str, param: click.Argument,
+                ctx: click.Context) -> str:
         """Check given frequency is valid.
 
         Args:
-            value (str): Value given to flag
-            param (click.Argument): Parameter being processed
-            ctx (click.Context): Current command context
+            value: Value given to flag
+            param: Parameter being processed
+            ctx: Current command context
 
         Returns:
-            str: String suitable for frequency checker
+            String suitable for frequency checker
         """
         try:
             parse_timedelta(value)
@@ -62,16 +64,16 @@ class FrequencyParamType(click.ParamType):
         return value
 
 
-def load_sites(config, database, pages):
+def load_sites(config: str, database: str, pages: List[str]) -> cupage.Sites:
     """Load site data.
 
     Args:
-        config (str): Location of config file
-        database (str): Location of database file
-        pages (list of str): Pages to check
+        config: Location of config file
+        database: Location of database file
+        pages: Pages to check
 
     Returns:
-        Sites: Imported site data
+        Imported site data
     """
     if database is None:
         database = '{}{}db'.format(os.path.splitext(config)[0], os.path.extsep)
@@ -111,14 +113,14 @@ def load_sites(config, database, pages):
               flag_value=False,
               help='Output only matches and errors.')
 @click.pass_context
-def cli(ctx, verbose):
+def cli(ctx: click.Context, verbose: bool):
     """A tool to check for updates on web pages.
 
     \f
 
     Args:
-        ctx (click.Context): Current command context
-        verbose (bool): Whether to display verbose output
+        ctx: Current command context
+        verbose: Whether to display verbose output
     """
     ctx.obj = ROAttrDict(verbose=verbose)
 
@@ -153,21 +155,21 @@ def cli(ctx, verbose):
               type=click.Choice(['css', 'xpath']),
               help='Selector method to use.')
 @click.argument('name')
-def add(config, site, url, match_type, match, frequency, select, selector,
-        name):
+def add(config: str, site: str, url: str, match_type: str, match: str,
+        frequency: str, select: str, selector: str, name: str):
     """Add new site definition to config file.
 
     \f
 
     Args:
-        config (str): Location of config file
-        site (str): Site helper to match with
-        match_type (str): Filename match pattern
-        match (str): Regular expression to use when ``match_type`` is ``re``
-        frequency (str): Update frequency
-        select (str): Page content to check
-        site (str): Type of selector to use
-        name (str): Name for new entry
+        config: Location of config file
+        site: Site helper to match with
+        match_type: Filename match pattern
+        match: Regular expression to use when ``match_type`` is ``re``
+        frequency: Update frequency
+        select: Page content to check
+        site: Type of selector to use
+        name: Name for new entry
     """
     conf = configobj.ConfigObj(config)
 
@@ -240,21 +242,22 @@ def bug_data():
               help='Timeout for network operations.')
 @click.argument('pages', nargs=-1)
 @click.pass_obj
-def check(globs, config, database, cache, write, force, timeout, pages):
+def check(globs: ROAttrDict, config: str, database: str, cache: str, write:
+          bool, force: bool, timeout: int, pages: List[str]):
     """Check sites for updates.
 
     \f
 
     Args:
-        globs (ROAttrDict): Global options object
-        config (str): Location of config file
-        database (str): Location of database file
-        cache (str): Location of cache directory
-        write (bool): Whether to update cache/database
-        force (bool): Force update regardless of ``frequency`` setting
-        frequency (datetime.timedelta): Update frequency
-        timeout (int): Network timeout in seconds
-        pages (list of str): Pages to check
+        globs: Global options object
+        config: Location of config file
+        database: Location of database file
+        cache: Location of cache directory
+        write: Whether to update cache/database
+        force: Force update regardless of ``frequency`` setting
+        frequency: Update frequency
+        timeout: Network timeout in seconds
+        pages: Pages to check
     """
     sites = load_sites(config, database, pages)
     if not isinstance(sites, cupage.Sites):
@@ -298,16 +301,16 @@ def check(globs, config, database, cache, write, force, timeout, pages):
               type=re.compile,
               help='Match sites using regular expression.')
 @click.argument('pages', nargs=-1)
-def list_conf(config, database, match, pages):
+def list_conf(config: str, database: str, match: str, pages: List[str]):
     """List site definitions in config file.
 
     \f
 
     Args:
-        config (str): Location of config file
-        database (str): Location of database file
-        match (str): Display sites matching the given regular expression
-        pages (list of str): Pages to check
+        config: Location of config file
+        database: Location of database file
+        match: Display sites matching the given regular expression
+        pages: Pages to check
     """
     sites = load_sites(config, database, pages)
     for site in sorted(sites, key=attrgetter('name')):
@@ -321,13 +324,13 @@ def list_conf(config, database, match, pages):
 
 @cli.command(name='list-sites')
 @click.pass_obj
-def list_sites(globs):
+def list_sites(globs: ROAttrDict):
     """List built-in site matcher definitions.
 
     \f
 
     Args:
-        globs (ROAttrDict): Global options object
+        globs: Global options object
     """
     if globs.verbose:
         click.echo('Supported site values and their non-standard values:')
@@ -347,15 +350,15 @@ def list_sites(globs):
               help='Config file to read page definitions from.')
 @click.argument('pages', nargs=-1)
 @click.pass_obj
-def remove(globs, config, pages):
+def remove(globs: ROAttrDict, config: str, pages: List[str]):
     """Remove sites for config file.
 
     \f
 
     Args:
-        globs (ROAttrDict): Global options object
-        config (str): Location of config file
-        pages (list of str): Pages to check
+        globs: Global options object
+        config: Location of config file
+        pages: Pages to check
     """
     conf = configobj.ConfigObj(config, file_error=True)
 
@@ -371,7 +374,7 @@ def remove(globs, config, pages):
     conf.write()
 
 
-def main():
+def main() -> int:
     """Main script handler."""
     logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s',
                         datefmt='%Y-%m-%dT%H:%M:%S%z')
