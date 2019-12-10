@@ -41,7 +41,7 @@ Site definitions can either be specified entirely manually, or possibly with the
 built-in site matchers(see :ref:`site-label` for available options).
 
 ``frequency`` option
-''''''''''''''''''''
+~~~~~~~~~~~~~~~~~~~~
 
 The ``frequency`` option allows you to set a minimum time between checks for
 specific sites within the configuration file.
@@ -60,7 +60,7 @@ y     Year, which is defined as 13 ``m`` units
 ====  ========================================
 
 ``match`` option
-''''''''''''''''
+~~~~~~~~~~~~~~~~
 
 If ``match_type`` is ``re`` then ``match`` must be a valid regular expression
 that will be used to match within the selected elements.  For most common uses
@@ -80,7 +80,7 @@ syntax).
 .. _match_type-label:
 
 ``match_type`` option
-'''''''''''''''''''''
+~~~~~~~~~~~~~~~~~~~~~
 
 The ``match_type`` value, if used, must be one of the following:
 
@@ -98,7 +98,7 @@ where ``<name>`` is the section name and ``<type>`` is the value of
 ``match_type`` for this section.
 
 ``select`` option
-'''''''''''''''''
+~~~~~~~~~~~~~~~~~
 
 The ``select`` option, if used, must be a valid |CSS| or XPath selector
 depending on the value of ``selector`` (see :ref:`selector-label`) .  Unless
@@ -107,7 +107,7 @@ specified |CSS| is the default selector type.
 .. _selector-label:
 
 ``selector`` option
-'''''''''''''''''''
+~~~~~~~~~~~~~~~~~~~
 
 The ``selector`` option, if used, must be one of the following:
 
@@ -121,7 +121,7 @@ xpath     To select elements within the page using XPath_ selectors
 .. _site-label:
 
 ``site`` option
-'''''''''''''''
+~~~~~~~~~~~~~~~
 
 The ``site`` option, if used, must be one of the following, hopefully
 self-explanatory values:
@@ -144,7 +144,7 @@ the configuration file.  They define the values necessary to check for updates
 on the given site.
 
 ``url`` option
-''''''''''''''
+~~~~~~~~~~~~~~
 
 The ``url`` value is the location of the page to be checked for updates.  If
 used, it must be a valid :abbr:`FTP (File Transfer Protocol)`/:abbr:`HTTP

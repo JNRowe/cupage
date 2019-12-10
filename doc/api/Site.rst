@@ -31,7 +31,7 @@ Examples
     from cupage import Sites
 
 Reading stored configuration
-''''''''''''''''''''''''''''
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     >>> sites = Sites()
     >>> sites.load('support/cupage.conf', 'support/cupage.db')
@@ -39,6 +39,6 @@ Reading stored configuration
     360000
 
 Writing updates
-'''''''''''''''
+~~~~~~~~~~~~~~~
 
     >>> sites.save('support/cupage.db')

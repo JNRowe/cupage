@@ -11,8 +11,31 @@ Utilities
 
 .. autofunction:: sort_packages
 
+HTTP utilities
+~~~~~~~~~~~~~~
+
 .. autofunction:: robots_test
+
+.. autofunction:: charset_from_headers
+
+Output utilities
+~~~~~~~~~~~~~~~~
 
 .. autofunction:: term_link
 
-.. autofunction:: charset_from_headers
+Development tools
+~~~~~~~~~~~~~~~~~
+
+.. autofunction:: maybe_profile
+
+Examples
+--------
+
+Development tools
+~~~~~~~~~~~~~~~~~
+
+.. doctest::
+   :options: +SKIP
+
+    >>> with maybe_profile():
+    ...     time.sleep(10)

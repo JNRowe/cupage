@@ -30,7 +30,7 @@ from . import _version
 
 __version__ = _version.dotted
 __date__ = _version.date
-__copyright__ = 'Copyright (C) 2009-2014  James Rowe'
+__copyright__ = 'Copyright © 2009-2014  James Rowe'
 
 import configparser
 import datetime
@@ -402,14 +402,14 @@ class Site:
                 return options.get(name, site_opts.get(name, default))
 
             match_func = get_val('match_func', 'default')
-            url = get_val('url').format(**options)  # pylint: disable-msg=W0142
+            url = get_val('url').format(**options)  # pylint: disable=star-args
             match_options = {
                 'selector': get_val('selector', 'css'),
                 'select': get_val('select'),
                 'match_type': get_val('match_type', 'tar'),
                 're_verbose': get_val('re_verbose', False),
                 'match': get_val('match', '').format(**options),
-            }  # pylint: disable-msg=W0142,C0301
+            }  # pylint: disable=disable=star-args
             robots = options.getboolean('robots')
         elif 'url' in options:
             match_func = options.get('match_func', 'default')
