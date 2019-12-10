@@ -1,5 +1,4 @@
 click
-configobj>=5.0.0
 cssselect>=0.7.0
 httplib2>=0.7
 jnrbase[colour,iso_8601]>=1.1.0

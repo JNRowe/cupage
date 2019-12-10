@@ -14,7 +14,6 @@ Requirements
 ``cupage``’s dependencies outside of the standard library are:
 
 * click_ ≥ 7.0
-* configobj_ ≥ 5.0.0
 * cssselect_ ≥ 0.7.0
 * httplib2_ ≥ 0.7
 * lxml_ ≥ 3.0.0
@@ -95,7 +94,6 @@ reproduce the problem, or even better a patch!
 
 .. _GPL v3: https://www.gnu.org/licenses/
 .. _click: https://pypi.python.org/pypi/click/
-.. _configobj: https://pypi.python.org/pypi/configobj/
 .. _cssselect: https://pypi.python.org/pypi/cssselect/
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _lxml: http://lxml.de/
