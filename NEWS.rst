@@ -1,10 +1,10 @@
-``cupage``
-==========
-
 User-visible changes
---------------------
+====================
+
+.. See doc/upgrading.rst for a more explantory discussion of major changes
 
 .. contents::
+   :local:
 
 0.8.0 - 2013-05-30
 ------------------

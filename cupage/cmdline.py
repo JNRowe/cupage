@@ -246,7 +246,7 @@ def check(globs, config, database, cache, write, force, timeout, pages):
     \f
 
     Args:
-        globs (AttrDict): Global options object
+        globs (ROAttrDict): Global options object
         config (str): Location of config file
         database (str): Location of database file
         cache (str): Location of cache directory
@@ -327,7 +327,7 @@ def list_sites(globs):
     \f
 
     Args:
-        globs (AttrDict): Global options object
+        globs (ROAttrDict): Global options object
     """
     if globs.verbose:
         click.echo('Supported site values and their non-standard values:')
@@ -353,7 +353,7 @@ def remove(globs, config, pages):
     \f
 
     Args:
-        globs (AttrDict): Global options object
+        globs (ROAttrDict): Global options object
         config (str): Location of config file
         pages (list of str): Pages to check
     """

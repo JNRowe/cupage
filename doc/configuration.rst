@@ -8,7 +8,7 @@ command line option.
 The configuration file is a ``INI`` format file, with a section for each site
 definition.  The section header is the site’s name which will be displayed in
 the update output, or used to select individual sites to check on the command
-line.  Each section consists of a section of ``name=value`` option pairs.
+line.  Each section consists a collection of ``name=value`` option pairs.
 
 An example configuration file is below:
 
@@ -46,7 +46,7 @@ built-in site matchers(see :ref:`site-label` for available options).
 The ``frequency`` option allows you to set a minimum time between checks for
 specific sites within the configuration file.
 
-The format is ``<value> <units>`` where value can be a integer or float, and
+The format is ``<value> <units>`` where value can be an integer or float, and
 units must be one of the entries from the table below:
 
 ====  ========================================
@@ -71,6 +71,12 @@ The Python re_ module is used, and any functionality allowed by the module is
 available in the ``match`` option(with the notable exception of the ``verbose``
 syntax).
 
+.. note::
+
+    If you find yourself using the ``re`` type, please consider opening an
+    issue_ with your requirements.  Doing so will allow other users to benefit
+    from your knowledge, and means I’ll maintain compatibility for you ;)
+
 .. _match_type-label:
 
 ``match_type`` option
@@ -78,14 +84,13 @@ syntax).
 
 The ``match_type`` value, if used, must be one of the following:
 
-==========  =======================================================
+==========  ===========================================================
 Match type  Purpose
-==========  =======================================================
-``gem``     to match rubygems_ archives.
+==========  ===========================================================
 ``re``      to define custom regular expressions
 ``tar``     to match gzip_/bzip2_/xz_ compressed tar_ archives(default)
 ``zip``     to match zip_ archives
-==========  =======================================================
+==========  ===========================================================
 
 The ``match_type`` values simply select a predefined regular expression to use.
 The base match is :regexp:`<name>-[\\d\\.]+([_-](pre|rc)[\\d]+)?\\.<type>`,
@@ -95,10 +100,9 @@ where ``<name>`` is the section name and ``<type>`` is the value of
 ``select`` option
 '''''''''''''''''
 
-The ``select`` option, if used, must be a valid :abbr:`CSS (Cascading Style
-Sheets)` or XPath selector depending on the value of ``selector`` (see
-:ref:`selector-label`) .  Unless specified :abbr:`CSS Cascading Style Sheets)`
-is the default selector type.
+The ``select`` option, if used, must be a valid |CSS| or XPath selector
+depending on the value of ``selector`` (see :ref:`selector-label`) .  Unless
+specified |CSS| is the default selector type.
 
 .. _selector-label:
 
@@ -122,18 +126,18 @@ xpath     To select elements within the page using XPath_ selectors
 The ``site`` option, if used, must be one of the following, hopefully
 self-explanatory values:
 
-===============  ======  ============================================
+===============  ======  ==============================================
 Site             Added   Required options
-===============  ======  ============================================
+===============  ======  ==============================================
 ``cpan``         v0.4.0
 ``debian``       v0.3.0
 ``failpad``      v0.5.0
-``github``       v0.3.1  ``user`` (GitHub_ user name)
+``github``       v0.3.1  ``user`` (GitHub_ user name for project owner)
 ``google code``  v0.1.0
 ``hackage``      v0.1.0
 ``pypi``         v0.1.0
 ``vim-script``   v0.3.0  ``script`` (script id on the `vim website`_)
-===============  ======  ============================================
+===============  ======  ==============================================
 
 ``site`` options are simply shortcuts that are provided to reduce duplication in
 the configuration file.  They define the values necessary to check for updates
@@ -149,6 +153,7 @@ address.
 
 .. _GitHub: https://github.com
 .. _vim website: https://www.vim.org/
+.. _issue: https://github.com/JNRowe/cupage/issues/
 .. _gzip: https://www.gnu.org/software/gzip/
 .. _bzip2: http://www.bzip.org/
 .. _xz: http://tukaani.org/xz/

@@ -12,3 +12,7 @@ Utilities
 .. autofunction:: sort_packages
 
 .. autofunction:: robots_test
+
+.. autofunction:: term_link
+
+.. autofunction:: charset_from_headers

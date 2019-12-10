@@ -1,0 +1,6 @@
+:orphan:
+
+Glossary
+========
+
+.. glossary::

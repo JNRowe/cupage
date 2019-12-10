@@ -34,7 +34,7 @@ if not on_rtd:
 
 extensions = \
     [f'sphinx.ext.{ext}' for ext in ['autodoc', 'coverage', 'doctest',
-                                     'intersphinx', 'viewcode']] \
+                                     'intersphinx', 'napoleon', 'viewcode']] \
     + [f'sphinxcontrib.{ext}' for ext in ['blockdiag', ]] \
     + ['sphinx_click.ext', ]  # type: List[str]
 
@@ -58,7 +58,16 @@ copyright = f'2009-2019  {author}'
 release = cupage._version.dotted
 version = release.rsplit('.', 1)[0]
 
-rst_prolog = """"""
+modindex_common_prefix = [
+    'cupage.',
+]
+
+rst_epilog = """
+.. |CSS| replace:: :abbr:`CSS (Cascading Style Sheets)`
+.. |JSON| replace:: :abbr:`JSON (JavaScript Object Notation)`
+.. |PyPI| replace:: :abbr:`PyPI (Python Package Index)`
+.. |modref| replace:: :mod:`cupage`
+"""
 
 modindex_common_prefix = [
     'cupage.',
@@ -94,6 +103,8 @@ autodoc_default_options = {
 intersphinx_mapping = {
     k: (v, os.getenv(f'SPHINX_{k.upper()}_OBJECTS'))
     for k, v in {
+        'click': 'https://click.palletsprojects.com/en/7.x/',
+        'jnrbase': 'https://jnrbase.readthedocs.io/en/latest/',
         'python': 'https://docs.python.org/3/',
     }.items()
 }  # type: Dict[str, str]

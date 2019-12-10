@@ -13,23 +13,23 @@ Requirements
 
 ``cupage``’s dependencies outside of the standard library are:
 
-* click_
-* configobj_, v5.0.0 or newer
-* cssselect_, v0.7.0 or newer
-* httplib2_, v0.7 or newer
-* lxml_, v3.0.0 or newer
+* click_ ≥ 7.0
+* configobj_ ≥ 5.0.0
+* cssselect_ ≥ 0.7.0
+* httplib2_ ≥ 0.7
+* lxml_ ≥ 3.0.0
 
 It should work with any version of Python_ 3.6 or newer.  If ``cupage`` doesn’t
-work with the version of Python you have installed, file an issue_ and I'll
+work with the version of Python you have installed, file an issue_ and I’ll
 endeavour to fix it.
 
 The module has been tested on many UNIX-like systems, including Linux and OS X,
 but it should work fine on other systems too.
 
-To run the tests you'll need nose2_.  Once you have nose2_ installed you can run
-the tests with the following commands::
+To run the tests you’ll need pytest_.  Once you have pytest_ installed you can
+run the tests with the following commands::
 
-    $ nose2 -v tests
+    $ pytest tests
 
 Example
 -------
@@ -64,7 +64,7 @@ following is an example configuration file::
 Contributors
 ------------
 
-I'd like to thank the following people who have contributed to ``cupage``.
+I’d like to thank the following people who have contributed to ``cupage``.
 
 Patches
 '''''''
@@ -81,8 +81,8 @@ Ideas
 
 * <Your name here?>
 
-If I've forgotten to include your name I wholeheartedly apologise.  Just drop me
-a mail_ and I'll update the list!
+If I’ve forgotten to include your name I wholeheartedly apologise.  Just drop
+me a mail_ or open an issue_, and I’ll update the list!
 
 Bugs
 ----
@@ -90,7 +90,7 @@ Bugs
 If you find any problems, bugs or just have a question about this package either
 file an issue_ or drop me a mail_.
 
-If you've found a bug please attempt to include a minimal testcase so I can
+If you’ve found a bug please attempt to include a minimal testcase so I can
 reproduce the problem, or even better a patch!
 
 .. _GPL v3: https://www.gnu.org/licenses/
@@ -100,6 +100,6 @@ reproduce the problem, or even better a patch!
 .. _httplib2: http://code.google.com/p/httplib2/
 .. _lxml: http://lxml.de/
 .. _Python: https://www.python.org/
-.. _issue: https://github.com/JNRowe/cupage/issues
-.. _nose2: https://pypi.python.org/pypi/nose2/
+.. _issue: https://github.com/JNRowe/cupage/issues/
+.. _pytest: https://pypi.python.org/pypi/pytest/
 .. _mail: jnrowe@gmail.com
