@@ -139,7 +139,7 @@ def cli(ctx: click.Context, verbose: bool):
 @click.option('-t',
               '--match-type',
               default='tar',
-              type=click.Choice(['re', 'tar', 'zip']),
+              type=click.Choice(['gem', 're', 'tar', 'zip']),
               help='Pre-defined regular expression to use.')
 @click.option('-m',
               '--match',

@@ -78,7 +78,7 @@ Bug reports
 Ideas
 '''''
 
-* <Your name here?>
+* Ryan Sutton
 
 If I’ve forgotten to include your name I wholeheartedly apologise.  Just drop
 me a mail_ or open an issue_, and I’ll update the list!

@@ -136,6 +136,7 @@ Site             Added   Required options
 ``google code``  v0.1.0
 ``hackage``      v0.1.0
 ``pypi``         v0.1.0
+``rubygems``     v0.9.0
 ``vim-script``   v0.3.0  ``script`` (script id on the `vim website`_)
 ===============  ======  ==============================================
 
